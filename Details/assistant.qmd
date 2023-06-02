@@ -1,0 +1,15 @@
+---
+title: "Daiil Jun"
+about:
+  template: trestles
+  image: "../img/Jun_500x500.jpg"
+toc: false
+---
+
+## Education
+
+**University of Kansas** | Lawrence, KS<br />
+PhD Student in Clinical Psychology | 2021 - present
+
+**Handong Global University** | Pohang, South Korea<br />
+BA in Counseling Psychology | 2020

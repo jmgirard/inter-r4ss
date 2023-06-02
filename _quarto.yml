@@ -1,13 +1,43 @@
 project:
   type: website
+  output-dir: docs
 
 website:
-  title: "inter-r4ss"
+  title: "Inter R4SS"
   navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+    background: primary
+    right:
+      - text: "Home"
+        href: index.qmd
+      - text: "Details"
+        menu:
+          - text: "Instructor"
+            href: ./Details/instructor.qmd
+          - text: "Assistant"
+            href: ./Details/assistant.qmd
+          - text: "Schedule"
+            href: ./Details/schedule.qmd
+          - text: "Recordings"
+            href: ./Details/recordings.qmd
+      - text: "Day 1"
+        menu:
+          - text: "Day 1A Materials"
+            href: ./Day1/day1A.qmd
+          - text: "Day 1B Materials"
+            href: ./Day1/day1B.qmd
+      - text: "Day 2"
+        menu:
+          - text: "Day 2A Materials"
+            href: ./Day2/day2A.qmd
+          - text: "Day 2B Materials"
+            href: ./Day2/day2B.qmd
+      - text: "Day 3"
+        menu:
+          - text: "Day 3A Materials"
+            href: ./Day3/day3A.qmd
+          - text: "Day 2B Materials"
+            href: ./Day3/day3B.qmd
+  page-footer: "Copyright 2023 &copy; Jeffrey Girard"
 
 format:
   html:
@@ -15,5 +45,5 @@ format:
     css: styles.css
     toc: true
 
-
-
+execute:
+  freeze: auto

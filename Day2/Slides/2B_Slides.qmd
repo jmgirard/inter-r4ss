@@ -1,0 +1,30 @@
+---
+format: 
+  revealjs:
+    css: ../../styles.css
+    slide-number: true
+    show-slide-number: all
+    progress: true
+    history: true
+    hash-type: number
+    theme: default
+    code-block-background: true
+    highlight-style: github
+    code-link: false
+    code-copy: true
+    controls: true
+    pagetitle: "Inter R4SS Day 2B"
+    author-meta: "Jeffrey Girard"
+    date-meta: "2023-06-06"
+---
+
+::: {.my-title}
+# [Intermediate R]{.blue2} <br />for Social Scientists
+
+::: {.my-grey}
+[Workshop Day 2B | 2023-06-06]{}<br />
+[Jeffrey M. Girard | Pitt Methods]{}
+:::
+
+![](../../img/proud_coder_2780E3.svg){.absolute bottom=0 right=0 width=400}
+:::

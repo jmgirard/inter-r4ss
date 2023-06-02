@@ -1,0 +1,87 @@
+---
+title: "Schedule"
+format:
+  html:
+    toc: false
+---
+
+:::{.text-center}
+![](../img/date_picker_2780E3.svg){width="50%"}
+:::
+
+This is a three-day workshop where each day runs from 10:30am&#8722;3:30pm [EDT](https://time.is/EDT) and is broken into two parts.<br />
+Part A runs from 10:30am&#8722;12:30pm and Part B runs from 1:30am&#8722;3:30pm with an hour for lunch between (approximately).
+
+## Day 1 (June 5, 2023)
+
+**Zoom Link:** <https://us06web.zoom.us/j/83438652943><br />
+**Zoom Passcode:** Please check email or slack<br />
+**Zoom Name:** Please set to the name you registered under
+
+### Part 1A: Data Wrangling
+
+  - Overview
+  - Brief Refresher
+  - Quarto and Markdown
+  - dplyr Column Verbs
+  - dplyr Row Verbs
+  - Pipes and Pipelines
+
+  
+### Part 1B: Data Visualization
+
+  - Grammar of Graphics
+  - Scatterplots
+  - Aesthetics
+  - Variation Geoms
+  - Covariation Geoms
+  - Layering Geoms
+
+
+## Day 2 (June 6, 2023)
+
+**Zoom Link:** <https://us06web.zoom.us/j/83438652943><br />
+**Zoom Passcode:** Please check email or slack<br />
+**Zoom Name:** Please set to the name you registered under
+
+### Part 2A: Data Wrangling
+
+  - Summarize
+  - Grouped Summarize
+  - Grouped Mutate
+  - Tidy Selection
+  - Across
+  - Rowwise
+
+### Part 2B: Data Visualization
+
+  - Scales
+  - Labels
+  - Themes
+  - Facets
+  - Layouts
+  - Exporting
+
+## Day 3 (June 7, 2023)
+
+**Zoom Link:** <https://us06web.zoom.us/j/83438652943><br />
+**Zoom Passcode:** Please check email or slack<br />
+**Zoom Name:** Please set to the name you registered under
+
+### Part 3A: Data Wrangling
+
+  - Separate
+  - Unite
+  - Pivot
+  - Relational Data
+  - Basic Joins
+  - dplyr Joins
+
+### Part 3B: Statistics
+
+  - Generalized Linear Modeling
+  - Logistic Regression
+  - Negative Binomial Regression
+  - Multilevel Modeling
+  - Random intercepts models
+  - Random intercepts and slopes models
