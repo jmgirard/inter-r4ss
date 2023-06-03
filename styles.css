@@ -28,7 +28,7 @@
 }
 
 .reveal h2 {
-  margin-bottom: 0.75em !important;
+  margin-bottom: 0.25em !important;
 }
 
 .reveal h4 {
@@ -93,27 +93,6 @@
   justify-content: center;
   align-items: center;
   height: 90%;
-}
-
-.code-copy-button > .bi::before {
-  display: inline-block;
-  height: 2rem;
-  width: 2rem;
-  content: "";
-  vertical-align: 4rem;
-  background-image: url(data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" h….5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z\"/></svg>);
-  background-size: 2rem 2rem;
-  background-repeat: no-repeat;
-}
-
-.code-copy-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: 0;
-  margin-top: 10px;
-  margin-right: 20px;
-  background-color: transparent;
 }
 
 lord-icon.rc {
@@ -191,7 +170,11 @@ iframe.slide-deck {
   color: #FF725C !important;
 }
 
-.mt1 {  margin-top: .25rem; }
+.mt1 { margin-top: 1rem; }
+.mt2 { margin-top: 2rem; }
+.mt3 { margin-top: 3rem; }
+.mt4 { margin-top: 4rem; }
+
 
 .gray { color: #777777; }
 .silver { color: #999999; }
@@ -239,6 +222,7 @@ iframe.slide-deck {
 
 .f3 { font-size: 20px !important; }
 
+.f80 { font-size: 80% !important; }
 
 .fixwidth {
   display: inline-block;

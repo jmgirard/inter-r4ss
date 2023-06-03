@@ -7,7 +7,8 @@
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/quarto-contrib/lord-icon-bundle-3.4.4/bundle.js"></script><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.361">
 
   <meta name="author" content="Jeffrey Girard">
@@ -30,6 +31,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #24292e;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #24292e; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #6a737d; } /* Annotation */
+    code span.at { color: #d73a49; } /* Attribute */
+    code span.bn { color: #005cc5; } /* BaseN */
+    code span.bu { color: #d73a49; } /* BuiltIn */
+    code span.cf { color: #d73a49; } /* ControlFlow */
+    code span.ch { color: #032f62; } /* Char */
+    code span.cn { color: #005cc5; } /* Constant */
+    code span.co { color: #6a737d; } /* Comment */
+    code span.cv { color: #6a737d; } /* CommentVar */
+    code span.do { color: #6a737d; } /* Documentation */
+    code span.dt { color: #d73a49; } /* DataType */
+    code span.dv { color: #005cc5; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #d73a49; font-weight: bold; } /* Extension */
+    code span.fl { color: #005cc5; } /* Float */
+    code span.fu { color: #6f42c1; } /* Function */
+    code span.im { color: #032f62; } /* Import */
+    code span.in { color: #6a737d; } /* Information */
+    code span.kw { color: #d73a49; } /* Keyword */
+    code span.op { color: #24292e; } /* Operator */
+    code span.ot { color: #6f42c1; } /* Other */
+    code span.pp { color: #d73a49; } /* Preprocessor */
+    code span.re { color: #6a737d; } /* RegionMarker */
+    code span.sc { color: #005cc5; } /* SpecialChar */
+    code span.ss { color: #032f62; } /* SpecialString */
+    code span.st { color: #032f62; } /* String */
+    code span.va { color: #e36209; } /* Variable */
+    code span.vs { color: #032f62; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
   </style>
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="../../styles.css">
@@ -335,10 +401,1023 @@
 <p><img data-src="../../img/proud2_2780E3.svg" class="absolute" style="bottom: 0px; right: 0px; width: 400px; "></p>
 </section>
 
+<section>
+<section class="title-slide slide level1 center">
+<h1>Overview</h1>
+
+</section>
+<section class="slide level2 smaller">
+<h2>Instructor</h2>
+<div class="columns pv4">
+<div class="column" style="width:30%;">
+<div class="tc">
+<p><img data-src="../../img/Girard_500x500.jpg" class="br-100"></p>
+<p><strong>Jeffrey Girard</strong>, PhD<br> <a href="https://affcom.ku.edu/girard">affcom.ku.edu/girard</a><br> <a href="mailto:jmgirard@ku.edu">jmgirard@ku.edu</a></p>
+</div>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:60%;">
+<div class="fragment">
+<!-- -->
+<h4>Background</h4>
+<ul>
+<li><span class="b blue">Assistant Professor</span>, <em>University of Kansas</em></li>
+<li>Research Postdoc, <em>Carnegie Mellon University</em></li>
+<li>PhD Student, <em>University of Pittsburgh</em></li>
+</ul>
+</div>
+<div class="fragment mt1">
+<!-- -->
+<h4>Research Areas</h4>
+<ul>
+<li>Psychological Assessment</li>
+<li>Affective/Interpersonal Communication</li>
+<li>Applied <span class="b blue">Statistics</span> and Machine Learning</li>
+<li><span class="b blue">Data Science</span> and Software Engineering</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2 smaller">
+<h2>Workshop Goals</h2>
+<div class="columns pv4">
+<div class="column" style="width:60%;">
+<ul>
+<li>This is an intermediate workshop aimed at social scientists with some prior experience in R</li>
+</ul>
+<div class="fragment mt1">
+<ul>
+<li>My goal this week is to teach you practical research skills in R (wrangle, visualize, model)</li>
+</ul>
+</div>
+<div class="fragment mt1">
+<ul>
+<li>Through <span class="b blue">lectures</span> and <span class="b blue">live coding</span>, you will learn fundamental concepts and skills</li>
+</ul>
+</div>
+<div class="fragment mt1">
+<ul>
+<li>Through hands-on <span class="b blue">exercises</span>, you will gain confidence in your skills and ability to learn</li>
+</ul>
+</div>
+<div class="fragment mt1">
+<ul>
+<li>You will need to practice to become a pro!</li>
+</ul>
+</div>
+</div><div class="column tc pv5" style="width:40%;">
+<p><lord-icon delay="3000" colors="secondary:#2a76dd" class="rc" src="https://cdn.lordicon.com/rfldwidq.json" trigger="loop"></lord-icon></p>
+</div>
+</div>
+</section>
+<section class="slide level2 smaller">
+<h2>Workshop Roadmap</h2>
+<div class="columns pv4">
+<div class="column" style="width:60%;">
+
+<table id="roadmap" width="100%">
+<tbody><tr class="blue">
+<th>
+DAY 1A
+</th>
+<th>
+DAY 2A
+</th>
+<th>
+DAY 3A
+</th>
+</tr>
+<tr>
+<td>
+Overview
+</td>
+<td>
+Summarize
+</td>
+<td>
+Separating
+</td>
+</tr>
+<tr>
+<td>
+Quarto
+</td>
+<td>
+Selection
+</td>
+<td>
+Reshaping
+</td>
+</tr>
+<tr>
+<td>
+Wrangling
+</td>
+<td>
+Iteration
+</td>
+<td>
+Joining
+</td>
+</tr>
+<tr class="blue">
+<th style="padding-top:1.75rem;">
+DAY 1B
+</th>
+<th>
+DAY 2B
+</th>
+<th>
+DAY 3A
+</th>
+</tr>
+<tr>
+<td>
+Graphics
+</td>
+<td>
+Customizing
+</td>
+<td>
+Stats: GLM
+</td>
+</tr>
+<tr>
+<td>
+Variation
+</td>
+<td>
+Layouts
+</td>
+<td>
+Stats: MLM
+</td>
+</tr>
+<tr>
+<td>
+Covariation
+</td>
+<td>
+Exporting
+</td>
+<td>
+Consulting
+</td>
+</tr>
+
+</tbody></table>
+</div><div class="column tc pv4" style="width:40%;">
+<p><lord-icon delay="3000" colors="secondary:#2a76dd" class="rc" src="https://cdn.lordicon.com/xtkehzkm.json" trigger="loop"></lord-icon></p>
+</div>
+</div>
+</section>
+<section class="slide level2 smaller">
+<h2>Workshop Etiquette</h2>
+<div class="columns pv4">
+<div class="column" style="width:60%;">
+<h4><span class="green">Things to Do</span></h4>
+<ul>
+<li>Behave respectfully and with patience</li>
+<li>Ask for help in chat or “raise hand”</li>
+<li>Turn your camera on or off as desired</li>
+<li>Come and go from workshop as needed</li>
+</ul>
+<div class="fragment mt1">
+<!-- -->
+<h4><span class="red">Things Not to Do</span></h4>
+<ul>
+<li>Don’t disparage yourself or others</li>
+<li>Don’t stay confused for too long</li>
+<li>Don’t unmute yourself when not talking</li>
+<li>Don’t re-sell the workshop materials</li>
+</ul>
+</div>
+</div><div class="column tc pv5" style="width:40%;">
+<p><lord-icon delay="3000" colors="secondary:#2a76dd" class="rc" src="https://cdn.lordicon.com/syzdvjlt.json" trigger="loop"></lord-icon></p>
+</div>
+</div>
+</section></section>
+<section>
+<section class="title-slide slide level1 center">
+<h1>Refresher</h1>
+
+</section>
+<section class="slide level2">
+<h2>R, RStudio, and Projects</h2>
+
+<img data-src="../../img/rstudio_labels.jpg" class="r-stretch"><p>Keep all your files together in a project (Files &gt; New Project)</p>
+</section>
+<section class="slide level2 smaller">
+<h2>Communicating with R</h2>
+<div class="columns pv4">
+<div class="column" style="width:60%;">
+<ul>
+<li>The <span class="b blue">Console</span> is like a <span class="b green">chat window</span> with R
+<ul>
+<li>You send a command to R and get a response</li>
+<li>Neither side of the conversation is saved</li>
+</ul></li>
+</ul>
+<div class="fragment mt1">
+<ul>
+<li>An <span class="b blue">R Script</span> is like an <span class="b green">email thread</span> with R
+<ul>
+<li>You send many commands to R all at once</li>
+<li>Only your side of the conversation is saved</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment mt1">
+<ul>
+<li>A <span class="b blue">Quarto Document</span> is like a <span class="b green">scrapbook</span> with R
+<ul>
+<li>You can combine code and formatted text</li>
+<li>Both sides of the conversation are saved</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="column tc pv5" style="width:40%;">
+<p><lord-icon delay="5000" colors="secondary:#2a76dd" class="rc" src="https://cdn.lordicon.com/zpxybbhl.json" trigger="loop"></lord-icon></p>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Assignment and Naming</h2>
+<ul>
+<li>Create named objects in R using <code>&lt;-</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="dv">3</span> <span class="sc">/</span> <span class="dv">4</span> <span class="sc">^</span> <span class="dv">5</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 9.994141</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment mt2">
+<ul>
+<li>Object names have some rules in R
+<ul>
+<li>Can only contain letters, digits, <code>_</code>s, and <code>.</code>s</li>
+<li>The first character must be a letter or a <code>.</code></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+<h2>Functions and Packages</h2>
+<ul>
+<li>Use functions to perform operations</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">3</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.667</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment mt2">
+<ul>
+<li>Install and load packages to add features</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("praise")</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(praise)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">praise</span>()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "You are incredible!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Strings and Vectors</h2>
+<ul>
+<li>Store text data in strings by wrapping it in quotation marks</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>address <span class="ot">&lt;-</span> <span class="st">"1600 Pennsylvania Avenue NW, Suite #100"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>address</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "1600 Pennsylvania Avenue NW, Suite #100"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment mt1">
+<ul>
+<li>Collect multiple similar objects into a vector with <code>c()</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>temps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">70.1</span>, <span class="fl">84.5</span>, <span class="fl">79.0</span>, <span class="fl">69.7</span>, <span class="fl">85.7</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>temps</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 70.1 84.5 79.0 69.7 85.7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment mt2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nations <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"US"</span>, <span class="st">"UK"</span>, <span class="st">"FR"</span>, <span class="st">"CH"</span>, <span class="st">"DE"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>nations</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "US" "UK" "FR" "CH" "DE"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Factors</h2>
+<ul>
+<li>Store categorical data in factors using <code>factor()</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>condition_codes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>condition_codes</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1 1 2 2 3 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment mt2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>condition <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  condition_codes,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Waitlist"</span>, <span class="st">"Placebo"</span>, <span class="st">"Drug"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>condition</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] Waitlist Waitlist Placebo  Placebo  Drug     Drug    </span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Levels: Waitlist Placebo Drug</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Tibbles</h2>
+<ul>
+<li>Tibbles/data frames store tidy, rectangular data in R</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>penguins</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 344 × 8</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 Adelie  Torgersen           39.1          18.7               181        3750</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 Adelie  Torgersen           39.5          17.4               186        3800</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 Adelie  Torgersen           40.3          18                 195        3250</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 Adelie  Torgersen           NA            NA                  NA          NA</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 Adelie  Torgersen           36.7          19.3               193        3450</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 Adelie  Torgersen           39.3          20.6               190        3650</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 Adelie  Torgersen           38.9          17.8               181        3625</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 Adelie  Torgersen           39.2          19.6               195        4675</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 Adelie  Torgersen           34.1          18.1               193        3475</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 Adelie  Torgersen           42            20.2               190        4250</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ 334 more rows</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Data Files</h2>
+<ul>
+<li>We can also import a data file (e.g., CSV) into R as a tibble</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>cereal <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"cereal.csv"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>cereal</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 77 × 8</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="do">##    name                      mfr       type  calories sodium carbo sugars rating</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt;                     &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 100% Bran                 Nabisco   cold        70    130   5        6   68.4</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 100% Natural Bran         Quaker O… cold       120     15   8        8   34.0</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 All-Bran                  Kelloggs  cold        70    260   7        5   59.4</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 All-Bran with Extra Fiber Kelloggs  cold        50    140   8        0   93.7</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 Almond Delight            Ralston … cold       110    200  14        8   34.4</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 Apple Cinnamon Cheerios   General … cold       110    180  10.5     10   29.5</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 Apple Jacks               Kelloggs  cold       110    125  11       14   33.2</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 Basic 4                   General … cold       130    210  18        8   37.0</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 Bran Chex                 Ralston … cold        90    200  15        6   49.1</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 Bran Flakes               Post      cold        90    210  13        5   53.3</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ 67 more rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section>
+<section>
+<section class="title-slide slide level1 center">
+<h1>Quarto</h1>
+
+</section>
+<section class="slide level2">
+<h2>Quarto</h2>
+<div class="columns pv4">
+<div class="column" style="width:60%;">
+<ul>
+<li><a href="https://www.quarto.org">Quarto</a> creates dynamic content that combines code, output, and markdown (i.e., formatted text)</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Create articles, reports, posters, slideshows, websites, blogs, and books in many different formats</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Include equations, citations, crossrefs, figure panels, callouts, advanced layouts, and more!</li>
+</ul>
+</div>
+</div><div class="column tc pv5" style="width:40%;">
+<p><lord-icon delay="5000" colors="secondary:#2a76dd" class="rc" src="https://cdn.lordicon.com/cykiczdp.json" trigger="loop"></lord-icon></p>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Quarto Live Coding</h2>
+<div class="instructions">
+<pre><code># Create an Quarto Document
+- Open the "File" menu in RStudio
+- Select the "New File" option
+- Select the "Quarto Document..." option
+- Keep the defaults (HTML) and hit "Create"
+- Open the "File" menu
+- Select the "Save" option
+- Note that it defaults to the project folder
+- Give it a name like "Day 1 Notes" (or whatever)
+- Note that the file extension is .qmd
+
+# Render the boilerplate content
+- To see how it works, read the boilerplate content
+- Now click the "Render" button to create the output file
+- A preview of the output will appear in the Viewer tab
+- In the File tab, we see a new .html file was created
+- We can share this .html file with others
+- It includes all the formatted text, code, and R results
+
+# Remove the boilerplate content
+- The top part of the document is called the "Header"
+- You can change the title but keep it in quotes
+- Highlight and delete everything below the header
+- You can delete the header too, but I find it useful
+
+# Add an R Chunk
+- Option 1: Click the green box with C and a plus sign icon (top-right)
+- Option 2: Ctrl+Alt+I (Win) or Cmd+Option+I (Mac)
+- Option 3: Type out ```{r} then new line and ``` yourself
+
+# Adding code to the chunk
+- Anything you put inside the "fences" (i.e., ```) will be treated as R code
+- The chunk operates like a mini console
+- Try doing some calculations in the chunk and hit the green arrow
+- The answer appears right below the chunk!
+- If we save and render the document, it appears in the output too</code></pre>
+</div>
+</section>
+<section class="slide level2">
+<h2>Markdown</h2>
+<div class="columns pv4">
+<div class="column" style="width:60%;">
+<ul>
+<li><a href="https://quarto.org/docs/authoring/markdown-basics.html">Markdown</a> is a simple text-to-HTML conversion language used by Quarto, GitHub, Obsidian, etc.</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>It will allow us to add formatted text, images, links, lists, etc. to our Quarto documents</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Quarto will treat all text that is not in a code chunk as markdown</li>
+</ul>
+</div>
+</div><div class="column tc pv5" style="width:40%;">
+<p><lord-icon delay="5000" colors="secondary:#2a76dd" class="rc" src="https://cdn.lordicon.com/zcuiyuld.json" trigger="loop"></lord-icon></p>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Markdown Live Coding</h2>
+<div class="instructions">
+<pre><code># Formatting
+- *italics* and **bold** and ***italics and bold***
+- superscript^2^ and subscript~2~
+- ~~strikethrough~~
+- `verbatim code`
+
+# Headings
+- # Header 1
+- ## Header 2
+- ### Header 3
+
+# Links
+- &lt;https://quarto.org&gt;
+- [Quarto](https://quarto.org)
+
+# Images
+- ![Caption](https://quarto.org/docs/authoring/elephant.png)
+
+# Lists
+- * Unordered list
+-   + sub-item
+-   + sub-item
+- 1. Ordered list
+- 2. Item 2</code></pre>
+</div>
+</section></section>
+<section>
+<section class="title-slide slide level1 center">
+<h1>Basic Data Wrangling</h1>
+
+</section>
+<section class="slide level2 smaller">
+<h2>Basic data wrangling verbs</h2>
+<div class="columns pv4">
+<div class="column" style="width:60%;">
+<ul>
+<li><span class="b blue">tidyverse</span> provides tools for wrangling tibbles
+<ul>
+<li>These functions are named after <em>verbs</em></li>
+<li>So if you name your objects after <em>nouns</em>…</li>
+<li>…your code becomes easier to read</li>
+</ul></li>
+</ul>
+<div class="fragment mt1">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Noun(noun) ❌</th>
+<th style="text-align: left;">Verb(noun) ✔️</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>blender(fruit)</code></td>
+<td style="text-align: left;"><code>blend(fruit)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>screwdriver(screw)</code></td>
+<td style="text-align: left;"><code>drive(screw)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>boxcutter(box)</code></td>
+<td style="text-align: left;"><code>cut(box)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div><div class="column tc pv5" style="width:40%;">
+<p><lord-icon delay="5000" colors="secondary:#2a76dd" class="rc" src="https://cdn.lordicon.com/sbiheqdr.json" trigger="loop"></lord-icon></p>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Wrangling columns</h2>
+<div class="columns pv4">
+<div class="column" style="width:60%;">
+<ul>
+<li><span class="b blue">Select</span> retains only certain columns in a tibble (and can reorder them)
+<ul>
+<li><span class="f80"><code>select(X, KEEP, -DROP)</code></span></li>
+</ul></li>
+</ul>
+<div class="fragment mt1">
+<ul>
+<li><span class="b blue">Mutate</span> transforms columns in a tibble or adds new columns to it
+<ul>
+<li><span class="f80"><code>mutate(X, NEW = OLD / 5)</code></span></li>
+</ul></li>
+</ul>
+</div>
+</div><div class="column tc pv5" style="width:40%;">
+<p><lord-icon delay="5000" colors="secondary:#2a76dd" class="rc" src="https://cdn.lordicon.com/ifxlrnhk.json" trigger="loop"></lord-icon></p>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2><em>Select</em> Live Coding</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SETUP: Load package and inspect example tibble</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># includes the dplyr package</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>starwars</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Retain only the specified variables</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">select</span>(starwars, name)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>sw</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">select</span>(starwars, name, sex, species)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>sw</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># PITFALL: Don't forget to save the change with assignment</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(starwars, name, sex, species)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>starwars <span class="co"># still includes all variables</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Retain all variables between two variables</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">select</span>(starwars, name, hair_color<span class="sc">:</span>eye_color)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>sw</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Retain all variables except the specified ones</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">select</span>(starwars, <span class="sc">-</span>sex, <span class="sc">-</span>species)</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>sw</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">select</span>(starwars, <span class="sc">-</span><span class="fu">c</span>(sex, species))</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>sw</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">select</span>(starwars, <span class="sc">-</span><span class="fu">c</span>(hair_color<span class="sc">:</span>starships))</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>sw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+<h2><em>Mutate</em> Live Coding</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SETUP: Create example tibble</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>patients <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">"S1"</span>, <span class="st">"S2"</span>, <span class="st">"S3"</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">feet =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">5</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">inches =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">2</span>),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">pounds =</span> <span class="fu">c</span>(<span class="fl">176.3</span>, <span class="fl">124.9</span>, <span class="fl">162.6</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>patients</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Add one or more variables</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(patients, <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>))</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>p2</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>ages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">41</span>, <span class="dv">29</span>)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(patients, <span class="at">ages =</span> ages)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>p2</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  patients, </span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>), </span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">ages =</span> ages</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>p2</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Compute variables</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(patients, <span class="at">height =</span> feet <span class="sc">+</span> inches <span class="sc">/</span> <span class="dv">12</span>)</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>p2</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(patients, <span class="at">ln_pounds =</span> <span class="fu">log</span>(pounds))</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>p2</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Overwrite variables</span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>patients <span class="ot">&lt;-</span> <span class="fu">mutate</span>(patients, <span class="at">height =</span> height <span class="sc">/</span> <span class="fl">3.281</span>)</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>patients</span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Duplicate variables</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(patients, <span class="at">weight =</span> pounds)</span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>p2 <span class="co"># both weight and pounds exist</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Wrangling rows</h2>
+<div class="columns pv4">
+<div class="column" style="width:60%;">
+<ul>
+<li><span class="b blue">Arrange</span> sorts the rows in a tibble based on their values
+<ul>
+<li><span class="f80"><code>arrange(X, VAR_SORT_UP)</code></span></li>
+</ul></li>
+</ul>
+<div class="fragment mt1">
+<ul>
+<li><span class="b blue">Filter</span> retains only certain rows in a tibble based on criteria
+<ul>
+<li><span class="f80"><code>filter(X, NUMBER &gt; 0)</code></span></li>
+<li><span class="f80"><code>filter(X, STRING == "A")</code></span></li>
+</ul></li>
+</ul>
+</div>
+</div><div class="column tc pv5" style="width:40%;">
+<p><lord-icon delay="5000" colors="secondary:#2a76dd" class="rc" src="https://cdn.lordicon.com/dlprbpnx.json" trigger="loop"></lord-icon></p>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2><em>Arrange</em> Live Coding</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Sort observations by a variable</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>starwars</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">arrange</span>(starwars, height)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>sw <span class="co"># sorted by height, ascending</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">arrange</span>(starwars, name)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>sw <span class="co"># sorted by name, alphabetically</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Sort observations by a variable, in reverse order</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">arrange</span>(starwars, <span class="fu">desc</span>(height))</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>sw <span class="co"># sorted by height, descending</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">arrange</span>(starwars, <span class="fu">desc</span>(name))</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>sw <span class="co"># sorted by name, reverse-alphabetically</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Sort observations by multiple variables</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">arrange</span>(starwars, hair_color, mass)</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>sw <span class="co"># sorted by hair_color, then ties broken by mass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+<h2><em>Filter</em> Live Coding</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Retain only observations that meet a criterion</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, mass <span class="sc">&gt;</span> <span class="dv">100</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>sw <span class="co"># only observations with mass greater than 100</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, mass <span class="sc">&lt;=</span> <span class="dv">100</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>sw <span class="co"># only observations with mass less than or equal to 100</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, species <span class="sc">==</span> <span class="st">"Human"</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>sw <span class="co"># only observations with species equal to Human</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, species <span class="sc">!=</span> <span class="st">"Human"</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>sw <span class="co"># only observations with species not equal to Human</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co"># PITFALL: Don't try to use a single = for testing equality</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, <span class="at">height =</span> <span class="dv">150</span>) <span class="co"># error</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, height <span class="sc">==</span> <span class="dv">150</span>) <span class="co"># correct</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>sw </span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co"># PITFALL: Don't forget that R is case-sensitive</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, species <span class="sc">==</span> <span class="st">"human"</span>)</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>sw <span class="co"># no observations left (because it should be Human)</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Retain only observations that meet complex criteria</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, mass <span class="sc">&gt;</span> <span class="dv">100</span> <span class="sc">&amp;</span> height <span class="sc">&gt;</span> <span class="dv">200</span>)</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>sw <span class="co"># only observations with mass over 100 AND height over 200</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, height <span class="sc">&lt;</span> <span class="dv">100</span> <span class="sc">|</span> hair_color <span class="sc">==</span> <span class="st">"none"</span>)</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>sw <span class="co"># only observations with height under 100 OR hair_color equal to none</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a><span class="co"># PITFALL: Don't forget to complete both conditions</span></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, mass <span class="sc">&gt;</span> <span class="dv">100</span> <span class="sc">&amp;</span> <span class="er">&lt;</span> <span class="dv">200</span>) <span class="co"># error</span></span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, mass <span class="sc">&gt;</span> <span class="dv">100</span> <span class="sc">&amp;</span> mass <span class="sc">&lt;</span> <span class="dv">200</span>) <span class="co"># correct</span></span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>sw</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a><span class="co"># PITFALL: Don't try to equate a string to a vector</span></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, species <span class="sc">==</span> <span class="fu">c</span>(<span class="st">"Human"</span>, <span class="st">"Droid"</span>)) <span class="co"># error</span></span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">filter</span>(starwars, species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Human"</span>, <span class="st">"Droid"</span>)) <span class="co"># correct</span></span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>sw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2 smaller">
+<h2><em>Filter</em> Cheatsheet</h2>
+<div class="columns pv4">
+<div class="column mytable" style="width:60%;">
+<table>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Description</th>
+<th>Num</th>
+<th>Chr</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&lt;</code></td>
+<td>Less than</td>
+<td>Yes</td>
+<td><em>No</em></td>
+</tr>
+<tr class="even">
+<td><code>&lt;=</code></td>
+<td>Less than or equal to</td>
+<td>Yes</td>
+<td><em>No</em></td>
+</tr>
+<tr class="odd">
+<td><code>&gt;</code></td>
+<td>More than</td>
+<td>Yes</td>
+<td><em>No</em></td>
+</tr>
+<tr class="even">
+<td><code>&gt;=</code></td>
+<td>More than or equal to</td>
+<td>Yes</td>
+<td><em>No</em></td>
+</tr>
+<tr class="odd">
+<td><code>==</code></td>
+<td>Equal to</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td><code>!=</code></td>
+<td>Not equal to</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td><code>%in%</code></td>
+<td>Found in</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td><code>&amp;</code></td>
+<td>Logical And</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td><code>|</code></td>
+<td>Logical Or</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column tc pv5" style="width:40%;">
+<p><lord-icon delay="5000" colors="secondary:#2a76dd" class="rc" src="https://cdn.lordicon.com/esixrdij.json" trigger="loop"></lord-icon></p>
+</div>
+</div>
+</section></section>
+<section>
+<section class="title-slide slide level1 center">
+<h1>Pipes and Pipelines</h1>
+
+</section>
+<section class="slide level2 smaller">
+<h2>Pipes and Pipelines</h2>
+<div class="columns pv4">
+<div class="column" style="width:60%;">
+<ul>
+<li>How can we do <span class="b green">multiple operations</span> to an object?
+<ol type="1">
+<li><code>x &lt;- 10</code></li>
+<li><code>x2 &lt;- sqrt(x)</code></li>
+<li><code>x3 &lt;- round(x2)</code></li>
+</ol></li>
+</ul>
+<div class="fragment mt1">
+<ul>
+<li>This works but is <strong>cumbersome</strong> and <strong>error-prone</strong></li>
+</ul>
+</div>
+<div class="fragment mt1">
+<ul>
+<li>A better approach is to use <span class="b blue">pipes</span> and <span class="b green">pipelines</span>
+<ul>
+<li><code>x3 &lt;- 10 |&gt; sqrt() |&gt; round()</code></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment mt1">
+<ul>
+<li>I like to read <code>|&gt;</code> as “and then…”
+<ul>
+<li>“Take 10 and then sqrt() and then round()”</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="column tc pv5" style="width:40%;">
+<p><lord-icon delay="5000" colors="secondary:#2a76dd" class="rc" src="https://cdn.lordicon.com/mhttdvjl.json" trigger="loop"></lord-icon></p>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Pipes Live Coding</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SETUP: Enable the pipe operator shortcut</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Tools &gt; Global Options... &gt; Code tab &gt; Check "Use Native Pipe Operator"</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Type out |&gt; or press Ctrl+Shift+M (Win) / Cmd+Shift+M (Mac)</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># LESSON: The pipe pushes objects to a function as its first argument</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># TEMPLATE: x |&gt; function_name() is the same as function_name(x)</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(x)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>y</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x <span class="sc">|&gt;</span> <span class="fu">sqrt</span>()</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>y</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co"># PITFALL: Don't forget to remove the object from the function call</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">sqrt</span>(x) <span class="co"># wrong</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">sqrt</span>() <span class="co"># correct</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: You can still use arguments when piping</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">3.14</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>z</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fl">3.14</span> <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>z</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Pipes are useful with tibbles and wrangling verbs</span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>starwars</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">select</span>(starwars, name, species, height)</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>sw</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> starwars <span class="sc">|&gt;</span> <span class="fu">select</span>(name, species, height)</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>sw</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a><span class="co"># PITFALL: Don't add a pipe without a step after it</span></span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> starwars <span class="sc">|&gt;</span> <span class="fu">select</span>(name, species, height) <span class="sc">|&gt;</span> <span class="co"># error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Pipelines Live Coding</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: You can chain multiple pipes together to make a pipeline</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">|&gt;</span> <span class="fu">sqrt</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>()</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>x</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># TIP: If you want to see the output of a pipeline, you can pipe to print()</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">|&gt;</span> <span class="fu">sqrt</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co"># TIP: To make your pipelines more readable, move each step to a new line</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> </span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span> <span class="sc">|&gt;</span> </span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>() <span class="sc">|&gt;</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co"># PITFALL: Don't put the pipe at the beginning of a line, though</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> </span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span> </span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>  <span class="sc">|&gt;</span> <span class="fu">sqrt</span>()</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>  <span class="sc">|&gt;</span> <span class="fu">round</span>()</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>  <span class="sc">|&gt;</span> <span class="fu">print</span>() <span class="co"># error</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co"># ==============================================================================</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="co"># USECASE: Chain together a series of verbs to flexibly wrangle data</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>tallones <span class="ot">&lt;-</span> </span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>  starwars <span class="sc">|&gt;</span> </span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, species, height) <span class="sc">|&gt;</span> </span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">height_ft =</span> height <span class="sc">/</span> <span class="fl">30.48</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(height_ft <span class="sc">&gt;</span> <span class="dv">7</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(height_ft)) <span class="sc">|&gt;</span>  </span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 <div class="footer footer-default">
 
 </div>
+</section></section>
     </div>
   </div>
 
@@ -550,6 +1629,44 @@
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

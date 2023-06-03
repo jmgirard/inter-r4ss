@@ -4,7 +4,7 @@
     "href": "Day1/day1A.html",
     "title": "Day 1A",
     "section": "",
-    "text": "We begin with…"
+    "text": "We begin with an overview of the workshop and a quick refresher of fundamental R programming concepts. We will then learn about using Quarto to produce beautiful documents that combine code, output, and formatted text. Finally, we will learn about transforming data within tibbles using functions from the tidyverse package."
   },
   {
     "objectID": "Day1/day1A.html#slides",
@@ -14,46 +14,53 @@
     "text": "Slides\n\n\nClick here to view the slides in their own window."
   },
   {
+    "objectID": "Day1/day1A.html#data-files",
+    "href": "Day1/day1A.html#data-files",
+    "title": "Day 1A",
+    "section": "Data Files",
+    "text": "Data Files\n\ncereal (cereal’s nutritional information and rating)"
+  },
+  {
     "objectID": "Day1/day1A.html#practice-1",
     "href": "Day1/day1A.html#practice-1",
     "title": "Day 1A",
     "section": "Practice 1",
-    "text": "Practice 1"
+    "text": "Practice 1\nCreate a new Quarto document for this activity and save it in your new project folder with the naming convention you decided on in Question 1. Clear out the boilerplate text and create a new R code chunk. Inside this code chunk, use R as a calculator to answer the following question: If it costs $100 for each professor and $25 for each student to register for a conference, how much would it cost in total for a department of 8 professors and 20 students to register? Check that the code is working by running the chunk. Once it is giving the correct answer, render the Quarto document to an HTML file and preview it in the Viewer.\n\n\n\nClick here for the answer key\n\n\nYour .qmd file should look something like this (the header is optional):\n---\ntitle: \"Conference Costs\"\nformat: html\n---\n\n```{r}\n100 * 8 + 25 * 20\n```\nYour R output should tell you that the total cost would be $1300."
   },
   {
     "objectID": "Day1/day1A.html#practice-2",
     "href": "Day1/day1A.html#practice-2",
     "title": "Day 1A",
     "section": "Practice 2",
-    "text": "Practice 2"
+    "text": "Practice 2\nUse markdown to add some formatted text before and after the code chunk in your Quarto document. Before the chunk, describe in text what your code chunk is doing and why. Format some of the text using italics, bold, etc. Add an image below the chunk showing people at a conference (e.g., https://i.imgur.com/houkSmT.jpeg)\n\n\n\nClick here for the answer key\n\n\nYour .qmd file should look something like this (the header is optional):\n---\ntitle: \"Conference Costs\"\nformat: html\n---\n\n**How much will it cost** to register our *whole department* to attend the conference? With 8 professors and 20 students, at a price of \\$100 per professor and \\$25 per student, the total cost will be:\n\n```{r}\n100 * 8 + 25 * 20\n```\n\n![](https://i.imgur.com/houkSmT.jpeg)"
   },
   {
     "objectID": "Day1/day1A.html#practice-3",
     "href": "Day1/day1A.html#practice-3",
     "title": "Day 1A",
     "section": "Practice 3",
-    "text": "Practice 3"
+    "text": "Practice 3\nLoad in the economics tibble (included in {tidyverse}). Then create a pipeline to accomplish the following steps, saving the output to a new tibble called unemp and printing it:\n\nCalculate a new variable called rate by dividing unemploy (the number of unemployed, in thousands) by pop (the total population, in thousands).\nThen drop (i.e., unselect) the pce, uempmed, and psavert variables from the tibble.\n\n\n\n\nClick here for the answer key\n\n\nFinal Pipeline:\n\nlibrary(tidyverse)\nunemp &lt;- \n  economics |&gt; \n  mutate(rate = unemploy / pop) |&gt; \n  select(-pce, -uempmed, -psavert) |&gt; \n  print()\n\n# A tibble: 574 × 4\n   date          pop unemploy   rate\n   &lt;date&gt;      &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;\n 1 1967-07-01 198712     2944 0.0148\n 2 1967-08-01 198911     2945 0.0148\n 3 1967-09-01 199113     2958 0.0149\n 4 1967-10-01 199311     3143 0.0158\n 5 1967-11-01 199498     3066 0.0154\n 6 1967-12-01 199657     3018 0.0151\n 7 1968-01-01 199808     2878 0.0144\n 8 1968-02-01 199920     3001 0.0150\n 9 1968-03-01 200056     2877 0.0144\n10 1968-04-01 200208     2709 0.0135\n# ℹ 564 more rows"
   },
   {
     "objectID": "Day1/day1A.html#practice-4",
     "href": "Day1/day1A.html#practice-4",
     "title": "Day 1A",
     "section": "Practice 4",
-    "text": "Practice 4"
+    "text": "Practice 4\nDownload the “cereal.csv” data file (linked above), copy it to your Project folder, and read it into R as a tibble. Then create a pipeline to produce a short list of cereals for me to try. I am only interested in cold cereals with a rating greater than 70. Please arrange the list so that the cereals with the fewest calories are displayed at the top. Save the result as a tibble called jeffs_list (I expect it to be even more popular than Craig’s list 🙃) and print it.\n\n\n\nClick here for the answer key\n\n\n\njeffs_list &lt;- \n  read_csv(\"cereal.csv\")  |&gt; \n  filter(type == \"cold\" & rating &gt; 70) |&gt; \n  arrange(calories) |&gt; \n  print()\n\n# A tibble: 2 × 8\n  name                      mfr      type  calories sodium carbo sugars rating\n  &lt;chr&gt;                     &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1 All-Bran with Extra Fiber Kelloggs cold        50    140     8      0   93.7\n2 Shredded Wheat 'n'Bran    Nabisco  cold        90      0    19      0   74.5"
+  },
+  {
+    "objectID": "Day1/day1A.html#practice-5",
+    "href": "Day1/day1A.html#practice-5",
+    "title": "Day 1A",
+    "section": "Practice 5",
+    "text": "Practice 5\nTwo other useful column verbs are rename() and relocate(). You can use rename(x, new_name = old_name) to rename a variable in a tibble. You can use relocate(x, var_to_move, .before = other_var) to move a variable before another variable or relocate(x, var_to_move, .after = other_var) to move a variable after another variable. These verbs won’t be on the assignment, but are useful to play around with.\n\nTry to rename the uempmed variable in the economics tibble to duration.\nTry to move the unemploy variable in the economics tibble to come after the date variable.\n\n\n\n\nClick here for the answer key\n\n\nPart (a)\n\nlibrary(tidyverse)\nrename(economics, duration = uempmed)\n\n# A tibble: 574 × 6\n   date         pce    pop psavert duration unemploy\n   &lt;date&gt;     &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;\n 1 1967-07-01  507. 198712    12.6      4.5     2944\n 2 1967-08-01  510. 198911    12.6      4.7     2945\n 3 1967-09-01  516. 199113    11.9      4.6     2958\n 4 1967-10-01  512. 199311    12.9      4.9     3143\n 5 1967-11-01  517. 199498    12.8      4.7     3066\n 6 1967-12-01  525. 199657    11.8      4.8     3018\n 7 1968-01-01  531. 199808    11.7      5.1     2878\n 8 1968-02-01  534. 199920    12.3      4.5     3001\n 9 1968-03-01  544. 200056    11.7      4.1     2877\n10 1968-04-01  544  200208    12.3      4.6     2709\n# ℹ 564 more rows\n\n\nPart (b)\n\nrelocate(economics, unemploy, .after = date)\n\n# A tibble: 574 × 6\n   date       unemploy   pce    pop psavert uempmed\n   &lt;date&gt;        &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n 1 1967-07-01     2944  507. 198712    12.6     4.5\n 2 1967-08-01     2945  510. 198911    12.6     4.7\n 3 1967-09-01     2958  516. 199113    11.9     4.6\n 4 1967-10-01     3143  512. 199311    12.9     4.9\n 5 1967-11-01     3066  517. 199498    12.8     4.7\n 6 1967-12-01     3018  525. 199657    11.8     4.8\n 7 1968-01-01     2878  531. 199808    11.7     5.1\n 8 1968-02-01     3001  534. 199920    12.3     4.5\n 9 1968-03-01     2877  544. 200056    11.7     4.1\n10 1968-04-01     2709  544  200208    12.3     4.6\n# ℹ 564 more rows"
   },
   {
     "objectID": "Day1/day1A.html#readings",
     "href": "Day1/day1A.html#readings",
     "title": "Day 1A",
     "section": "Readings",
-    "text": "Readings"
-  },
-  {
-    "objectID": "Day1/day1A.html#fun-stuff",
-    "href": "Day1/day1A.html#fun-stuff",
-    "title": "Day 1A",
-    "section": "Fun Stuff",
-    "text": "Fun Stuff\n\nContinue to Day 1B Materials  »"
+    "text": "Readings\n\nHello, Quarto from Quarto website\nMarkdown Basics from Quarto website\nChapter 29: Quarto from R4DS (2E)\nChapter 4: Data transformation from R4DS (2E)\nChapter 5: Code Style from R4DS (2E)\n\n\nContinue to Day 1B Materials  »"
   },
   {
     "objectID": "Day1/day1B.html",

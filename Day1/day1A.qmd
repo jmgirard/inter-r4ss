@@ -8,7 +8,7 @@ format:
 
 ![](../img/teaching_2780E3.svg){.hero}
 
-We begin with...
+We begin with an overview of the workshop and a quick refresher of fundamental R programming concepts. We will then learn about using Quarto to produce beautiful documents that combine code, output, and formatted text. Finally, we will learn about transforming data within tibbles using functions from the tidyverse package.
 
 ## Slides
 
@@ -17,24 +17,147 @@ We begin with...
 
 [Click here to view the slides in their own window.](./Slides/1A_Slides.html)
 
+## Data Files
+
+- <a href="cereal.csv" download="cereal.csv">cereal</a>
+(cereal's nutritional information and rating)
+
 ## Practice 1
 
+Create a new Quarto document for this activity and save it in your new project folder with the naming convention you decided on in Question 1. Clear out the boilerplate text and create a new R code chunk. Inside this code chunk, use R as a calculator to answer the following question: If it costs \$100 for each professor and \$25 for each student to register for a conference, how much would it cost in total for a department of 8 professors and 20 students to register? Check that the code is working by running the chunk. Once it is giving the correct answer, render the Quarto document to an HTML file and preview it in the Viewer.
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+Your .qmd file should look something like this (the header is optional):
+
+```` markdown
+---
+title: "Conference Costs"
+format: html
+---
+
+```{{r}}
+100 * 8 + 25 * 20
+```
+
+````
+
+Your R output should tell you that the total cost would be $1300.
+</blockquote></details></p>
 
 ## Practice 2
 
+Use markdown to add some formatted text before and after the code chunk in your Quarto document. Before the chunk, describe in text what your code chunk is doing and why. Format some of the text using italics, bold, etc. Add an image below the chunk showing people at a conference (e.g., <https://i.imgur.com/houkSmT.jpeg>)
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+Your .qmd file should look something like this (the header is optional):
+
+```` markdown
+---
+title: "Conference Costs"
+format: html
+---
+
+**How much will it cost** to register our *whole department* to attend the conference? With 8 professors and 20 students, at a price of \$100 per professor and \$25 per student, the total cost will be:
+
+```{{r}}
+100 * 8 + 25 * 20
+```
+
+![](https://i.imgur.com/houkSmT.jpeg)
+
+````
+
+</blockquote></details></p>
 
 ## Practice 3
 
+Load in the `economics` tibble (included in \{tidyverse\}). Then create a pipeline to accomplish the following steps, saving the output to a new tibble called `unemp` and printing it:
 
+a) Calculate a new variable called `rate` by dividing `unemploy` (the number of unemployed, in thousands) by `pop` (the total population, in thousands).
+
+b) Then drop (i.e., unselect) the `pce`, `uempmed`, and `psavert` variables from the tibble.
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+Final Pipeline:
+
+```{r}
+#| message: false
+
+library(tidyverse)
+unemp <- 
+  economics |> 
+  mutate(rate = unemploy / pop) |> 
+  select(-pce, -uempmed, -psavert) |> 
+  print()
+```
+
+</blockquote></details></p>
 
 ## Practice 4
 
+Download the "cereal.csv" data file (linked above), copy it to your Project folder, and read it into R as a tibble. Then create a pipeline to produce a short list of cereals for me to try. I am only interested in cold cereals with a rating greater than 70. Please arrange the list so that the cereals with the fewest calories are displayed at the top. Save the result as a tibble called `jeffs_list` (I expect it to be even more popular than Craig's list 🙃) and print it.
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| message: false
+
+jeffs_list <- 
+  read_csv("cereal.csv")  |> 
+  filter(type == "cold" & rating > 70) |> 
+  arrange(calories) |> 
+  print()
+```
+
+</blockquote></details></p>
+
+## Practice 5
+
+Two other useful column verbs are `rename()` and `relocate()`. You can use `rename(x, new_name = old_name)` to rename a variable in a tibble. You can use `relocate(x, var_to_move, .before = other_var)` to move a variable before another variable or `relocate(x, var_to_move, .after = other_var)` to move a variable after another variable. These verbs won't be on the assignment, but are useful to play around with.
+
+a) Try to rename the `uempmed` variable in the `economics` tibble to `duration`.
+
+b) Try to move the `unemploy` variable in the `economics` tibble to come after the `date` variable.
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Part (a)**
+
+```{r}
+#| message: false
+
+library(tidyverse)
+rename(economics, duration = uempmed)
+```
+
+**Part (b)**
+
+```{r}
+relocate(economics, unemploy, .after = date)
+```
+
+</blockquote></details></p>
 
 ## Readings
 
-
-## Fun Stuff
-
+  -   [Hello, Quarto](https://quarto.org/docs/get-started/hello/rstudio.html) from *Quarto* website
+  -   [Markdown Basics](https://quarto.org/docs/authoring/markdown-basics.html) from *Quarto* website
+  -   [Chapter 29: Quarto](https://r4ds.hadley.nz/quarto.html) from *R4DS* (2E)
+  -   [Chapter 4: Data transformation](https://r4ds.hadley.nz/data-transform.html) from *R4DS* (2E)
+  -   [Chapter 5: Code Style](https://r4ds.hadley.nz/workflow-style.html) from *R4DS* (2E)
 
 ::: {.text-center}
 <a href="day1B.html" class="btn btn-primary mt-5" role="button" >Continue to Day 1B Materials&nbsp;&nbsp;&raquo;</a>
