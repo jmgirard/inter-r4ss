@@ -6,7 +6,7 @@ format:
     highlight-style: github
 ---
 
-![](../img/teaching_2780E3.svg){.hero}
+![](../img/memory_2780E3.svg){.hero}
 
 We begin with...
 

@@ -74,7 +74,7 @@
     "href": "Day1/day1B.html",
     "title": "Day 1B",
     "section": "",
-    "text": "We continue after lunch with a deep dive into the fundamentals of data visualization in R using the ggplot2 package (part of the tidyverse)."
+    "text": "We continue after lunch with a deep dive into the fundamentals of data visualization in R using the ggplot2 package (part of the tidyverse). This will include a conceptual overview of the grammar of graphics and hands-on practice creating scatterplots, variation plots, and covariation plots."
   },
   {
     "objectID": "Day1/day1B.html#slides",
@@ -161,6 +161,13 @@
     "text": "Slides\n\n\nClick here to view the slides in their own window."
   },
   {
+    "objectID": "Day2/day2A.html#data-files",
+    "href": "Day2/day2A.html#data-files",
+    "title": "Day 2A",
+    "section": "Data Files",
+    "text": "Data Files"
+  },
+  {
     "objectID": "Day2/day2A.html#practice-1",
     "href": "Day2/day2A.html#practice-1",
     "title": "Day 2A",
@@ -215,6 +222,13 @@
     "title": "Day 2B",
     "section": "Slides",
     "text": "Slides\n\n\nClick here to view the slides in their own window."
+  },
+  {
+    "objectID": "Day2/day2B.html#data-files",
+    "href": "Day2/day2B.html#data-files",
+    "title": "Day 2B",
+    "section": "Data Files",
+    "text": "Data Files"
   },
   {
     "objectID": "Day2/day2B.html#practice-1",

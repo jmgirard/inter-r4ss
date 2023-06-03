@@ -9,7 +9,7 @@ format:
 ![](../img/charts_2780E3.svg){.hero}
 
 
-We continue after lunch with a deep dive into the fundamentals of data visualization in R using the ggplot2 package (part of the tidyverse).
+We continue after lunch with a deep dive into the fundamentals of data visualization in R using the ggplot2 package (part of the tidyverse). This will include a conceptual overview of the grammar of graphics and hands-on practice creating scatterplots, variation plots, and covariation plots.
 
 ## Slides
 
