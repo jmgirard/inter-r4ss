@@ -9,7 +9,7 @@ format:
 ![](../img/design_2780E3.svg){.hero}
 
 
-We continue after lunch with...
+We continue after lunch by revisiting data visualization. We learn about customizing and enhancing our graphics for communication through the use of scales, labels, and themes. We also learn about advanced plot layouts using faceting and the patchwork package. Finally, we discuss exporting graphics from R to image files and other formats.
 
 ## Slides
 
@@ -18,19 +18,247 @@ We continue after lunch with...
 
 [Click here to view the slides in their own window.](./Slides/2B_Slides.html)
 
-## Data Files
-
-
 ## Practice 1
 
+a) Use the `penguins` dataset from the \{palmerpenguins\} package to create a plot that maps `species` to the x-axis and `body_mass_g` to the y-axis. Add a violin geom and a jitter geom (with 0.25 width). For the jitter geom only, map `sex` to color.
+
+b) Configure the y axis to range from 2500 to 6500.
+
+c) Configure the x-axis to use the scientific names of each species (see table below)
+
+d) *Bonus:* Suppress all messages and warnings from this chunk.
+
+| Common Name | Scientific Name  |
+|-------------|------------------|
+| Adelie      | *P. adeliae*     |
+| Chinstrap   | *P. antarcticus* |
+| Gentoo      | *P. papua*       |
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(palmerpenguins)
+
+ggplot(penguins, aes(x = species, y = body_mass_g)) +
+  geom_violin() + 
+  geom_jitter(width = 0.25, aes(color = sex)) +
+  scale_y_continuous(limits = c(2500, 6500)) +
+  scale_x_discrete(
+    labels = c(
+      "Adelie" = "P. adeliae",
+      "Chinstrap" = "P. antarcticus",
+      "Gentoo" = "P. papua"
+    )
+  )
+```
+
+</blockquote></details></p>
 
 ## Practice 2
 
+Modify your final plot from Question 1 in the following ways:
+
+a) Give the x-axis, y-axis, and the color scale better labels (with Title Case)
+
+b) Give the plot a descriptive title about what the graphic is about (generally) and a subtitle that describes which sex-species combination had the highest body mass.
+
+c) Add a caption stating the source of this data (e.g., the package name)
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| message: false
+#| warning: false
+
+ggplot(penguins, aes(x = species, y = body_mass_g)) +
+  geom_violin() + 
+  geom_jitter(width = 0.25, aes(color = sex)) +
+  scale_y_continuous(limits = c(2500, 6500)) +
+  scale_x_discrete(
+    labels = c(
+      "Adelie" = "P. adeliae",
+      "Chinstrap" = "P. antarcticus",
+      "Gentoo" = "P. papua"
+    )
+  ) +
+  labs(
+    x = "Penguin Species",
+    y = "Body Mass (g)",
+    color = "Sex",
+    title = "Body Mass by Species and Sex of Penguins at Palmer Station",
+    subtitle = "The penguins with the highest body mass were males of the P. papua species",
+    caption = "Data from the {palmerpenguins} R package"
+  )
+```
+
+
+</blockquote></details></p>
 
 ## Practice 3
 
+Modify your final plot from Question 2 in the following ways:
+
+a) Apply the "classic" complete theme using `theme_classic()` and change the base font size to 10.
+
+b) Adjust the `legend.background` element to be rectangle with `color = "black"`.
+
+c) Adjust the `axis.text.x` element to be text with `face = "italic"`.
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| message: false
+#| warning: false
+
+ggplot(penguins, aes(x = species, y = body_mass_g)) +
+  geom_violin() + 
+  geom_jitter(width = 0.25, aes(color = sex)) +
+  scale_y_continuous(limits = c(2500, 6500)) +
+  scale_x_discrete(
+    labels = c(
+      "Adelie" = "P. adeliae",
+      "Chinstrap" = "P. antarcticus",
+      "Gentoo" = "P. papua"
+    )
+  ) +
+  labs(
+    x = "Penguin Species",
+    y = "Body Mass (g)",
+    color = "Sex",
+    title = "Body Mass by Species and Sex of Penguins at Palmer Station",
+    subtitle = "The penguins with the highest body mass were males of the P. papua species",
+    caption = "Data from the {palmerpenguins} R package"
+  ) +
+  theme_classic(base_size = 10) +
+  theme(
+    axis.text.x = element_text(face = "italic"),
+    legend.background = element_rect(color = "black")
+  )
+```
+
+</blockquote></details></p>
+
+## Practice 4
+
+Create a ggplot from `mpg` that maps `displ` to x and `hwy` to y and includes a point geom. Facet the plot such that there are seven columns showing `class` levels and three rows showing `drv` levels.
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| message: false
+
+library(tidyverse)
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  facet_grid(drv~class)
+```
+
+
+</blockquote></details></p>
+
+## Practice 5
+
+Recreate this figure from `mpg` using \{ggplot2\} and \{patchwork\}. *Hint:* The geoms (left-to-right) are density, bar, density, boxplot, boxplot.
+
+*Bonus:* Make the top row half the height of the bottom row and add tags "a" to "e".
+
+```{r}
+#| message: false
+#| echo: false
+
+library(patchwork)
+p1 <- ggplot(mpg, aes(x = hwy)) + geom_density()
+p2 <- ggplot(mpg, aes(x = drv)) + geom_bar()
+p3 <- ggplot(mpg, aes(x = cty)) + geom_density()
+p4 <- ggplot(mpg, aes(x = drv, y = hwy)) + geom_boxplot()
+p5 <- ggplot(mpg, aes(x = drv, y = cty)) + geom_boxplot()
+((p1 + p2 + p3) / (p4 + p5))
+```
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| message: false
+
+library(patchwork)
+p1 <- ggplot(mpg, aes(x = hwy)) + geom_density()
+p2 <- ggplot(mpg, aes(x = drv)) + geom_bar()
+p3 <- ggplot(mpg, aes(x = cty)) + geom_density()
+p4 <- ggplot(mpg, aes(x = drv, y = hwy)) + geom_boxplot()
+p5 <- ggplot(mpg, aes(x = drv, y = cty)) + geom_boxplot()
+((p1 + p2 + p3) / (p4 + p5))
+```
+
+**Bonus**
+
+```{r}
+((p1 + p2 + p3) / (p4 + p5)) + 
+  plot_layout(heights = c(1, 2)) +
+  plot_annotation(tag_levels = "a")
+```
+
+</blockquote></details></p>
+
+## Practice 6
+
+Create a document in PowerPoint (or equivalent program, e.g., Google Slides) and draw a box where you would put a figure. Examine that box's size and save a ggplot in that same size. Insert your image into PowerPoint.
+
+*Bonus:* Adjust the font size of your plot to be more readable in PowerPoint.
+
+```{r}
+#| eval: false
+
+# Simple example plot
+ggplot(mpg, aes(x = displ, y = hwy)) + geom_point()
+```
+
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+# eval: false
+
+p <- ggplot(mpg, aes(x = displ, y = hwy)) + geom_point()
+ggsave("act3a.png", plot = p, width = 5, height = 3, units = "in")
+```
+
+**Bonus**
+
+```{r}
+#| eval: false
+
+p <- ggplot(mpg, aes(x = displ, y = hwy)) + geom_point() +
+  theme_grey(base_size = 18)
+ggsave("act3b.png", plot = p, width = 5, height = 3, units = "in")
+```
+
+</blockquote></details></p>
 
 ## Readings
+
+- [Chapter 10: Layers](https://r4ds.hadley.nz/layers.html) from *R4DS* (2E)
+- [Chapter 12: Communication](https://r4ds.hadley.nz/communication.html) from *R4DS* (2E)
+- [Chapter 9: Arranging plots](https://ggplot2-book.org/arranging-plots.html) from *GGPB* (3E)
+- [Chapter 14: Scales and guides](https://ggplot2-book.org/scales-guides.html) from *GGPB* (3E)
+- [Chapter 16: Faceting](https://ggplot2-book.org/facet.html) from *GGPB* (3E)
+- [Chapter 17: Themes](https://ggplot2-book.org/themes.html) from *GGPB* (3E)
+
 
 ## Fun Stuff
 

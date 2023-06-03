@@ -28,3 +28,720 @@ format:
 
 ![](../../img/proud2_2780E3.svg){.absolute bottom=0 right=0 width=400}
 :::
+
+# Scales
+
+## Scales {.smaller}
+
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+- Scales are one of the basic gg elements
+
+::: {.mt1}
+- So far, we have let R guess on the scales
+  - Type (e.g., continuous or discrete)
+  - Limits (minimum and maximum values)
+  - Breaks (values to emphasize)
+:::
+
+::: {.fragment .mt1}
+- But we can completely [customize the scales]{.b .blue}!
+  - Changes may [enhance communication]{.b .green}
+  - We will add on various `scale_` functions
+:::
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li kjeivigm trigger=loop delay=3000 colors=secondary:#2a76dd class=rc >}}
+:::
+
+:::
+
+
+## Scales Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# Creating a base plot (map drv to color for all geoms)
+ggplot(mpg, aes(x = displ, y = hwy, color = drv)) +
+  geom_jitter(size = 2) + 
+  geom_smooth()
+
+# Creating a base plot (map drv to color for jitter geom only)
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_jitter(size = 2, aes(color = drv)) + 
+  geom_smooth(color = "black")
+
+# Configuring the limits and breaks of the continuous y axis
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_jitter(size = 2, aes(color = drv)) + 
+  geom_smooth(color = "black") +
+  scale_y_continuous(
+    limits = c(5, 50),
+    breaks = c(10, 20, 30, 40),
+    expand = c(0, 0)
+  )
+
+# Configuring the limits and breaks of the continuous x axis
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_jitter(size = 2, aes(color = drv)) + 
+  geom_smooth(color = "black") +
+  scale_y_continuous(
+    limits = c(5, 50), 
+    breaks = c(10, 20, 30, 40),
+    expand = c(0, 0)
+  ) +
+  scale_x_continuous(
+    limits = c(1, 7.5),
+    breaks = c(2, 3, 4, 5, 6, 7),
+    expand = c(0, 0)
+  )
+
+# Configuring the breaks and labels of the discrete color scale
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_jitter(size = 2, aes(color = drv)) + 
+  geom_smooth(color = "black") +
+  scale_y_continuous(
+    limits = c(5, 50), 
+    breaks = c(10, 20, 30, 40),
+    expand = c(0, 0)
+  ) +
+  scale_x_continuous(
+    limits = c(1, 7.5),
+    breaks = c(2, 3, 4, 5, 6, 7),
+    expand = c(0, 0)
+  ) +
+  scale_color_discrete(
+    breaks = c("r", "f", "4"), # change ordering
+    labels = c(
+      "4" = "Four-Wheel",
+      "f" = "Front-Wheel",
+      "r" = "Rear-Wheel"
+    )
+  )
+
+# Manually specifying the color values
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_jitter(aes(color = drv)) + 
+  geom_smooth(color = "black") +
+  scale_y_continuous(
+    limits = c(5, 50), 
+    breaks = c(10, 20, 30, 40),
+    expand = c(0, 0)
+  ) +
+  scale_x_continuous(
+    limits = c(1, 7.5),
+    breaks = c(2, 3, 4, 5, 6, 7),
+    expand = c(0, 0)
+  ) +
+  scale_color_manual(
+    breaks = c("r", "f", "4"),
+    labels = c(
+      "4" = "Four-Wheel",
+      "f" = "Front-Wheel",
+      "r" = "Rear-Wheel"
+    ),
+    values = c(
+      "4" = "salmon",
+      "f" = "cornflowerblue",
+      "r" = "seagreen3"
+    )
+  )
+
+# Add a redundant shape mapping
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_jitter(size = 2, aes(color = drv, shape = drv)) + 
+  geom_smooth(color = "black") +
+  scale_y_continuous(
+    limits = c(5, 50), 
+    breaks = c(10, 20, 30, 40),
+    expand = c(0, 0)
+  ) +
+  scale_x_continuous(
+    limits = c(1, 7.5),
+    breaks = c(2, 3, 4, 5, 6, 7),
+    expand = c(0, 0)
+  ) +
+  scale_color_manual(
+    breaks = c("r", "f", "4"),
+    labels = c(
+      "4" = "Four-Wheel",
+      "f" = "Front-Wheel",
+      "r" = "Rear-Wheel"
+    ),
+    values = c(
+      "4" = "salmon",
+      "f" = "cornflowerblue",
+      "r" = "seagreen3"
+    )
+  ) +
+  scale_shape_discrete(
+    breaks = c("r", "f", "4"),
+    labels = c(
+      "4" = "Four-Wheel",
+      "f" = "Front-Wheel",
+      "r" = "Rear-Wheel"
+    )
+  )
+```
+
+
+# Labels
+
+## Labels {.smaller}
+
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+- By default, scales are named after data variables
+
+::: {.mt1}
+- Changing names may [enhance communication]{.b .blue}
+  - Provide accessible names/definitions
+  - Include units and other methods info.
+  - Appear prettier and more professional
+:::
+
+::: {.fragment .mt1}
+- We can also add [plot-level information]{.b .blue}
+  - Titles and subtitles for take-aways
+  - Captions for asides or data sources
+:::
+
+::: {.fragment .mt1}
+- This is all done by adding on `labs()`
+:::
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li aravllcl trigger=loop delay=5000 colors=primary:#2a76dd class=rc >}}
+:::
+
+:::
+
+## Labels Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# Save plot from last section as an object (not necessary, but saves space)
+p <- 
+  ggplot(mpg, aes(x = displ, y = hwy)) +
+    geom_jitter(size = 2, aes(color = drv, shape = drv)) + 
+    geom_smooth(color = "black") +
+    scale_y_continuous(
+      limits = c(5, 50), 
+      breaks = c(10, 20, 30, 40),
+      expand = c(0, 0)
+    ) +
+    scale_x_continuous(
+      limits = c(1, 7.5),
+      breaks = c(2, 3, 4, 5, 6, 7),
+      expand = c(0, 0)
+    ) +
+    scale_color_manual(
+      breaks = c("r", "f", "4"),
+      labels = c(
+        "4" = "Four-Wheel",
+        "f" = "Front-Wheel",
+        "r" = "Rear-Wheel"
+      ),
+      values = c(
+        "4" = "salmon",
+        "f" = "cornflowerblue",
+        "r" = "seagreen3"
+      )
+    ) +
+    scale_shape_discrete(
+      breaks = c("r", "f", "4"),
+      labels = c(
+        "4" = "Four-Wheel",
+        "f" = "Front-Wheel",
+        "r" = "Rear-Wheel"
+      )
+    )
+p
+
+# Adjusting the positional (x and y) axis titles
+p +
+  labs(
+    x = "Engine displacement (L)",
+    y = "Highway fuel economy (mpg)"
+  )
+
+# Adjusting the color and shape legend titles
+p +
+  labs(
+    x = "Engine displacement (L)",
+    y = "Highway fuel economy (mpg)",
+    color = "Drivetrain",
+    shape = "Drivetrain"
+  )
+
+
+# Adding a title
+p +
+  labs(
+    x = "Engine displacement (L)",
+    y = "Highway fuel economy (mpg)",
+    color = "Drivetrain",
+    shape = "Drivetrain",
+    title = "Fuel efficiency generally decreases with engine size"
+  )
+
+# Adding a subtitle
+p + 
+  labs(
+    x = "Engine displacement (L)",
+    y = "Highway fuel economy (mpg)",
+    color = "Drivetrain",
+    shape = "Drivetrain",
+    title = "Fuel efficiency generally decreases with engine size",
+    subtitle = "Rear-wheel drive vehicles are often an exception due to sports cars' light weight"
+  )
+
+# Adding a caption
+p +
+  labs(
+    x = "Engine displacement (L)",
+    y = "Highway fuel economy (mpg)",
+    color = "Drivetrain",
+    shape = "Drivetrain",
+    title = "Fuel efficiency generally decreases with engine size",
+    subtitle = "Rear-wheel drive vehicles are often an exception due to sports cars' light weight",
+    caption = "Data from fueleconomy.gov"
+  )
+```
+
+
+# Themes
+
+## Themes {.smaller}
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+- Themes let you control [non-data elements]{.b .blue}
+  - Font size and color
+  - Ticks and gridlines
+  - Legend position
+
+::: {.fragment .mt1}
+- Complete themes change many elements
+  - `theme_*()`
+:::
+
+::: {.fragment .mt1}
+- Individual elements can also be changed
+  - `theme(...)`
+  - `element_*()`
+:::
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li hbkyydsg trigger=loop delay=5000 colors=secondary:#2a76dd class=rc >}}
+:::
+
+:::
+
+
+## Themes Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# Save plot from last section as an object (not necessary, but saves space)
+p <- 
+  ggplot(mpg, aes(x = displ, y = hwy)) +
+    geom_jitter(size = 2, aes(color = drv, shape = drv)) + 
+    geom_smooth(color = "black") +
+    scale_y_continuous(
+      limits = c(5, 50), 
+      breaks = c(10, 20, 30, 40),
+      expand = c(0, 0)
+    ) +
+    scale_x_continuous(
+      limits = c(1, 7.5),
+      breaks = c(2, 3, 4, 5, 6, 7),
+      expand = c(0, 0)
+    ) +
+    scale_color_manual(
+      breaks = c("r", "f", "4"),
+      labels = c(
+        "4" = "Four-Wheel",
+        "f" = "Front-Wheel",
+        "r" = "Rear-Wheel"
+      ),
+      values = c(
+        "4" = "salmon",
+        "f" = "cornflowerblue",
+        "r" = "seagreen3"
+      )
+    ) +
+    scale_shape_discrete(
+      breaks = c("r", "f", "4"),
+      labels = c(
+        "4" = "Four-Wheel",
+        "f" = "Front-Wheel",
+        "r" = "Rear-Wheel"
+      )
+    ) +
+  labs(
+    x = "Engine displacement (L)",
+    y = "Highway fuel economy (mpg)",
+    color = "Drivetrain",
+    shape = "Drivetrain",
+    title = "Fuel efficiency generally decreases with engine size",
+    subtitle = "Rear-wheel drive vehicles are often an exception due to sports cars' light weight",
+    caption = "Data from fueleconomy.gov"
+  )
+p
+
+# Add complete themes to change many elements at once
+p + theme_classic()
+
+p + theme_bw()
+
+p + theme_minimal()
+
+p + theme_dark()
+
+# Modify the "base size" for labels in the plot
+
+p + theme_minimal(base_size = 20) # too big
+p + theme_minimal(base_size = 5) # too small
+p + theme_minimal(base_size = 12) # just right
+
+# Customize specific elements one-by-one
+
+## Customize the legend position
+p + theme(legend.position = "bottom")
+p + theme(legend.position = "none")
+p + theme(legend.position = c(0.9, 0.8))
+
+## Customize text elements
+p + 
+  theme(
+    legend.position = c(0.9, 0.8),
+    axis.title = element_text(color = "grey50"),
+    legend.title = element_text(color = "grey50"),
+    plot.title = element_text(face = "bold")
+  )
+
+## Customize line elements
+p + 
+  theme(
+    legend.position = c(0.9, 0.8),
+    axis.title = element_text(color = "grey50"),
+    legend.title = element_text(color = "grey50"),
+    plot.title = element_text(face = "bold"),
+    panel.grid.major = element_line(linewidth = 2/3, linetype = "dashed"),
+    axis.ticks = element_line(linewidth = 2/3)
+  )
+
+## Removing (or "blanking") elements
+p + 
+  theme(
+    legend.position = c(0.9, 0.8),
+    axis.title = element_text(color = "grey50"),
+    legend.title = element_text(color = "grey50"),
+    plot.title = element_text(face = "bold"),
+    panel.grid.major = element_line(linewidth = 2/3, linetype = "dashed"),
+    axis.ticks = element_line(linewidth = 2/3),
+    panel.grid.minor = element_blank()
+  )
+
+## Customizing rectangle elements
+p + 
+  theme(
+    legend.position = c(0.9, 0.8),
+    axis.title = element_text(color = "grey50"),
+    legend.title = element_text(color = "grey50"),
+    plot.title = element_text(face = "bold"),
+    panel.grid.major = element_line(linewidth = 2/3, linetype = "dashed"),
+    axis.ticks = element_line(linewidth = 2/3),
+    panel.grid.minor = element_blank(),
+    panel.background = element_rect(fill = "antiquewhite")
+  )
+
+# Applying the same theme to many plots
+
+mytheme <- 
+  theme(
+    legend.position = c(0.9, 0.8),
+    axis.title = element_text(color = "grey50"),
+    legend.title = element_text(color = "grey50"),
+    plot.title = element_text(face = "bold"),
+    panel.grid.major = element_line(linewidth = 2/3, linetype = "dashed"),
+    axis.ticks = element_line(linewidth = 2/3),
+    panel.grid.minor = element_blank(),
+    panel.background = element_rect(fill = "antiquewhite")
+  )
+
+p + mytheme
+
+```
+
+# Faceting
+
+## Faceting {.smaller}
+
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+-   [Faceting]{.b .blue} creates multiple subplots
+    -   Each shows a subset of the data
+
+::: {.fragment .mt1}
+-   There are two types of faceting
+    -   **Grid** creates a 2D matrix (`row~col`)
+    -   **Wrap** creates a 1D list (`~var`)
+
+![](../../img/facet.png){width="70%"}
+    
+:::
+
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li gpjaxlut trigger=loop delay=3000 colors=secondary:#2a76dd class=rc >}}
+:::
+
+:::
+
+## Faceting Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# Filter out a subset of mpg to use in this section (optional)
+mpg2 <- mpg |> 
+  filter(
+    cyl != 5,
+    drv %in% c("4", "f"), 
+    class != "2seater"
+  )
+
+# Create a baseline plot without faceting
+p <- ggplot(mpg2, aes(x = displ, y = hwy)) + geom_point()
+p
+
+# Add facet wrapping by ~class
+p + facet_wrap(~class)
+
+# Control the shape of the output
+p + facet_wrap(~class, ncol = 2)
+p + facet_wrap(~class, nrow = 2)
+
+# Control the direction of the wrapping (i.e., ordering)
+p + facet_wrap(~class, ncol = 2, dir = "v") #vertical / top-to-bottom
+p + facet_wrap(~class, ncol = 2, dir = "h") #horizontal / left-to-right
+
+# Add facet grid by . ~ cyl where each column is a cyl value
+p + facet_grid(. ~ cyl)
+p + facet_grid(. ~ cyl, labeller = label_both)
+
+# Add facet grid by drv ~ . where each row is a drv value
+p + facet_grid(drv ~ ., labeller = label_both)
+
+# Add facet grid by drv ~ cyl where each cell is a drv-cyl combination
+p + facet_grid(drv ~ cyl, labeller = label_both)
+
+# We can free up the scales to "zoom" for each facet
+p + facet_grid(drv ~ cyl, labeller = label_both, scales = "free")
+p + facet_grid(drv ~ cyl, labeller = label_both, scales = "free_x")
+p + facet_grid(drv ~ cyl, labeller = label_both, scales = "free_y")
+
+# Another example
+ggplot(mpg2, aes(x = cty, y = hwy)) + 
+  geom_point() + 
+  geom_abline(slope = 1, intercept = 0)
+
+ggplot(mpg2, aes(x = cty, y = hwy)) + 
+  geom_point() + 
+  geom_abline(slope = 1, intercept = 0) + 
+  facet_wrap(~cyl)
+
+ggplot(mpg2, aes(x = cty, y = hwy)) + 
+  geom_point() + 
+  geom_abline(slope = 1, intercept = 0) + 
+  facet_wrap(~cyl, scales = "free")
+```
+
+# Layouts
+
+## Layouts {.smaller}
+
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+-   We may want to combine multiple plots into one
+    -   e.g., for communication and publishing
+    -   e.g., to compare/contrast several plots
+    -   e.g., to combine related "subfigures"
+    -   e.g., to create complex figure layouts
+
+::: {.fragment .mt1}
+-   To do so, we can use the \{patchwork\} package
+    -   This redefines the `+`, `|`, `\` operators
+    -   We use these to combine ggplot objects
+    -   We can control layout and annotations
+:::
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li joeivjls trigger=loop delay=3000 colors=secondary:#2a76dd class=rc >}}
+:::
+
+:::
+
+## Layouts Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+#install.packages("patchwork")
+library(patchwork)
+
+# Create example plots
+p1 <- ggplot(mpg, aes(x = displ)) + geom_histogram(bins = 10) + 
+  labs(x = "Engine Displacement", y = NULL)
+p2 <- ggplot(mpg, aes(x = hwy)) + geom_histogram(bins = 10) + 
+  labs(x = "Highway MPG", y = NULL)
+p3 <- ggplot(mpg, aes(x = displ, y = hwy)) + geom_point() +
+  labs(x = "Engine Displacement", y = "Highway MPG")
+p4 <- ggplot(mpg, aes(x = displ, y = hwy)) + geom_smooth() +
+  labs(x = "Engine Displacement", y = "Highway MPG")
+
+# Combine plots
+p1 + p2
+
+# Control the layout
+p1 + p2 + plot_layout(ncol = 2)
+p1 + p2 + plot_layout(nrow = 2)
+
+# Expand to three plots
+p1 + p2 + p3
+
+# Controlling the layout
+p1 + p2 + p3 + plot_layout(ncol = 3)
+p1 + p2 + p3 + plot_layout(nrow = 3)
+p1 + p2 + p3 + plot_layout(ncol = 2, nrow = 2)
+
+# Adding spacers to layout
+p1 + p2 + plot_spacer() + p3 + plot_layout(ncol = 2, nrow = 2)
+
+p1 + plot_spacer() + p2 + plot_spacer() + p3 + plot_spacer() + 
+  plot_layout(ncol = 3, nrow = 2)
+
+# Layout plots side-by-side
+p1 | p2
+p1 | p2 | p3
+
+# Combine plots above-and-below
+p1 / p2
+p1 / p2 / p3
+
+# Mix and Match with Parentheses
+(p1 | p2) / p3
+(p1 / p2) | p3
+
+# Use spacers with explicit layout
+(p1 | plot_spacer() | p2) / (plot_spacer() | p3 | plot_spacer())
+
+# Change the relative size of columns/rows
+p1 + p3 + p2 + p4 + plot_layout(widths = c(1, 2))
+p1 + p2 + p3 + p4 + plot_layout(heights = c(1, 2))
+
+# Add labels to overall plot
+((p1 / p2) | p3) + plot_annotation(
+  title = "Overall title",
+  caption = "Data from fueleconomy.gov"
+)
+
+# Automated plot annotation
+((p1 / p2) | p3) + plot_annotation(tag_levels = "a")
+((p1 / p2) | p3) + plot_annotation(tag_levels = "1")
+((p1 / p2) | p3) + plot_annotation(tag_levels = "a", tag_suffix = ")")
+```
+
+
+# Exporting
+
+## Exporting {.smaller}
+
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+-   `ggsave()` exports ggplots to files
+    -   We control the exact size and format
+    
+::: {.fragment .mt1}
+-   [Raster]{.b .blue} ([png]{.b}, jpg, bmp, tif): Compatibility
+
+    
+::: {.mt1}
+-   [Vector]{.b .blue} ([pdf]{.b}, svg, wmf, eps): Scalability
+:::
+
+![](../../img/formats.png)
+
+:::
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li amfaktum trigger=loop delay=3000 colors=primary:#2a76dd class=rc >}}
+:::
+
+:::
+
+## Exporting Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+p <- ggplot(mpg, aes(x = displ, y = hwy)) + geom_smooth() +
+  labs(x = "Engine Displacement", y = "Highway MPG")
+p
+
+# Save a specific ggplot object to a file
+ggsave(filename = "pfinal.png", plot = p)
+
+# Specify the size of the file to save
+ggsave(filename = "pfinal2.png", plot = p, 
+       width = 6, height = 3, units = "in")
+#open file and zoom in
+
+# Many file formats are available (raster and vector)
+ggsave(filename = "pfinal2.pdf", plot = p, 
+       width = 6, height = 3, units = "in")
+#open file and zoom in
+
+# Creating a very large image may result in small text however
+ggsave(filename = "p_poster.png", plot = p, 
+       width = 12, height = 8, units = "in")
+
+# You can quickly increase the text size using theme_*(base_size)
+p2 <- p + theme_grey(base_size = 24)
+ggsave(filename = "p_poster2.png", plot = p2,
+       width = 12, height = 8, units = "in")
+```
