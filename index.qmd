@@ -8,13 +8,13 @@ format:
 A three-day workshop spanning data wrangling, data visualization, and modeling in R.<br />
 Developed by [Jeffrey Girard](https://www.jmgirard.com) for the [Pittsburgh Summer Methodology Series](https://www.pittmethods.com) (June 5&#8722;7, 2023).
 
-![](./img/proud_coder_2780E3.svg){.hero}
+![](./img/proud2_2780E3.svg){.hero}
 
 R is a popular software option for wrangling, analyzing, and visualizing data in the social, behavioral, and medical sciences. It is completely free, runs on all major platforms (i.e., Windows, Mac, and Linux), offers a rich catalog of methodological tools, and has a large community that supports users at all skill levels. 
 
 This workshop emphasizes data wrangling (e.g., transforming, reshaping, and merging data) and communication skills (e.g., visualizing data/models and authoring reports) in addition to data analysis skills as the former are critical but often underappreciated.
 
-The workshop assumes that attendees have basic knowledge of the R programming language (e.g., how to create objects in the R environment, work with vectors and functions, and import data files as tibbles/data frames). This knowledge is provided by *Introduction to R for Social Scientists* for those who need it.
+The workshop assumes that attendees have basic knowledge of the R programming language (e.g., how to create objects in the R environment, work with vectors and functions, and import data files as tibbles/data frames). This knowledge is provided by the *Introduction to R for Social Scientists* workshop for those who need it.
 
 This workshop will also discuss how to implement popular extensions to linear modeling, such as GLM (generalized linear modeling, e.g., logistic and poisson regression) and MLM (multilevel modeling, e.g., random intercepts and slopes regression) in R. This part of the workshop could be a nice preview to these techniques for attendees unfamiliar with them but is meant more for those already familiar with their underlying theory (perhaps having learned about them in other software).
 

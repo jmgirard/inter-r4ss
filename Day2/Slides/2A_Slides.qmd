@@ -26,5 +26,5 @@ format:
 [Jeffrey M. Girard | Pitt Methods]{}
 :::
 
-![](../../img/proud_coder_2780E3.svg){.absolute bottom=0 right=0 width=400}
+![](../../img/proud2_2780E3.svg){.absolute bottom=0 right=0 width=400}
 :::
