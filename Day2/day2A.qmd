@@ -8,7 +8,7 @@ format:
 
 ![](../img/processing_2780E3.svg){.hero}
 
-We begin with...
+We begin with a discussion of how to summarize data in tibbles (which is like folding down all rows into a single row) and by group in tibbles (which is like folding down to one row per group). We will also learn about combining grouping with the mutate function, how to quickly and conveniently select columns in a tibble, and how to do basic iteration within a tibble (e.g., repeating the same operation across columns and rows).
 
 ## Slides
 
@@ -17,25 +17,306 @@ We begin with...
 
 [Click here to view the slides in their own window.](./Slides/2A_Slides.html)
 
-## Data Files
-
-
 ## Practice 1
 
+Summarize the `txhousing` tibble (included in \{tidyverse\}) to recreate the following tibble (where `n_obs` is the number of observations, `n_cities` is the number of unique/distinct cities, `mdn_listings` is the median number of monthly listings, `max_listings` is the maximum number of monthly listings). Ignore/remove any missing values when calculating the last two summary variables.
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+library(tidyverse)
+txhousing |> 
+  summarize(
+    n_obs = n(),
+    n_cities = n_distinct(city),
+    mdn_listings = median(listings, na.rm = TRUE),
+    max_listings = max(listings, na.rm = TRUE)
+  )
+```
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| message: false
+#| warning: false
+#| collapse: true
+
+library(tidyverse)
+txhousing |> 
+  summarize(
+    n_obs = n(),
+    n_cities = n_distinct(city),
+    mdn_listings = median(listings, na.rm = TRUE),
+    max_listings = max(listings, na.rm = TRUE)
+  )
+```
+
+</blockquote></details></p>
 
 ## Practice 2
 
+Summarize the `txhousing` tibble to recreate the following tibble (where `m_price` is the mean of the `median` variable and `s_price` is the standard deviation of the `median` variable, both per city-year combination).
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+txhousing |> 
+  summarize(
+    m_price = mean(median),
+    s_price = sd(median),
+    .by = c(city, year)
+  )
+```
+
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| message: false
+#| warning: false
+#| collapse: true
+
+txhousing |> 
+  summarize(
+    m_price = mean(median),
+    s_price = sd(median),
+    .by = c(city, year)
+  )
+```
+
+</blockquote></details></p>
 
 ## Practice 3
 
+Use a grouped mutate to add a new variable to the `txhousing` tibble that shows the average number of sales for that city in that year. Select only the `city`, `year`, `month`, and `sales` variables, in addition to the newly created variable.
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+txhousing |> 
+  mutate(
+    avg_sales = mean(sales),
+    .by = c(city, year)
+  ) |> 
+  select(city, year, month, sales, avg_sales)
+```
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| message: false
+#| warning: false
+#| collapse: true
+
+txhousing |> 
+  mutate(
+    avg_sales = mean(sales),
+    .by = c(city, year)
+  ) |> 
+  select(city, year, month, sales, avg_sales)
+```
+
+</blockquote></details></p>
 
 ## Practice 4
 
+a.    Use tidy selection to extract all variables that have names ending with "_color" from the `starwars` tibble.
+
+b.    Use tidy selection to extract the `name` variable and all variables from the `species` variable to the last variable in the `starwars` tibble.
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Answer (a)**
+
+```{r}
+#| message: false
+#| collapse: true
+
+library(tidyverse)
+starwars |> 
+  select(ends_with("_color"))
+```
+
+**Answer (b)**
+
+```{r}
+#| collapse: true
+
+starwars |> 
+  select(name, species:last_col())
+```
+
+</blockquote></details></p>
+
+## Practice 5
+
+a.    Use `across()` to apply the `str_to_upper()` function to the `manufacturer` and `model` variables of the `mpg` tibble.
+
+b.    Use `across()` to summarize the median of every numeric variable in the `diamonds` tibble.
+
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Answer (a)**
+
+```{r}
+#| collapse: true
+
+mpg |> 
+  mutate(
+    across(
+      .cols = c(manufacturer, model), 
+      .fns = str_to_upper
+    )
+  )
+```
+
+**Answer (b)**
+
+```{r}
+#| collapse: true
+
+diamonds |> 
+  summarize(
+    across(
+      .cols = where(is.numeric), 
+      .fns = median
+    )
+  )
+```
+
+
+</blockquote></details></p>
+
+## Practice 6
+
+a.    Add a new column to the `diamonds` tibble called `volume` that contains the rectangular volume of each diamond (i.e., the product or multiplication of the `x`, `y`, and `z` variables)
+
+b.    Add a new column to the `diamonds` tibble called `mdim` that contains the average dimension size of each diamond (i.e., the mean of the `x`, `y`, and `z` variables)
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Answer (a)**
+
+```{r}
+#| collapse: true
+
+diamonds |> 
+  mutate(volume = x * y * z)
+```
+
+**Answer (b)**
+
+```{r}
+#| collapse: true
+
+diamonds |> 
+  mutate(mdim = rowMeans(pick(x, y, z)))
+```
+
+**Alternate Answer (b)**
+
+```{r}
+#| collapse: true
+
+diamonds |> 
+  # Create row identifier
+  mutate(row_id = row_number()) |> 
+  # Mutate while grouping by it
+  mutate(
+    mdim = mean(c(x, y, z)),
+    .by = row_id
+  )
+```
+
+</blockquote></details></p>
+
+## Challenge 1
+
+Read the documentation for the `first()`, `last()`, and `nth()` summary functions (they all share a single documentation page). Then apply these functions to do the following: (1) calculate the average number of monthly `listings` in each city (removing any missing values), and then (2) find the cities with the highest, second-highest, second-lowest, and lowest average number of monthly listings.
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+```{r}
+#| collapse: true
+
+txhousing |> 
+  summarize(
+    m_listings = mean(listings, na.rm = TRUE),
+    .by = city
+  ) |> 
+  summarize(
+    most = first(city, order_by = m_listings),
+    second_most = nth(city, n = 2, order_by = m_listings),
+    second_least = nth(city, n = -2, order_by = m_listings),
+    least = last(city, order_by = m_listings)
+  )
+```
+</blockquote></details></p>
+
+## Challenge 2
+
+a.    Look at the code below and figure out how it works.
+
+b.    Adapt this code to create four new variables called `carat_minimum`, `carat_maximum`, `price_minimum`, and `price_maximum`.
+
+```{r}
+#| collapse: true
+
+diamonds |> 
+  summarize(
+    across(
+      .cols = c(carat, price),
+      .fns = list(m = mean, s = sd),
+      .names = "{.fn}_{.col}"
+    )
+  )
+```
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| collapse: true
+
+diamonds |> 
+  summarize(
+    across(
+      .cols = c(carat, price),
+      .fns = list(minimum = min, maximum = max),
+      .names = "{.col}_{.fn}"
+    )
+  )
+```
+
+</blockquote></details></p>
 
 ## Readings
 
-
-## Fun Stuff
+- [Section 4.5: Groups](https://r4ds.hadley.nz/data-transform.html#groups) from *R4DS* (2E)
+- [Selection language](https://tidyselect.r-lib.org/reference/language.html) from *tidyselect* package website
+- [Column-wise operation](https://dplyr.tidyverse.org/articles/colwise.html) from *dplyr* package website
+- [Row-wise operation](https://dplyr.tidyverse.org/articles/rowwise.html) from *dplyr* package website
 
 
 ::: {.text-center}

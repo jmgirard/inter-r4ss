@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -170,13 +204,15 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#slides" id="toc-slides" class="nav-link active" data-scroll-target="#slides">Slides</a></li>
-  <li><a href="#data-files" id="toc-data-files" class="nav-link" data-scroll-target="#data-files">Data Files</a></li>
   <li><a href="#practice-1" id="toc-practice-1" class="nav-link" data-scroll-target="#practice-1">Practice 1</a></li>
   <li><a href="#practice-2" id="toc-practice-2" class="nav-link" data-scroll-target="#practice-2">Practice 2</a></li>
   <li><a href="#practice-3" id="toc-practice-3" class="nav-link" data-scroll-target="#practice-3">Practice 3</a></li>
   <li><a href="#practice-4" id="toc-practice-4" class="nav-link" data-scroll-target="#practice-4">Practice 4</a></li>
+  <li><a href="#practice-5" id="toc-practice-5" class="nav-link" data-scroll-target="#practice-5">Practice 5</a></li>
+  <li><a href="#practice-6" id="toc-practice-6" class="nav-link" data-scroll-target="#practice-6">Practice 6</a></li>
+  <li><a href="#challenge-1" id="toc-challenge-1" class="nav-link" data-scroll-target="#challenge-1">Challenge 1</a></li>
+  <li><a href="#challenge-2" id="toc-challenge-2" class="nav-link" data-scroll-target="#challenge-2">Challenge 2</a></li>
   <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a></li>
-  <li><a href="#fun-stuff" id="toc-fun-stuff" class="nav-link" data-scroll-target="#fun-stuff">Fun Stuff</a></li>
   </ul>
 </nav>
     </div>
@@ -201,33 +237,424 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p><img src="../img/processing_2780E3.svg" class="hero img-fluid"></p>
-<p>We begin with…</p>
+<p>We begin with a discussion of how to summarize data in tibbles (which is like folding down all rows into a single row) and by group in tibbles (which is like folding down to one row per group). We will also learn about combining grouping with the mutate function, how to quickly and conveniently select columns in a tibble, and how to do basic iteration within a tibble (e.g., repeating the same operation across columns and rows).</p>
 <section id="slides" class="level2">
 <h2 class="anchored" data-anchor-id="slides">Slides</h2>
 <iframe class="slide-deck" src="./Slides/2A_Slides.html" title="Day 2A Slideshow">
 </iframe>
 <p><a href="./Slides/2A_Slides.html">Click here to view the slides in their own window.</a></p>
 </section>
-<section id="data-files" class="level2">
-<h2 class="anchored" data-anchor-id="data-files">Data Files</h2>
-</section>
 <section id="practice-1" class="level2">
 <h2 class="anchored" data-anchor-id="practice-1">Practice 1</h2>
+<p>Summarize the <code>txhousing</code> tibble (included in {tidyverse}) to recreate the following tibble (where <code>n_obs</code> is the number of observations, <code>n_cities</code> is the number of unique/distinct cities, <code>mdn_listings</code> is the median number of monthly listings, <code>max_listings</code> is the maximum number of monthly listings). Ignore/remove any missing values when calculating the last two summary variables.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  n_obs n_cities mdn_listings max_listings
+  &lt;int&gt;    &lt;int&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+1  8602       46         1283        43107</code></pre>
+</div>
+</div>
+<p>
+</p><details>
+<summary>
+Click here for the answer key
+</summary>
+<blockquote class="blockquote">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>txhousing <span class="sc">|&gt;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_obs =</span> <span class="fu">n</span>(),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_cities =</span> <span class="fu">n_distinct</span>(city),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mdn_listings =</span> <span class="fu">median</span>(listings, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_listings =</span> <span class="fu">max</span>(listings, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 1 × 4</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="do">##   n_obs n_cities mdn_listings max_listings</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;int&gt;    &lt;int&gt;        &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 1  8602       46         1283        43107</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</blockquote>
+</details>
+<p></p>
 </section>
 <section id="practice-2" class="level2">
 <h2 class="anchored" data-anchor-id="practice-2">Practice 2</h2>
+<p>Summarize the <code>txhousing</code> tibble to recreate the following tibble (where <code>m_price</code> is the mean of the <code>median</code> variable and <code>s_price</code> is the standard deviation of the <code>median</code> variable, both per city-year combination).</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 736 × 4
+   city     year m_price s_price
+   &lt;chr&gt;   &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1 Abilene  2000  66600    5714.
+ 2 Abilene  2001  70975    6331.
+ 3 Abilene  2002  68600    6756.
+ 4 Abilene  2003  71933.   5598.
+ 5 Abilene  2004  74867.   7892.
+ 6 Abilene  2005  87592.  10139.
+ 7 Abilene  2006 100292.   5187.
+ 8 Abilene  2007 103650   10931.
+ 9 Abilene  2008 107133.  10212.
+10 Abilene  2009 108367.   9850.
+# ℹ 726 more rows</code></pre>
+</div>
+</div>
+<p>
+</p><details>
+<summary>
+Click here for the answer key
+</summary>
+<blockquote class="blockquote">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>txhousing <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">m_price =</span> <span class="fu">mean</span>(median),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">s_price =</span> <span class="fu">sd</span>(median),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(city, year)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 736 × 4</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="do">##    city     year m_price s_price</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt;   &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 Abilene  2000  66600    5714.</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 Abilene  2001  70975    6331.</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 Abilene  2002  68600    6756.</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 Abilene  2003  71933.   5598.</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 Abilene  2004  74867.   7892.</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 Abilene  2005  87592.  10139.</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 Abilene  2006 100292.   5187.</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 Abilene  2007 103650   10931.</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 Abilene  2008 107133.  10212.</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 Abilene  2009 108367.   9850.</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ 726 more rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</blockquote>
+</details>
+<p></p>
 </section>
 <section id="practice-3" class="level2">
 <h2 class="anchored" data-anchor-id="practice-3">Practice 3</h2>
+<p>Use a grouped mutate to add a new variable to the <code>txhousing</code> tibble that shows the average number of sales for that city in that year. Select only the <code>city</code>, <code>year</code>, <code>month</code>, and <code>sales</code> variables, in addition to the newly created variable.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8,602 × 5
+   city     year month sales avg_sales
+   &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Abilene  2000     1    72      115.
+ 2 Abilene  2000     2    98      115.
+ 3 Abilene  2000     3   130      115.
+ 4 Abilene  2000     4    98      115.
+ 5 Abilene  2000     5   141      115.
+ 6 Abilene  2000     6   156      115.
+ 7 Abilene  2000     7   152      115.
+ 8 Abilene  2000     8   131      115.
+ 9 Abilene  2000     9   104      115.
+10 Abilene  2000    10   101      115.
+# ℹ 8,592 more rows</code></pre>
+</div>
+</div>
+<p>
+</p><details>
+<summary>
+Click here for the answer key
+</summary>
+<blockquote class="blockquote">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>txhousing <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_sales =</span> <span class="fu">mean</span>(sales),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(city, year)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(city, year, month, sales, avg_sales)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 8,602 × 5</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="do">##    city     year month sales avg_sales</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 Abilene  2000     1    72      115.</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 Abilene  2000     2    98      115.</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 Abilene  2000     3   130      115.</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 Abilene  2000     4    98      115.</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 Abilene  2000     5   141      115.</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 Abilene  2000     6   156      115.</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 Abilene  2000     7   152      115.</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 Abilene  2000     8   131      115.</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 Abilene  2000     9   104      115.</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 Abilene  2000    10   101      115.</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ 8,592 more rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</blockquote>
+</details>
+<p></p>
 </section>
 <section id="practice-4" class="level2">
 <h2 class="anchored" data-anchor-id="practice-4">Practice 4</h2>
+<ol type="a">
+<li><p>Use tidy selection to extract all variables that have names ending with “_color” from the <code>starwars</code> tibble.</p></li>
+<li><p>Use tidy selection to extract the <code>name</code> variable and all variables from the <code>species</code> variable to the last variable in the <code>starwars</code> tibble.</p></li>
+</ol>
+<p>
+</p><details>
+<summary>
+Click here for the answer key
+</summary>
+<blockquote class="blockquote">
+<p><strong>Answer (a)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">ends_with</span>(<span class="st">"_color"</span>))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 87 × 3</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="do">##    hair_color    skin_color  eye_color</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;    </span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 blond         fair        blue     </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 &lt;NA&gt;          gold        yellow   </span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 &lt;NA&gt;          white, blue red      </span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 none          white       yellow   </span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 brown         light       brown    </span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 brown, grey   light       blue     </span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 brown         light       blue     </span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 &lt;NA&gt;          white, red  red      </span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 black         light       brown    </span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 auburn, white fair        blue-gray</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ 77 more rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Answer (b)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, species<span class="sc">:</span><span class="fu">last_col</span>())</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 87 × 5</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">##    name               species films     vehicles  starships</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt;              &lt;chr&gt;   &lt;list&gt;    &lt;list&gt;    &lt;list&gt;   </span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 Luke Skywalker     Human   &lt;chr [5]&gt; &lt;chr [2]&gt; &lt;chr [2]&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 C-3PO              Droid   &lt;chr [6]&gt; &lt;chr [0]&gt; &lt;chr [0]&gt;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 R2-D2              Droid   &lt;chr [7]&gt; &lt;chr [0]&gt; &lt;chr [0]&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 Darth Vader        Human   &lt;chr [4]&gt; &lt;chr [0]&gt; &lt;chr [1]&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 Leia Organa        Human   &lt;chr [5]&gt; &lt;chr [1]&gt; &lt;chr [0]&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 Owen Lars          Human   &lt;chr [3]&gt; &lt;chr [0]&gt; &lt;chr [0]&gt;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 Beru Whitesun lars Human   &lt;chr [3]&gt; &lt;chr [0]&gt; &lt;chr [0]&gt;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 R5-D4              Droid   &lt;chr [1]&gt; &lt;chr [0]&gt; &lt;chr [0]&gt;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 Biggs Darklighter  Human   &lt;chr [1]&gt; &lt;chr [0]&gt; &lt;chr [1]&gt;</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 Obi-Wan Kenobi     Human   &lt;chr [6]&gt; &lt;chr [1]&gt; &lt;chr [5]&gt;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ 77 more rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</blockquote>
+</details>
+<p></p>
+</section>
+<section id="practice-5" class="level2">
+<h2 class="anchored" data-anchor-id="practice-5">Practice 5</h2>
+<ol type="a">
+<li><p>Use <code>across()</code> to apply the <code>str_to_upper()</code> function to the <code>manufacturer</code> and <code>model</code> variables of the <code>mpg</code> tibble.</p></li>
+<li><p>Use <code>across()</code> to summarize the median of every numeric variable in the <code>diamonds</code> tibble.</p></li>
+</ol>
+<p>
+</p><details>
+<summary>
+Click here for the answer key
+</summary>
+<blockquote class="blockquote">
+<p><strong>Answer (a)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mpg <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="fu">c</span>(manufacturer, model), </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> str_to_upper</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 234 × 11</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="do">##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 AUDI         A4           1.8  1999     4 auto… f        18    29 p     comp…</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 AUDI         A4           1.8  1999     4 manu… f        21    29 p     comp…</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 AUDI         A4           2    2008     4 manu… f        20    31 p     comp…</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 AUDI         A4           2    2008     4 auto… f        21    30 p     comp…</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 AUDI         A4           2.8  1999     6 auto… f        16    26 p     comp…</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 AUDI         A4           2.8  1999     6 manu… f        18    26 p     comp…</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 AUDI         A4           3.1  2008     6 auto… f        18    27 p     comp…</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 AUDI         A4 QUATTRO   1.8  1999     4 manu… 4        18    26 p     comp…</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 AUDI         A4 QUATTRO   1.8  1999     4 auto… 4        16    25 p     comp…</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 AUDI         A4 QUATTRO   2    2008     4 manu… 4        20    28 p     comp…</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ 224 more rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Answer (b)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="fu">where</span>(is.numeric), </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> median</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 1 × 7</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="do">##   carat depth table price     x     y     z</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 1   0.7  61.8    57  2401   5.7  5.71  3.53</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</blockquote>
+</details>
+<p></p>
+</section>
+<section id="practice-6" class="level2">
+<h2 class="anchored" data-anchor-id="practice-6">Practice 6</h2>
+<ol type="a">
+<li><p>Add a new column to the <code>diamonds</code> tibble called <code>volume</code> that contains the rectangular volume of each diamond (i.e., the product or multiplication of the <code>x</code>, <code>y</code>, and <code>z</code> variables)</p></li>
+<li><p>Add a new column to the <code>diamonds</code> tibble called <code>mdim</code> that contains the average dimension size of each diamond (i.e., the mean of the <code>x</code>, <code>y</code>, and <code>z</code> variables)</p></li>
+</ol>
+<p>
+</p><details>
+<summary>
+Click here for the answer key
+</summary>
+<blockquote class="blockquote">
+<p><strong>Answer (a)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">volume =</span> x <span class="sc">*</span> y <span class="sc">*</span> z)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 53,940 × 11</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="do">##    carat cut       color clarity depth table price     x     y     z volume</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  1  0.23 Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43   38.2</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  2  0.21 Premium   E     SI1      59.8    61   326  3.89  3.84  2.31   34.5</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  3  0.23 Good      E     VS1      56.9    65   327  4.05  4.07  2.31   38.1</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  4  0.29 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63   46.7</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  5  0.31 Good      J     SI2      63.3    58   335  4.34  4.35  2.75   51.9</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  6  0.24 Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48   38.7</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  7  0.24 Very Good I     VVS1     62.3    57   336  3.95  3.98  2.47   38.8</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  8  0.26 Very Good H     SI1      61.9    55   337  4.07  4.11  2.53   42.3</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  9  0.22 Fair      E     VS2      65.1    61   337  3.87  3.78  2.49   36.4</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 10  0.23 Very Good H     VS1      59.4    61   338  4     4.05  2.39   38.7</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ 53,930 more rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Answer (b)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mdim =</span> <span class="fu">rowMeans</span>(<span class="fu">pick</span>(x, y, z)))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 53,940 × 11</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="do">##    carat cut       color clarity depth table price     x     y     z  mdim</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  1  0.23 Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43  3.45</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  2  0.21 Premium   E     SI1      59.8    61   326  3.89  3.84  2.31  3.35</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  3  0.23 Good      E     VS1      56.9    65   327  4.05  4.07  2.31  3.48</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  4  0.29 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63  3.69</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  5  0.31 Good      J     SI2      63.3    58   335  4.34  4.35  2.75  3.81</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  6  0.24 Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48  3.46</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  7  0.24 Very Good I     VVS1     62.3    57   336  3.95  3.98  2.47  3.47</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  8  0.26 Very Good H     SI1      61.9    55   337  4.07  4.11  2.53  3.57</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  9  0.22 Fair      E     VS2      65.1    61   337  3.87  3.78  2.49  3.38</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 10  0.23 Very Good H     VS1      59.4    61   338  4     4.05  2.39  3.48</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ 53,930 more rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Alternate Answer (b)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create row identifier</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">row_id =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Mutate while grouping by it</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mdim =</span> <span class="fu">mean</span>(<span class="fu">c</span>(x, y, z)),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> row_id</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 53,940 × 12</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="do">##    carat cut      color clarity depth table price     x     y     z row_id  mdim</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;dbl&gt; &lt;ord&gt;    &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  1  0.23 Ideal    E     SI2      61.5    55   326  3.95  3.98  2.43      1  3.45</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  2  0.21 Premium  E     SI1      59.8    61   326  3.89  3.84  2.31      2  3.35</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  3  0.23 Good     E     VS1      56.9    65   327  4.05  4.07  2.31      3  3.48</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="do">##  4  0.29 Premium  I     VS2      62.4    58   334  4.2   4.23  2.63      4  3.69</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="do">##  5  0.31 Good     J     SI2      63.3    58   335  4.34  4.35  2.75      5  3.81</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="do">##  6  0.24 Very Go… J     VVS2     62.8    57   336  3.94  3.96  2.48      6  3.46</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="do">##  7  0.24 Very Go… I     VVS1     62.3    57   336  3.95  3.98  2.47      7  3.47</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="do">##  8  0.26 Very Go… H     SI1      61.9    55   337  4.07  4.11  2.53      8  3.57</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="do">##  9  0.22 Fair     E     VS2      65.1    61   337  3.87  3.78  2.49      9  3.38</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="do">## 10  0.23 Very Go… H     VS1      59.4    61   338  4     4.05  2.39     10  3.48</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="do">## # ℹ 53,930 more rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</blockquote>
+</details>
+<p></p>
+</section>
+<section id="challenge-1" class="level2">
+<h2 class="anchored" data-anchor-id="challenge-1">Challenge 1</h2>
+<p>Read the documentation for the <code>first()</code>, <code>last()</code>, and <code>nth()</code> summary functions (they all share a single documentation page). Then apply these functions to do the following: (1) calculate the average number of monthly <code>listings</code> in each city (removing any missing values), and then (2) find the cities with the highest, second-highest, second-lowest, and lowest average number of monthly listings.</p>
+<p>
+</p><details>
+<summary>
+Click here for the answer key
+</summary>
+<blockquote class="blockquote">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>txhousing <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">m_listings =</span> <span class="fu">mean</span>(listings, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> city</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">most =</span> <span class="fu">first</span>(city, <span class="at">order_by =</span> m_listings),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">second_most =</span> <span class="fu">nth</span>(city, <span class="at">n =</span> <span class="dv">2</span>, <span class="at">order_by =</span> m_listings),</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">second_least =</span> <span class="fu">nth</span>(city, <span class="at">n =</span> <span class="sc">-</span><span class="dv">2</span>, <span class="at">order_by =</span> m_listings),</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">least =</span> <span class="fu">last</span>(city, <span class="at">order_by =</span> m_listings)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 1 × 4</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="do">##   most       second_most second_least least  </span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;  </span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 San Marcos Nacogdoches Dallas       Houston</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</blockquote>
+</details>
+<p></p>
+</section>
+<section id="challenge-2" class="level2">
+<h2 class="anchored" data-anchor-id="challenge-2">Challenge 2</h2>
+<ol type="a">
+<li><p>Look at the code below and figure out how it works.</p></li>
+<li><p>Adapt this code to create four new variables called <code>carat_minimum</code>, <code>carat_maximum</code>, <code>price_minimum</code>, and <code>price_maximum</code>.</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="fu">c</span>(carat, price),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="fu">list</span>(<span class="at">m =</span> mean, <span class="at">s =</span> sd),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.fn}_{.col}"</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 1 × 4</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="do">##   m_carat s_carat m_price s_price</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="do">##     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 1   0.798   0.474   3933.   3989.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>
+</p><details>
+<summary>
+Click here for the answer key
+</summary>
+<blockquote class="blockquote">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="fu">c</span>(carat, price),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="fu">list</span>(<span class="at">minimum =</span> min, <span class="at">maximum =</span> max),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}_{.fn}"</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 1 × 4</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="do">##   carat_minimum carat_maximum price_minimum price_maximum</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="do">##           &lt;dbl&gt;         &lt;dbl&gt;         &lt;int&gt;         &lt;int&gt;</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 1           0.2          5.01           326         18823</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</blockquote>
+</details>
+<p></p>
 </section>
 <section id="readings" class="level2">
 <h2 class="anchored" data-anchor-id="readings">Readings</h2>
-</section>
-<section id="fun-stuff" class="level2">
-<h2 class="anchored" data-anchor-id="fun-stuff">Fun Stuff</h2>
+<ul>
+<li><a href="https://r4ds.hadley.nz/data-transform.html#groups">Section 4.5: Groups</a> from <em>R4DS</em> (2E)</li>
+<li><a href="https://tidyselect.r-lib.org/reference/language.html">Selection language</a> from <em>tidyselect</em> package website</li>
+<li><a href="https://dplyr.tidyverse.org/articles/colwise.html">Column-wise operation</a> from <em>dplyr</em> package website</li>
+<li><a href="https://dplyr.tidyverse.org/articles/rowwise.html">Row-wise operation</a> from <em>dplyr</em> package website</li>
+</ul>
 <div class="text-center">
 <p><a href="day2B.html" class="btn btn-primary mt-5" role="button">Continue to Day 2B Materials&nbsp;&nbsp;»</a></p>
 </div>

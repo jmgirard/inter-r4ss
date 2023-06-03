@@ -28,3 +28,712 @@ format:
 
 ![](../../img/proud2_2780E3.svg){.absolute bottom=0 right=0 width=400}
 :::
+
+# Summarize
+
+## Summarize {.smaller}
+
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+-   Although we store data about many observations...
+-   ...we often want to [summarize across]{.b .blue} observations
+    -   This is like [folding]{.b .green} the tibble down to [one row]{.b .green}
+
+::: {.fragment .mt1}
+-   We've seen functions that summarize vectors
+    -   `length()`, `sum()`, `min()`, `max()`
+    -   `mean()`, `median()`, `sd()`, `var()`
+:::
+
+::: {.fragment .mt1}
+-   `summarize()` lets us use them on tibbles
+    -   It works very similarly to `mutate()`
+    -   It always creates a tibble as output
+:::
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li uhmqrsgl trigger=loop delay=3000 colors=secondary:#2a76dd class=rc >}}
+:::
+
+:::
+
+## Summarize Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# SETUP: We will need tidyverse and an example dataset
+
+library(tidyverse)
+
+sales <- 
+  tibble(
+    customer = c(1, 2, 3, 1, 3),
+    store = c("A", "A", "A", "B", "B"),
+    items = c(25, 20, 16, 10, 5),
+    spent = c(685, 590, 392, 185, 123)
+  ) |> 
+  print()
+
+# ==============================================================================
+
+# USECASE: Summarize the typical sales
+
+my_summary <- 
+  sales |> 
+  summarize(
+    avg_items = mean(items),
+    avg_spent = mean(spent)
+  ) |> 
+  print()
+
+# ==============================================================================
+
+# PITFALL: Don't use summary() instead of summarize()
+
+my_summary <- 
+  sales |> 
+  summary(
+    avg_items = mean(items),
+    avg_spent = mean(spent)
+  ) |> 
+  print() # not a tibble
+
+# ==============================================================================
+
+# USECASE: Use more than one summary function
+
+my_summary <- 
+  sales |> 
+  summarize(
+    total_items = sum(items),
+    total_spent = sum(spent),
+    avg_items = mean(items),
+    avg_spent = mean(spent)
+  ) |> 
+  print()
+
+# ==============================================================================
+
+# USECASE: Use counting functions
+
+my_counts <- 
+  sales |> 
+  summarize(
+    n_sales = n(),
+    n_customers = n_distinct(customer),
+    n_stores = n_distinct(store)
+  ) |> 
+  print()
+```
+
+# Grouped Summarize
+
+## Grouped Summarize {.smaller}
+
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+-   We can also summarize a tibble [by group]{.b .blue}
+    -   This is like [folding]{.b .green} the tibble multiple times
+    -   Specifically, we fold down to [one row per group]{.b .green}
+
+::: {.fragment .mt1}
+-   We just add the `.by` argument to `summarize()`
+    -   We can group by one or many variables
+    -   With many, we group by their combinations
+:::
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li pmwtbpap trigger=loop delay=3000 colors=secondary:#2a76dd class=rc >}}
+:::
+
+:::
+
+## Grouped Summarize Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# SETUP: We will need tidyverse and an example dataset
+
+library(tidyverse)
+
+sales <- 
+  tibble(
+    customer = c(1, 2, 3, 1, 3),
+    store = c("A", "A", "A", "B", "B"),
+    items = c(25, 20, 16, 10, 5),
+    spent = c(685, 590, 392, 185, 123)
+  ) |> 
+  print()
+
+# ==============================================================================
+
+# USECASE: Summarize per store
+
+sales |> 
+  summarize(
+    customers = n_distinct(customer),
+    items_sold = sum(items),
+    total_sales = sum(spent),
+    avg_items = mean(items),
+    avg_spent = mean(spent),
+    .by = store
+  )
+
+# ==============================================================================
+
+# USECASE: Summarize per customer
+
+sales |> 
+  summarize(
+    n_visits = n(),
+    items_bought = sum(items),
+    total_spent = sum(spent),
+    stores_visited = n_distinct(store),
+    .by = customer
+  )
+
+# ==============================================================================
+
+# USECASE: Summarize per customer-store combination
+
+sales |> 
+  summarize(
+    n_visits = n(),
+    items_bought = sum(items),
+    total_spent = sum(spent),
+    .by = c(customer, store)
+  )
+
+# ==============================================================================
+
+# SETUP: Let's get a larger, more realistic dataset
+
+# Extra pane > Packages tab > Install > nycflights13
+
+library("nycflights13")
+
+flights
+
+# ==============================================================================
+
+# USECASE: Find the carrier with the lowest average delays
+
+flights |> 
+  summarize(
+    m_delay = mean(dep_delay, na.rm = TRUE),
+    .by = carrier
+  ) |> 
+  arrange(m_delay)
+
+# ==============================================================================
+
+# LESSON: We can also group by multiple variables
+
+# USECASE: Let's find the day of the year with the most flights
+
+flights |> 
+  summarize(
+    n_flights = n(),
+    .by = c(month, day)
+  ) |> 
+  arrange(desc(n_flights))
+
+# ==============================================================================
+
+# Note how this is different from summarizing by day only (365 vs. 31)
+
+flights |> 
+  summarize(
+    n_flights = n(),
+    .by = day
+  ) |> 
+  arrange(desc(n_flights))
+```
+
+# Grouped Mutate
+
+## Grouped Mutate {.smaller}
+
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+-   We can also [mutate]{.b .blue} a tibble by group
+    -   Adds the summary values in a new column
+    -   They will be recycled for groups with many rows
+    
+::: {.fragment .mt1}
+-   We now have four useful tools for different jobs
+    -   Ungrouped summarize: fold to one row overall
+    -   Grouped summarize: fold to one row per group
+    -   Ungrouped mutate: add summaries overall
+    -   Grouped mutate: add summaries per group
+:::
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li qygayvwp trigger=loop delay=3000 colors=secondary:#2a76dd class=rc >}}
+:::
+
+:::
+
+## Grouped Mutate Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+sales
+
+# Calculates the total sum (across both stores)
+sales |> 
+  summarize(
+    items_sum_total = sum(items)
+  )
+
+# Calculates the store sums
+sales |> 
+  summarize(
+    items_sum_store = sum(items),
+    .by = store
+  )
+
+# Appends and recycles the total sum (across both stores)
+sales |> 
+  mutate(
+    items_sum_total = sum(items),
+    items_pct_total = items / items_sum_total
+  )
+
+# Appends and recycles the store sums
+sales |> 
+  mutate(
+    items_sum_store = sum(items),
+    items_pct_store = items / items_sum_store,
+    .by = store
+  )
+
+# What if you want both? You can!
+
+sales |> 
+  mutate(
+    items_sum_total = sum(items),
+    items_pct_total = items / items_sum_total
+  ) |> 
+  mutate(
+    items_sum_store = sum(items),
+    items_pct_store = items / items_sum_store,
+    .by = store
+  )
+
+flights 
+
+# .by can also be used with mutate()
+flights |> 
+  select(year:dep_time, carrier, dep_delay) |> 
+  mutate(
+    mean_dep_delay = mean(dep_delay, na.rm = TRUE),
+    .by = carrier
+  )
+
+# Compare this to summarize version
+flights |> 
+  select(year:dep_time, carrier, dep_delay) |> 
+  summarize(
+    mean_dep_delay = mean(dep_delay, na.rm = TRUE),
+    .by = carrier
+  )
+
+# Example longitudinal data
+dat <- 
+  tibble(
+    person = rep(101:103, each = 4),
+    sex = rep(c("M", "F", "M"), each = 4),
+    age = rep(c(13, 10, 12), each = 4), 
+    visit = rep(1:4, times = 3),
+    score = round(rnorm(12), digits = 1)
+  ) |> 
+  print()
+
+# Another grouped mutate vs grouped summarize example
+dat |> 
+  mutate(
+    n_visits = n(), 
+    .by = person
+  )
+
+dat |> 
+  summarize(
+    n_visits = n(),
+    .by = person
+  )
+
+# Add row numbers with row_number()
+dat2 <- 
+  dat |> 
+  select(-visit) |> 
+  print()
+
+dat2 |> 
+  mutate(
+    visit_total = row_number()
+  )
+
+dat2 |> 
+  mutate(
+    visit_person = row_number(),
+    .by = person
+  )
+```
+
+# Tidy Selection
+
+## Tidy Selection {.smaller}
+
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+-   `filter()` lets us retain rows using criteria
+    -   A version for columns would be convenient!
+
+::: {.fragment .mt1}
+-   This is essentially what tidy selection does
+    -   We can `select()` columns using criteria
+    -   It's like an extension of the `:` sugar
+:::
+
+::: {.fragment .mt1}
+-   We will use selection helpers and predicates
+    -   `starts_with()`, `contains()`, etc.
+    -   `everything()`, `last_col()`
+    -   `where()` and `is.*()`
+
+:::
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li tvyxmjyo trigger=loop delay=3000 colors=secondary:#2a76dd class=rc >}}
+:::
+
+:::
+
+## Tidy Selection Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+library(palmerpenguins)
+
+penguins
+
+# Starts with
+
+penguins |> 
+  select(starts_with("bill_"))
+
+# PITFALL
+
+penguins |> 
+  starts_with("bill_") # error - don't forget select()
+  
+
+# Ends with
+
+penguins |> 
+  select(ends_with("_mm"))
+
+# Contains
+
+penguins |> 
+  select(contains("_length_"))
+
+# Where
+
+penguins |> 
+  select(where(is.factor))
+
+penguins |> 
+  select(where(is.numeric))
+
+penguins |> 
+  select(where(is.character))
+
+# PITFALL
+
+penguins |> 
+  select(where(is.factor())) # error - don't include () after is.*
+
+# Everything
+
+penguins |> 
+  select(everything())
+
+# Last Column
+
+penguins |> 
+  select(last_col())
+
+penguins |> 
+  select(body_mass_g:last_col())
+
+# Negating Criteria
+
+penguins |> 
+  select(!ends_with("_mm"))
+
+# Combining Criteria
+
+penguins |> 
+  select(where(is.factor) | starts_with("body_"))
+
+penguins |> 
+  select(species, where(is.numeric))
+
+penguins |> 
+  select(ends_with("_mm") & !contains("_depth_"))
+```
+
+# Across
+
+## Across {.smaller}
+
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+-   We can apply functions to many columns at once
+    -   This is done using the `across()` function
+    -   It goes inside `mutate()` and `summarize()`
+
+::: {.fragment .mt1}
+-   `across()` pairs very well with tidy selection
+    -   e.g., do this to variables starting with "x"
+    -   e.g., do this to all numeric variables
+:::
+
+::: {.fragment .mt1}
+-   Advanced: "Anonymous functions"
+    -   Call current col x, then round x to 2 digits
+    -   e.g., `\(x) round(x, digits = 2)`
+:::
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li krmfspeu trigger=loop delay=3000 colors=secondary:#2a76dd class=rc >}}
+:::
+
+:::
+
+## Across Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+starwars
+
+# Applying the same mutation to multiple variables is a pain
+starwars |> 
+  mutate(
+    hair_color = factor(hair_color),
+    skin_color = factor(skin_color),
+    eye_color = factor(eye_color),
+  )
+
+# dplyr 1.0.0 added across() to make this easier
+
+starwars |> 
+  mutate(
+    across(
+      .cols = c(hair_color, skin_color, eye_color), 
+      .fns = factor
+    )
+  )
+
+# We can also use tidyverse shortcuts like the colon (:)
+starwars |> 
+  mutate(
+    across(
+      .cols = c(hair_color:eye_color), 
+      .fns = factor
+    )
+  )
+
+# We can also compress it to take up less space
+starwars |> 
+  mutate(across(c(hair_color:eye_color), factor))
+
+# We can also use a tidy selection helper when appropriate
+starwars |> 
+  mutate(
+    across(
+      .cols = ends_with("color"), 
+      .fns = factor
+    )
+  )
+
+starwars |>  
+  mutate(across(.cols = where(is.character), .fns = factor))
+
+# For more control, we use an anonymous function
+
+starwars |> 
+  mutate(
+    height = height * 1000,
+    mass = mass * 1000
+  )
+
+starwars |> 
+  mutate(
+    across(
+      .cols = c(height, mass), 
+      .fns = \(x) x * 1000
+    )
+  )
+
+# Across with summarize
+
+starwars |> 
+  summarize(
+    height = mean(height, na.rm = TRUE),
+    mass = mean(mass, na.rm = TRUE),
+    birth_year = mean(birth_year, na.rm = TRUE)
+  )
+
+starwars |> 
+  summarize(
+    across(
+      .cols = c(height, mass, birth_year), 
+      .fns = \(x) mean(x, na.rm = TRUE)
+    )
+  )
+```
+
+# Scale Scores
+
+## Scale Scores {.smaller}
+
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+-   In social science, we often use [scale scores]{.b .blue}
+    -   Multiple similar items are combined
+    -   Sums and means are both common
+
+::: {.fragment .mt1}
+-   Calculating scale scores from items is tricky
+    -   When each item is a column...
+    -   ...we calculate scale scores **per row**
+:::
+
+::: {.fragment .mt1}
+-   We can either group per row (using `.by`)
+    -   Or use special row-based functions
+:::
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li bdfzpkxv trigger=loop delay=3000 colors=secondary:#2a76dd class=rc >}}
+:::
+
+:::
+
+## Scale Scores Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# Simulate a longitudinal dataset with a five-item scale
+df <- 
+  tibble(
+    subject = rep(101:103, each = 3),
+    visit = rep(1:3, times = 3),
+    q1 = sample(x = 0:4, size = 9, replace = TRUE),
+    q2 = sample(x = 0:4, size = 9, replace = TRUE),
+    q3 = sample(x = 0:4, size = 9, replace = TRUE),
+    q4 = sample(x = 0:4, size = 9, replace = TRUE),
+    q5 = sample(x = 0:4, size = 9, replace = TRUE),
+  ) |> 
+  print()
+
+# USECASE: Calculate subjects' scores per visit
+
+# Solution 1 (calculate sums and means "by-hand")
+df |> 
+  mutate(
+    total_q = q1 + q2 + q3 + q4 + q5,
+    mean_q = (q1 + q2 + q3 + q4 + q5) / 5
+  )
+
+# PITFALL: Attempt to use functions for convenience
+df |> 
+  mutate(
+    total_q = sum(c(q1, q2, q3, q4, q5)),
+    mean_q = mean(c(q1, q2, q3, q4, q5))
+  )
+# But the answers aren't what we wanted! These are ungrouped mutates!
+
+# Solution 2 (turn them into grouped mutates)
+df |> 
+  mutate(
+    total_q = sum(c(q1, q2, q3, q4, q5)),
+    mean_q = mean(c(q1, q2, q3, q4, q5)),
+    .by = c(subject, visit)
+  )
+# These are the answers we wanted
+
+# USECASE: Can we use tidy selection here?
+
+# The : operator does work if they are in order!
+df |> 
+  mutate(
+    total_q = sum(q1:q5),
+    mean_q = mean(q1:q5),
+    .by = c(subject, visit)
+  )
+
+# But starts_with() doesn't...
+df |> 
+  mutate(
+    total_q = sum(starts_with("q")),
+    mean_q = mean(starts_with("q")),
+    .by = c(subject, visit)
+  )
+# Error...
+
+# Solution 3 (use row functions and pick, no .by necessary)
+df |> 
+  mutate(
+    total_q = rowSums(pick(starts_with("q"))),
+    mean_q = rowMeans(pick(starts_with("q")))
+  )
+
+# PITFALL (don't include your sum in your mean)
+df |> 
+  mutate(
+    q_total = rowSums(pick(starts_with("q"))),
+    q_mean = rowMeans(pick(starts_with("q")))
+  )
+# Note that the means are now much higher because they include q_total
+# This is because q_total also starts with q and comes first in mutate()
+```
