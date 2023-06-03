@@ -28,3 +28,669 @@ format:
 
 ![](../../img/proud2_2780E3.svg){.absolute bottom=0 right=0 width=400}
 :::
+
+# Principles
+
+## What is a graphic? {.smaller}
+
+::: {.pv4 .tc}
+![](../../img/graphics.png)
+
+::: {.fragment}
+A [data visualization]{.b .blue} expresses [data]{.b .green} through [visual aesthetics]{.b .green}.
+:::
+:::
+
+
+## Describing Graphics {.smaller}
+
+::: {.pv4 .tc}
+
+```{r graphics1}
+#| layout-ncol: 2
+#| fig-height: 8
+#| echo: false
+#| message: false
+
+library(tidyverse)
+mpg2 <- filter(mpg, cyl != 5)
+
+ggplot(mpg2, aes(x = displ, y = hwy)) + 
+  geom_point(size = 4) + 
+  labs(x = "Engine Size", y = "MPG") + 
+  theme_classic(base_size = 36)
+
+ggplot(mpg2, aes(x = factor(cyl), y = hwy)) + 
+  stat_summary(geom = "col", fun = mean) + 
+  labs(x = "Cylinders", y = "Average MPG") + 
+  theme_classic(base_size = 36)
+```
+
+::: {.fragment}
+Some simple graphics are [easy to describe]{.b .green} and may even have [ready names]{.b .blue}.
+:::
+:::
+
+
+## Describing Graphics {.smaller}
+
+::: {.pv4 .tc}
+
+```{r graphics2}
+#| layout-ncol: 2
+#| fig-height: 8
+#| echo: false
+#| message: false
+
+library(tidyverse)
+
+ggplot(mpg2, aes(x = displ, y = hwy, color = factor(cyl))) + 
+  geom_point(size = 4) + 
+  geom_smooth(method = "lm", size = 2) +
+  labs(x = "Engine Size", y = "MPG", color = "Cylinders") + 
+  theme_grey(base_size = 36) +
+  theme(legend.position = "top")
+
+ggplot(mpg2, aes(x = "0", y = hwy)) + 
+  facet_wrap(~cyl) +
+  geom_violin(size = 1) +
+  geom_jitter(size = 3) +
+  stat_summary(
+    geom = "point", 
+    fun = mean, 
+    size = 12, 
+    color = "red", 
+    alpha = 0.8
+  ) + 
+  scale_x_discrete(position = "top") +
+  labs(x = "Cylinders", y = "Average MPG") + 
+  theme_grey(base_size = 36) +
+  theme(
+    axis.ticks.x = element_blank(),
+    panel.grid.major.x = element_blank(),
+    axis.text.x = element_blank()
+  )
+```
+
+::: {.fragment}
+A [grammar of graphics]{.b .blue} will help us describe more [complex]{.b .green} graphics.
+:::
+:::
+
+
+## The Grammar of Graphics {.smaller}
+
+::: {.columns .pv4}
+::: {.column width="60%"}
+-   The [grammar of graphics]{.b .blue} is a set of rules for [describing]{.b .green} and [creating]{.b .green} data visualizations
+
+::: {.fragment .mt1}
+-   To make our data visual (and therefore put our highly evolved occipital lobes to work)...
+    -   We connect [variables]{.b .blue} to [visual qualities]{.b .green}
+    -   We represent [observations]{.b .blue} as [visual objects]{.b .green}
+:::
+
+::: {.fragment .mt1}
+-   This requires four *fundamental* elements
+    -   We will first learn about them in lecture
+    -   We will then apply them in R using \{ggplot2\}
+:::
+:::
+
+::: {.column .tc .pv5 width="40%"}
+{{< li ksoxpinm trigger=loop delay=5000 colors=secondary:#2a76dd class=rc >}}
+:::
+:::
+
+
+## Data {.smaller}
+
+::: {.tc .tibbledisp}
+
+```{r mpg}
+#| rows.print: 6
+
+mpg
+```
+
+::: {.fragment .mt1}
+Graphics require [data]{.b .blue} (e.g., tibbles), which describe [observations]{.b .green} using [variables]{.b .green}.
+:::
+:::
+
+
+## Aesthetic Mappings {.smaller}
+
+::: {.pv4 .tc}
+
+![](../../img/aes.png)
+
+::: {.fragment}
+Graphics require [aesthetic mappings]{.b .blue}, which connect [data variables]{.b .green} to [visual qualities]{.b .green}.
+:::
+:::
+
+
+## Scales {.smaller}
+
+::: {.pv4 .tc}
+
+::: {layout-ncol=2}
+![](../../img/position.png)
+
+![](../../img/otherscale.png)
+:::
+
+::: {.fragment .mt1}
+Graphics require [scales]{.b .blue}, which connect specific [data *values*]{.b .green} to specific [aesthetic *values*]{.b .green}.
+:::
+:::
+
+
+## Geometric Objects {.smaller}
+
+::: {.pv4 .tc}
+
+```{r geoms}
+#| layout-ncol: 2
+#| fig-height: 8
+#| echo: false
+#| message: false
+
+ggplot(mpg2, aes(x = displ, y = hwy)) + 
+  geom_point(size = 4) + 
+  labs(x = "Engine Size", y = "MPG") + 
+  theme_grey(base_size = 36)
+
+ggplot(mpg2, aes(x = factor(cyl), y = hwy)) + 
+  stat_summary(geom = "col", fun = mean) + 
+  labs(x = "Cylinders", y = "Average MPG") + 
+  theme_grey(base_size = 36)
+```
+
+::: {.fragment .mt1}
+Graphics require [geometric objects]{.b .blue} (geoms), which [represent the observations]{.b .green}.
+:::
+:::
+
+
+# Scatterplots
+
+## ggplot2 Basics {.smaller}
+
+::: {.columns .pv4}
+::: {.column width="60%"}
+-   The [ggplot2]{.b .blue} package is a part of tidyverse
+    -   No need to install or load it separately
+    -   It plays nicely with tibbles and wrangling
+
+::: {.fragment .mt1}
+-   It implements the [grammar of graphics]{.b .green} in R
+    -   The "gg" stands for "grammar of graphics"
+    -   Thus, it lets us control all four elements
+:::
+
+::: {.fragment .mt1}
+-   We will create a [pseudo-pipeline]{.b .green} of commands
+    -   However, we will use `+` rather than `|>`
+    -   This is because \{ggplot2\} predates the R pipe
+:::
+:::
+
+::: {.column .tc .pv5 width="40%"}
+{{< li gkeohday trigger=loop delay=5000 colors=secondary:#2a76dd class=rc >}}
+:::
+:::
+
+
+## ggplot2 Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# SETUP: We will need tidyverse and an example dataset
+
+library(tidyverse)
+
+mpg
+
+# ==============================================================================
+
+# LESSON: First, set the data to a tibble
+p <- ggplot(data = mpg)
+p
+
+# ==============================================================================
+
+# LESSON: Next, set the aesthetic mappings with aes()
+
+p <- ggplot(data = mpg, mapping = aes(x = displ, y = hwy))
+p
+
+# ==============================================================================
+
+# TIP: You can leave off the optional argument names
+
+p <- ggplot(mpg, aes(x = displ, y = hwy))
+p
+
+# ==============================================================================
+
+# LESSON: Finally, add a point geom
+
+p <- 
+  ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point()
+p
+
+# ==============================================================================
+
+# LESSON: We can use arguments to customize the geom
+
+p <- 
+  ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point(color = "grey40", shape = "square", size = 2)
+p
+
+# ==============================================================================
+
+# LESSON: We now have a simple scatterplot but can add more geom layers
+
+p <- 
+  ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point(color = "grey40", shape = "square", size = 2) +
+  geom_smooth()
+p
+
+# ==============================================================================
+
+# LESSON: We now have a simple scatterplot but can add more geom layers
+
+p <- 
+  ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point(color = "grey40", shape = "square", size = 2) +
+  geom_smooth(color = "red", linetype = "dashed", linewidth = 1)
+p
+```
+
+
+# Aesthetics
+
+## Aesthetics {.smaller}
+
+::: {.columns .pv4}
+::: {.column width="60%"}
+-   [Aesthetics]{.b .blue} control a geom's appearance
+    -   points: *color, shape, size, ...*
+    -   smooths: *color, linetype, linewidth, ...*
+
+::: {.fragment .mt1}
+-   There are two ways to control aesthetics:
+    -   You can [set it]{.b .blue} to a [value]{.b .green}
+        -   It will take on *one* value only
+        -   e.g., all points = red
+    -   You can [map it]{.b .blue} to a [variable]{.b .green}
+        -   It will take on *different* values
+        -   e.g., sedans = red, trucks = blue
+
+:::
+
+:::
+
+::: {.column .tc .pv5 width="40%"}
+{{< li fiivuxdi trigger=loop delay=5000 colors=secondary:#2a76dd class=rc >}}
+:::
+:::
+
+
+## Aesthetics Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# SETUP: We will need tidyverse and an example dataset
+
+library(tidyverse)
+
+mpg
+
+# ==============================================================================
+
+# LESSON: Set the color aesthetic to a value
+
+p <- 
+  ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point(color = "blue")
+p
+
+# ==============================================================================
+
+# LESSON: Map the color aesthetic to a variable to learn more relationships
+
+p <- 
+  ggplot(mpg, aes(x = displ, y = hwy, color = class)) + 
+  geom_point()
+p
+
+# ==============================================================================
+
+# PITFALL: Be sure to set aesthetics inside of geom() not aes()
+
+p <- ggplot(mpg, aes(x = displ, y = hwy, color = "blue")) + 
+  geom_point() #unintended
+p
+
+# ==============================================================================
+
+# PITFALL: If you both set and map an aesthetic, the setting will win out
+
+ggplot(mpg, aes(x = displ, y = hwy, color = drv)) + 
+  geom_point(color = "blue") 
+
+# ==============================================================================
+
+# LESSON: This works the same for other aesthetics
+
+ggplot(mpg, aes(x = displ, y = hwy, shape = drv)) + 
+  geom_point() 
+
+# ==============================================================================
+
+# TIP: I like to use redundant aesthetics (e.g., in case color can't be seen)
+
+ggplot(mpg, aes(x = displ, y = hwy, color = drv, shape = drv)) + 
+  geom_point() 
+
+# ==============================================================================
+
+# LESSON: Some geoms will be "grouped" if you map to a categorical variable
+
+ggplot(mpg, aes(x = displ, y = hwy, color = drv, shape = drv)) + 
+  geom_point() +
+  geom_smooth()
+
+# NOTE: We now have a separate smooth line for each drv category
+# NOTE: The shape aesthetic does not apply to smooth geoms so was ignored there
+```
+
+# Variation
+
+## Variation {.smaller}
+
+::: {.columns .pv4}
+::: {.column width="60%"}
+-   [Variable distributions]{.b .blue} are critical in data analysis
+    -   What are the most and least [common values]{.b .green}?
+    -   What are the [extrema]{.b .green} (min and max values)?
+    -   Are there any [outliers]{.b .green} or impossible values?
+    -   How much [spread]{.b .green} is there in the variable?
+    -   What [shape]{.b .green} does the distribution take?
+
+::: {.fragment .mt1}
+-   Visualization helps us to understand [variation]{.b .blue}
+    -   It can also [communicate]{.b .green} it to others
+:::
+:::
+
+::: {.column .tc .pv5 width="40%"}
+{{< li wovwohsm trigger=loop delay=5000 colors=secondary:#2a76dd class=rc >}}
+:::
+:::
+
+## Variation Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# SETUP: We will need tidyverse and an example dataset
+
+library(tidyverse)
+
+salaries <- read_csv("salaries.csv")
+
+# ==============================================================================
+
+# USECASE: Create bar plots to count discrete variable frequency
+
+ggplot(salaries, aes(x = sex)) + geom_bar()
+
+ggplot(salaries, aes(x = rank)) + geom_bar()
+
+ggplot(salaries, aes(x = discipline)) + geom_bar()
+
+ggplot(salaries, aes(y = discipline)) + geom_bar()
+
+# ==============================================================================
+
+# PITFALL: Don't try to create a bar plot for a continuous variable
+
+ggplot(salaries, aes(x = salary)) + geom_bar() # not what we wanted
+
+# ==============================================================================
+
+# USECASE: Instead create histograms to count continuous variable bin frequency
+
+ggplot(salaries, aes(x = salary)) + geom_histogram() # better
+
+ggplot(salaries, aes(x = salary)) + 
+  geom_histogram(bins = 20)
+
+ggplot(salaries, aes(x = salary)) + 
+  geom_histogram(binwidth = 2)
+
+ggplot(salaries, aes(x = salary)) + 
+  geom_histogram(binwidth = 2, color = "red", linewidth = 1)
+
+ggplot(salaries, aes(x = salary)) + 
+  geom_histogram(binwidth = 2, color = "red", linewidth = 1, fill = "white")
+# ==============================================================================
+
+# PITFALL: Don't try to create histograms for categorical variables
+
+ggplot(salaries, aes(x = rank)) + geom_histogram() #error
+
+# ==============================================================================
+
+# USECASE: Or create density plots or boxplots
+
+ggplot(salaries, aes(x = salary)) + geom_density()
+# Higher density means relatively more common
+
+ggplot(salaries, aes(x = salary)) + 
+  geom_density(color = "red", linewidth = 1, fill = "white")
+
+ggplot(salaries, aes(x = salary)) + geom_boxplot()
+# The box goes from 25th to 75th percentile
+# The thick line inside the box is the 50th percentile (median)
+# The whisker lines outside the box show non-outlier points
+# The dots outside the whisker lines show outlier points
+```
+
+
+# Covariation
+
+## Covariation {.smaller}
+
+::: {.columns .pv4}
+::: {.column width="60%"}
+-   We are often interested in [covariation]{.b .blue}
+    -   Does variation in X go with variation in Y?
+    -   Do higher X scores go with higher Y scores?
+    -   Do groups differ on Y score distributions?
+    -   Do certain groups tend to go together?
+
+::: {.fragment .mt1}
+-   We can extend variation geoms into covariation
+    -   The geoms we use will heavily depend on...
+    -   ...are the variables [continuous]{.b .green} or [discrete]{.b .green}?
+:::
+:::
+
+::: {.column .tc .pv5 width="40%"}
+{{< li fjeqvghr trigger=loop delay=5000 colors=secondary:#2a76dd class=rc >}}
+:::
+:::
+
+## Covariation Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+salaries <- read_csv("salaries.csv")
+
+# Continuous-by-continuous = Scatterplot
+ggplot(salaries, aes(x = years_since_phd, y = salary)) + geom_point()
+
+
+# Continuous-by-discrete = Boxplots
+ggplot(salaries, aes(x = rank, y = salary)) + geom_point() # not great
+
+ggplot(salaries, aes(x = rank, y = salary)) + geom_boxplot() # better
+
+ggplot(salaries, aes(x = salary, y = rank)) + geom_boxplot() # better
+
+
+# Continuous-by-discrete = Violin
+
+ggplot(salaries, aes(x = salary, y = rank)) + geom_violin() # better
+
+ggplot(salaries, aes(x = salary, y = rank)) + 
+  geom_violin(draw_quantiles = c(0.25, 0.50, 0.75))
+
+ggplot(salaries, aes(x = salary, y = rank)) + 
+  geom_violin(draw_quantiles = c(0.05, 0.95))
+
+
+# Continuous-by-discrete = Density
+
+ggplot(salaries, aes(x = salary, y = rank)) + 
+  geom_density(linewidth = 1) # error
+
+ggplot(salaries, aes(x = salary, color = rank)) + 
+  geom_density(linewidth = 1) # correct
+
+
+# Discrete-by-discrete = Jitter
+
+ggplot(salaries, aes(x = rank, y = sex)) +
+  geom_point() # not great - all the points are on top on one another
+
+ggplot(salaries, aes(x = rank, y = sex)) + 
+  geom_jitter() # okay - the points are now randomly pushed a small amount
+
+ggplot(salaries, aes(x = rank, y = sex)) + 
+  geom_jitter(width = 0.25, height = 0.25) # we can control how much to push
+
+## We will learn better options (using summarizing and positioning) in Unit II
+```
+
+
+# Layering
+
+## Layering {.smaller}
+
+::: {.columns .pv4}
+::: {.column width="60%"}
+-   ggplot2 uses a [layered]{.b .blue} grammar of graphics
+    -   We can keep [stacking geoms]{.b .green} on top
+
+::: {.fragment .mt1}
+-   Layering adds a lot of possibilities
+    -   We can convey [more complex]{.b .green} ideas
+    -   We can learn more about our data
+:::
+
+::: {.fragment .mt1}
+-   But we can still describe these graphics
+    -   Just [describe each layer]{.b .green} in turn
+    -   And describe the layers' ordering
+:::
+:::
+
+::: {.column .tc .pv5 width="40%"}
+{{< li ikwcijxm trigger=loop delay=5000 colors=secondary:#2a76dd class=rc >}}
+:::
+:::
+
+## Layering Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# SETUP: We will need tidyverse and an example dataset
+
+library(tidyverse)
+
+mpg
+
+# ==============================================================================
+
+# USECASE: Add a smooth geom (i.e., line of best fit)
+
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+
+# ==============================================================================
+
+# USECASE: Add a line geom (i.e., connecting points)
+
+economics
+
+ggplot(economics, aes(x = date, y = unemploy)) + 
+  geom_point()
+
+ggplot(economics, aes(x = date, y = unemploy)) + 
+  geom_point() +
+  geom_line(color = "orange", linewidth = 1) #line geom second = line on top
+
+ggplot(economics, aes(x = date, y = unemploy)) + 
+  geom_line(color = "orange", linewidth = 1) + #line geom first = line on bottom
+  geom_point()
+
+# ==============================================================================
+
+# USECASE: Add reference line geoms
+
+ggplot(economics, aes(x = date, y = unemploy)) + 
+  geom_hline(yintercept = 0, color = "orange", linewidth = 1) +
+  geom_line(color = "blue", linewidth = 1) +
+  geom_point()
+
+ggplot(economics, aes(x = date, y = unemploy)) + 
+  geom_vline(xintercept = 7.5, color = "orange", linewidth = 1) +
+  geom_line(color = "blue", linewidth = 1) +
+  geom_point() 
+
+ggplot(economics, aes(x = date, y = unemploy)) + 
+  geom_abline(intercept = 4000, slope = 0.5, color = "orange", linewidth = 1) +
+  geom_line(color = "blue", linewidth = 1) +
+  geom_point() 
+
+# ==============================================================================
+
+# USECASE: Combine different types of geoms
+
+ggplot(mpg, aes(x = hwy, y = class)) + 
+  geom_violin(draw_quantiles = 0.5) + 
+  geom_jitter(color = "firebrick", height = 0.25, width = 0.25)
+```

@@ -6,10 +6,10 @@ format:
     highlight-style: github
 ---
 
-![](../img/spreadsheets_2780E3.svg){.hero}
+![](../img/charts_2780E3.svg){.hero}
 
 
-We continue after lunch with...
+We continue after lunch with a deep dive into the fundamentals of data visualization in R using the ggplot2 package (part of the tidyverse).
 
 ## Slides
 
@@ -18,18 +18,302 @@ We continue after lunch with...
 
 [Click here to view the slides in their own window.](./Slides/1B_Slides.html)
 
+## Data Files
+
+- <a href="salaries.csv" download="salaries.csv">salaries</a>
+(professors' salaries by rank, discipline, etc.)
+
 ## Practice 1
 
+For each of the following code snippets, find and fix the error(s).
+
+a) "The Scatterbrained Scatterplot"
+
+```{r}
+#| eval: false
+#| error: true
+
+ggplot(mpg, x = displ, y = hwy) + 
+  geom_point()
+```
+
+b) "Not-so-smooth Smoothing"
+
+```{r}
+#| eval: false
+#| error: true
+
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point()
+  geom_smooth(shape = "triangle")
+```
+
+c) "A Leaky Pipeline"
+
+```{r}
+#| eval: false
+#| error: true
+
+ggplot(economics, aes(x = date, y = unemploy)) |> 
+  geom_point()
+```
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Part (a)**
+
+The code forgot to put the mappings inside `aes()`.
+
+```{r}
+#| message: false
+
+library(tidyverse)
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() 
+```
+
+**Part (b)**
+
+The code tried to set the shape aesthetic for the wrong geom (smooths don't have shapes).
+
+```{r}
+#| message: false
+
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point(shape = "triangle") +
+  geom_smooth()
+```
+
+**Part (c)**
+
+The code used pipes instead of plus signs to connect ggplot2 commands.
+
+```{r}
+ggplot(economics, aes(x = date, y = unemploy)) +
+  geom_point()
+```
+
+</blockquote></details></p>
 
 ## Practice 2
 
+a) Install and load the \{palmerpenguins\} package.
+
+b) Recreate the following graphic as closely as you can from the `penguins` tibble in that package (don't worry about getting the point size exactly right).
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+# install.packages(palmerpenguins)
+library(palmerpenguins)
+ggplot(penguins, aes(x = flipper_length_mm, y = bill_length_mm,
+                     color = species, shape = species)) +
+  geom_point(size = 2)
+```
+
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Answer (a)**
+
+```{r}
+#| comment: "#>"
+#| collapse: true
+
+# Extra pane > Packages tab > Install button > palmerpenguins > Install
+# Or, in console: install.packages(palmerpenguins)
+
+library(palmerpenguins)
+```
+
+**Answer (b)**
+
+```{r}
+#| comment: "#>"
+#| collapse: true
+#| warning: false
+
+ggplot(penguins, aes(x = flipper_length_mm, y = bill_length_mm,
+                     color = species, shape = species)) +
+  geom_point(size = 2)
+```
+
+</blockquote>
+</details></p>
 
 ## Practice 3
 
+Create a plot from the following text description. Take the `penguins` dataset (from Question 2) and create a scatterplot where penguins with higher body mass are further to the right on the plot and penguins with higher bill depth are higher on the plot. Color each point based on which island that penguin was observed at and add a smoothing line to show the relationship between body mass and bill depth for each island.
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| message: false
+#| warning: false
+
+ggplot(penguins, aes(x = body_mass_g, y = bill_depth_mm, color = island)) + 
+  geom_point() +
+  geom_smooth()
+```
+
+</blockquote></details></p>
+
+## Practice 4
+
+Load the \{palmerpenguins\} package (after installing it, if you haven't already) to gain access to the `penguins` dataset.
+
+a) Create a visualization to depict the number of penguins from each `species` observed in the dataset. To match the penguin color scheme, make your bars white with thick black borders. Which species was least commonly observed? 
+
+b) Create a visualization to depict the distribution of the penguins' observed body mass (`body_mass_g`). You can choose whether to use a histogram or density plot. What were some common values of body mass for the observed penguins?
+
+c) Using a tool from last week, filter the data to only include *female* penguins and then use it to repeat part (b). Does this plot look different than it did before?
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Part (a)**
+
+```{r}
+#| message: false
+library(tidyverse)
+library(palmerpenguins)
+ggplot(penguins, aes(x = species)) + 
+  geom_bar(fill = "white", color = "black", linewidth = 2)
+```
+
+The chinstrap species was the least commonly observed.
+
+**Part (b)**
+
+```{r}
+ggplot(penguins, aes(x = body_mass_g)) + 
+  geom_density(linewidth = 2, fill = "white")
+```
+
+Most of the penguins were around 3500 g, but the masses ranged from a bit below 3000 to a bit above 6000.
+
+**Part (c)**
+
+```{r}
+penguinsF <- penguins |> filter(sex == "female")
+ggplot(penguinsF, aes(x = body_mass_g)) + 
+  geom_density(linewidth = 2, fill = "white")
+```
+
+Yes, it has two humps (i.e., common values) now: around 3500 and around 4750. We call this shape a "bimodal" distribution.
+
+</blockquote></details></p>
+
+## Practice 5
+
+Use the unfiltered `penguins` dataset to answer these questions as well.
+
+a) Use the boxplot geom to depict the distribution of penguins' body mass by species. Which species is the most massive?
+
+b) Use the density geom to depict the distribution of penguins' body mass by sex. Does there appear to be a sex difference in the body mass distributions?
+
+c) Create a visualization to depict which penguin species were observed the most (and the least) at each island. Which species was observed across the highest number of islands?
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Part (a)**
+
+```{r}
+ggplot(penguins, aes(x = body_mass_g, y = species)) + geom_boxplot()
+```
+
+The Gentoo species have the highest body mass distribution.
+
+**Part (b)**
+
+```{r}
+ggplot(penguins, aes(x = body_mass_g, color = sex)) + 
+  geom_density(linewidth = 1)
+```
+
+The male distribution seems shifted higher relative to the female distribution, though the two overlap.
+
+**Part (c)**
+
+```{r}
+ggplot(penguins, aes(x = species, y = island)) + 
+  geom_jitter(width = 0.25, height = 0.25)
+```
+
+The Adelie species was the only one observed at all three islands.
+
+</blockquote></details></p>
+
+## Practice 6
+
+Use the `mpg` dataset (included in \{tidyverse\}) to answer these questions.
+
+a) Create a scatterplot to depict the relationship between engine size (`displ`) and highway fuel efficiency (`hwy`).
+
+b) Modify your plot from part (a) to add a reference line to this plot showing where highway fuel efficiency equals 25 miles per gallon; make the line orange, 1mm thick, and displayed behind/below the points.
+
+c) Finally, modify your plot from part (b) to randomly push each point a small amount. This will make it easier to see when there are multiple overlapping points, i.e., cars with the same engine size and highway fuel efficiency.
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Part (a)**
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + geom_point()
+```
+
+**Part (b)**
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_hline(yintercept = 25, color = "orange", linewidth = 1) +
+  geom_point()
+```
+
+**Part (c)**
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_hline(yintercept = 25, color = "orange", linewidth = 1) +
+  geom_jitter()
+```
+
+Jittering can be helpful for continuous variables too! Consider this whenever you have overlapping points.
+
+</blockquote></details></p>
 
 ## Readings
 
+- [Chapter 2: Data visualization](https://r4ds.hadley.nz/data-visualize.html) from *R4DS* (2E)
+- [Section 5.4: ggplot2 code style](https://r4ds.hadley.nz/workflow-style.html#ggplot2) from *R4DS* (2E)
+- [Chapter 10: Layers](https://r4ds.hadley.nz/layers.html) from *R4DS* (2E)
+- [Chapter 11: Exploratory Data Analysis](https://r4ds.hadley.nz/eda) from *R4DS* (2E)
+- [Chapter 2: First steps](https://ggplot2-book.org/getting-started.html) from *GGPB* (3E)
+- [Chapter 3: Individual Geoms](https://ggplot2-book.org/individual-geoms.html) from *GGPB* (3E)
+- [Chapter 4: Collective Geoms](https://ggplot2-book.org/collective-geoms.html) from *GGPB* (3E)
+- [Chapter 13: Building a plot layer by layer](https://ggplot2-book.org/layers.html) from *GGPB* (3E)
+
+
 ## Fun Stuff
+
+### Don McMillan's Greatest Charts
+
+Would these have be more or less funny if Don had used R?
+
+{{< video https://youtu.be/LYE3GtXqDV0 >}}
 
 ::: {.text-center}
 <a href="../Day2/day2A.html" class="btn btn-primary mt-5" role="button" >Continue to Day 2A Materials&nbsp;&nbsp;&raquo;</a>

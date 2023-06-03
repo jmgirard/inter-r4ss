@@ -31,6 +31,13 @@ We continue after lunch with...
 
 ## Fun Stuff
 
+### Let's Enhance
+
+If you want to be able to do this, save your graphics in a vector format...
+
+{{< video https://youtu.be/LhF_56SxrGk >}}
+
+
 ::: {.text-center}
 <a href="../Day3/day3A.html" class="btn btn-primary mt-5" role="button" >Continue to Day 3A Materials&nbsp;&nbsp;&raquo;</a>
 :::

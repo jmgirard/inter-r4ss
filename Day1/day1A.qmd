@@ -6,7 +6,7 @@ format:
     highlight-style: github
 ---
 
-![](../img/teaching_2780E3.svg){.hero}
+![](../img/spreadsheets_2780E3.svg){.hero}
 
 We begin with an overview of the workshop and a quick refresher of fundamental R programming concepts. We will then learn about using Quarto to produce beautiful documents that combine code, output, and formatted text. Finally, we will learn about transforming data within tibbles using functions from the tidyverse package.
 
@@ -158,6 +158,21 @@ relocate(economics, unemploy, .after = date)
   -   [Chapter 29: Quarto](https://r4ds.hadley.nz/quarto.html) from *R4DS* (2E)
   -   [Chapter 4: Data transformation](https://r4ds.hadley.nz/data-transform.html) from *R4DS* (2E)
   -   [Chapter 5: Code Style](https://r4ds.hadley.nz/workflow-style.html) from *R4DS* (2E)
+
+## Fun Stuff
+
+### Stunt Rope
+
+These are some advanced wrangling verbs...
+
+{{< video https://youtu.be/gsx5Gbse1rk >}}
+
+### Pipeline
+
+The official theme song of pipelines everywhere...
+
+{{< video https://youtu.be/56SAxtf-RTg >}}
+
 
 ::: {.text-center}
 <a href="day1B.html" class="btn btn-primary mt-5" role="button" >Continue to Day 1B Materials&nbsp;&nbsp;&raquo;</a>

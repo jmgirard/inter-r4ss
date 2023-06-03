@@ -60,14 +60,21 @@
     "href": "Day1/day1A.html#readings",
     "title": "Day 1A",
     "section": "Readings",
-    "text": "Readings\n\nHello, Quarto from Quarto website\nMarkdown Basics from Quarto website\nChapter 29: Quarto from R4DS (2E)\nChapter 4: Data transformation from R4DS (2E)\nChapter 5: Code Style from R4DS (2E)\n\n\nContinue to Day 1B Materials  »"
+    "text": "Readings\n\nHello, Quarto from Quarto website\nMarkdown Basics from Quarto website\nChapter 29: Quarto from R4DS (2E)\nChapter 4: Data transformation from R4DS (2E)\nChapter 5: Code Style from R4DS (2E)"
+  },
+  {
+    "objectID": "Day1/day1A.html#fun-stuff",
+    "href": "Day1/day1A.html#fun-stuff",
+    "title": "Day 1A",
+    "section": "Fun Stuff",
+    "text": "Fun Stuff\n\nStunt Rope\nThese are some advanced wrangling verbs…\n\n\n\nPipeline\nThe official theme song of pipelines everywhere…\n\n\nContinue to Day 1B Materials  »"
   },
   {
     "objectID": "Day1/day1B.html",
     "href": "Day1/day1B.html",
     "title": "Day 1B",
     "section": "",
-    "text": "We continue after lunch with…"
+    "text": "We continue after lunch with a deep dive into the fundamentals of data visualization in R using the ggplot2 package (part of the tidyverse)."
   },
   {
     "objectID": "Day1/day1B.html#slides",
@@ -77,39 +84,67 @@
     "text": "Slides\n\n\nClick here to view the slides in their own window."
   },
   {
+    "objectID": "Day1/day1B.html#data-files",
+    "href": "Day1/day1B.html#data-files",
+    "title": "Day 1B",
+    "section": "Data Files",
+    "text": "Data Files\n\nsalaries (professors’ salaries by rank, discipline, etc.)"
+  },
+  {
     "objectID": "Day1/day1B.html#practice-1",
     "href": "Day1/day1B.html#practice-1",
     "title": "Day 1B",
     "section": "Practice 1",
-    "text": "Practice 1"
+    "text": "Practice 1\nFor each of the following code snippets, find and fix the error(s).\n\n“The Scatterbrained Scatterplot”\n\n\nggplot(mpg, x = displ, y = hwy) + \n  geom_point()\n\n\n“Not-so-smooth Smoothing”\n\n\nggplot(mpg, aes(x = displ, y = hwy)) + \n  geom_point()\n  geom_smooth(shape = \"triangle\")\n\n\n“A Leaky Pipeline”\n\n\nggplot(economics, aes(x = date, y = unemploy)) |&gt; \n  geom_point()\n\n\n\n\nClick here for the answer key\n\n\nPart (a)\nThe code forgot to put the mappings inside aes().\n\nlibrary(tidyverse)\nggplot(mpg, aes(x = displ, y = hwy)) +\n  geom_point() \n\n\n\n\nPart (b)\nThe code tried to set the shape aesthetic for the wrong geom (smooths don’t have shapes).\n\nggplot(mpg, aes(x = displ, y = hwy)) + \n  geom_point(shape = \"triangle\") +\n  geom_smooth()\n\n\n\n\nPart (c)\nThe code used pipes instead of plus signs to connect ggplot2 commands.\n\nggplot(economics, aes(x = date, y = unemploy)) +\n  geom_point()"
   },
   {
     "objectID": "Day1/day1B.html#practice-2",
     "href": "Day1/day1B.html#practice-2",
     "title": "Day 1B",
     "section": "Practice 2",
-    "text": "Practice 2"
+    "text": "Practice 2\n\nInstall and load the {palmerpenguins} package.\nRecreate the following graphic as closely as you can from the penguins tibble in that package (don’t worry about getting the point size exactly right).\n\n\n\n\n\n\n\n\n\nClick here for the answer key\n\n\nAnswer (a)\n\n# Extra pane &gt; Packages tab &gt; Install button &gt; palmerpenguins &gt; Install\n# Or, in console: install.packages(palmerpenguins)\n\nlibrary(palmerpenguins)\n\nAnswer (b)\n\nggplot(penguins, aes(x = flipper_length_mm, y = bill_length_mm,\n                     color = species, shape = species)) +\n  geom_point(size = 2)"
   },
   {
     "objectID": "Day1/day1B.html#practice-3",
     "href": "Day1/day1B.html#practice-3",
     "title": "Day 1B",
     "section": "Practice 3",
-    "text": "Practice 3"
+    "text": "Practice 3\nCreate a plot from the following text description. Take the penguins dataset (from Question 2) and create a scatterplot where penguins with higher body mass are further to the right on the plot and penguins with higher bill depth are higher on the plot. Color each point based on which island that penguin was observed at and add a smoothing line to show the relationship between body mass and bill depth for each island.\n\n\n\nClick here for the answer key\n\n\n\nggplot(penguins, aes(x = body_mass_g, y = bill_depth_mm, color = island)) + \n  geom_point() +\n  geom_smooth()"
+  },
+  {
+    "objectID": "Day1/day1B.html#practice-4",
+    "href": "Day1/day1B.html#practice-4",
+    "title": "Day 1B",
+    "section": "Practice 4",
+    "text": "Practice 4\nLoad the {palmerpenguins} package (after installing it, if you haven’t already) to gain access to the penguins dataset.\n\nCreate a visualization to depict the number of penguins from each species observed in the dataset. To match the penguin color scheme, make your bars white with thick black borders. Which species was least commonly observed?\nCreate a visualization to depict the distribution of the penguins’ observed body mass (body_mass_g). You can choose whether to use a histogram or density plot. What were some common values of body mass for the observed penguins?\nUsing a tool from last week, filter the data to only include female penguins and then use it to repeat part (b). Does this plot look different than it did before?\n\n\n\n\nClick here for the answer key\n\n\nPart (a)\n\nlibrary(tidyverse)\nlibrary(palmerpenguins)\nggplot(penguins, aes(x = species)) + \n  geom_bar(fill = \"white\", color = \"black\", linewidth = 2)\n\n\n\n\nThe chinstrap species was the least commonly observed.\nPart (b)\n\nggplot(penguins, aes(x = body_mass_g)) + \n  geom_density(linewidth = 2, fill = \"white\")\n\nWarning: Removed 2 rows containing non-finite values (`stat_density()`).\n\n\n\n\n\nMost of the penguins were around 3500 g, but the masses ranged from a bit below 3000 to a bit above 6000.\nPart (c)\n\npenguinsF &lt;- penguins |&gt; filter(sex == \"female\")\nggplot(penguinsF, aes(x = body_mass_g)) + \n  geom_density(linewidth = 2, fill = \"white\")\n\n\n\n\nYes, it has two humps (i.e., common values) now: around 3500 and around 4750. We call this shape a “bimodal” distribution."
+  },
+  {
+    "objectID": "Day1/day1B.html#practice-5",
+    "href": "Day1/day1B.html#practice-5",
+    "title": "Day 1B",
+    "section": "Practice 5",
+    "text": "Practice 5\nUse the unfiltered penguins dataset to answer these questions as well.\n\nUse the boxplot geom to depict the distribution of penguins’ body mass by species. Which species is the most massive?\nUse the density geom to depict the distribution of penguins’ body mass by sex. Does there appear to be a sex difference in the body mass distributions?\nCreate a visualization to depict which penguin species were observed the most (and the least) at each island. Which species was observed across the highest number of islands?\n\n\n\n\nClick here for the answer key\n\n\nPart (a)\n\nggplot(penguins, aes(x = body_mass_g, y = species)) + geom_boxplot()\n\nWarning: Removed 2 rows containing non-finite values (`stat_boxplot()`).\n\n\n\n\n\nThe Gentoo species have the highest body mass distribution.\nPart (b)\n\nggplot(penguins, aes(x = body_mass_g, color = sex)) + \n  geom_density(linewidth = 1)\n\nWarning: Removed 2 rows containing non-finite values (`stat_density()`).\n\n\n\n\n\nThe male distribution seems shifted higher relative to the female distribution, though the two overlap.\nPart (c)\n\nggplot(penguins, aes(x = species, y = island)) + \n  geom_jitter(width = 0.25, height = 0.25)\n\n\n\n\nThe Adelie species was the only one observed at all three islands."
+  },
+  {
+    "objectID": "Day1/day1B.html#practice-6",
+    "href": "Day1/day1B.html#practice-6",
+    "title": "Day 1B",
+    "section": "Practice 6",
+    "text": "Practice 6\nUse the mpg dataset (included in {tidyverse}) to answer these questions.\n\nCreate a scatterplot to depict the relationship between engine size (displ) and highway fuel efficiency (hwy).\nModify your plot from part (a) to add a reference line to this plot showing where highway fuel efficiency equals 25 miles per gallon; make the line orange, 1mm thick, and displayed behind/below the points.\nFinally, modify your plot from part (b) to randomly push each point a small amount. This will make it easier to see when there are multiple overlapping points, i.e., cars with the same engine size and highway fuel efficiency.\n\n\n\n\nClick here for the answer key\n\n\nPart (a)\n\nggplot(mpg, aes(x = displ, y = hwy)) + geom_point()\n\n\n\n\nPart (b)\n\nggplot(mpg, aes(x = displ, y = hwy)) + \n  geom_hline(yintercept = 25, color = \"orange\", linewidth = 1) +\n  geom_point()\n\n\n\n\nPart (c)\n\nggplot(mpg, aes(x = displ, y = hwy)) + \n  geom_hline(yintercept = 25, color = \"orange\", linewidth = 1) +\n  geom_jitter()\n\n\n\n\nJittering can be helpful for continuous variables too! Consider this whenever you have overlapping points."
   },
   {
     "objectID": "Day1/day1B.html#readings",
     "href": "Day1/day1B.html#readings",
     "title": "Day 1B",
     "section": "Readings",
-    "text": "Readings"
+    "text": "Readings\n\nChapter 2: Data visualization from R4DS (2E)\nSection 5.4: ggplot2 code style from R4DS (2E)\nChapter 10: Layers from R4DS (2E)\nChapter 11: Exploratory Data Analysis from R4DS (2E)\nChapter 2: First steps from GGPB (3E)\nChapter 3: Individual Geoms from GGPB (3E)\nChapter 4: Collective Geoms from GGPB (3E)\nChapter 13: Building a plot layer by layer from GGPB (3E)"
   },
   {
     "objectID": "Day1/day1B.html#fun-stuff",
     "href": "Day1/day1B.html#fun-stuff",
     "title": "Day 1B",
     "section": "Fun Stuff",
-    "text": "Fun Stuff\n\nContinue to Day 2A Materials  »"
+    "text": "Fun Stuff\n\nDon McMillan’s Greatest Charts\nWould these have be more or less funny if Don had used R?\n\n\nContinue to Day 2A Materials  »"
   },
   {
     "objectID": "Day2/day2A.html",
@@ -214,7 +249,7 @@
     "href": "Day2/day2B.html#fun-stuff",
     "title": "Day 2B",
     "section": "Fun Stuff",
-    "text": "Fun Stuff\n\nContinue to Day 3A Materials  »"
+    "text": "Fun Stuff\n\nLet’s Enhance\nIf you want to be able to do this, save your graphics in a vector format…\n\n\nContinue to Day 3A Materials  »"
   },
   {
     "objectID": "Day3/day3A.html",
