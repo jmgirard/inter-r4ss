@@ -13,16 +13,16 @@ format:
     code-link: false
     code-copy: true
     controls: true
-    pagetitle: "Inter R4SS Day 1B"
+    pagetitle: "Inter R4SS Day 3B"
     author-meta: "Jeffrey Girard"
-    date-meta: "2023-06-05"
+    date-meta: "2023-06-07"
 ---
 
 ::: {.my-title}
 # [Intermediate R]{.blue2} <br />for Social Scientists
 
 ::: {.my-grey}
-[Workshop Day 1B | 2023-06-05]{}<br />
+[Workshop Day 3B | 2023-06-07]{}<br />
 [Jeffrey M. Girard | Pitt Methods]{}
 :::
 
