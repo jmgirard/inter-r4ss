@@ -232,7 +232,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) + geom_point()
 <blockquote>
 
 ```{r}
-# eval: false
+#| eval: false
 
 p <- ggplot(mpg, aes(x = displ, y = hwy)) + geom_point()
 ggsave("act3a.png", plot = p, width = 5, height = 3, units = "in")

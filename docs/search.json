@@ -277,7 +277,7 @@
     "href": "Day2/day2B.html#practice-6",
     "title": "Day 2B",
     "section": "Practice 6",
-    "text": "Practice 6\nCreate a document in PowerPoint (or equivalent program, e.g., Google Slides) and draw a box where you would put a figure. Examine that box’s size and save a ggplot in that same size. Insert your image into PowerPoint.\nBonus: Adjust the font size of your plot to be more readable in PowerPoint.\n\n# Simple example plot\nggplot(mpg, aes(x = displ, y = hwy)) + geom_point()\n\n\n\n\nClick here for the answer key\n\n\n\n# eval: false\n\np &lt;- ggplot(mpg, aes(x = displ, y = hwy)) + geom_point()\nggsave(\"act3a.png\", plot = p, width = 5, height = 3, units = \"in\")\n\nBonus\n\np &lt;- ggplot(mpg, aes(x = displ, y = hwy)) + geom_point() +\n  theme_grey(base_size = 18)\nggsave(\"act3b.png\", plot = p, width = 5, height = 3, units = \"in\")"
+    "text": "Practice 6\nCreate a document in PowerPoint (or equivalent program, e.g., Google Slides) and draw a box where you would put a figure. Examine that box’s size and save a ggplot in that same size. Insert your image into PowerPoint.\nBonus: Adjust the font size of your plot to be more readable in PowerPoint.\n\n# Simple example plot\nggplot(mpg, aes(x = displ, y = hwy)) + geom_point()\n\n\n\n\nClick here for the answer key\n\n\n\np &lt;- ggplot(mpg, aes(x = displ, y = hwy)) + geom_point()\nggsave(\"act3a.png\", plot = p, width = 5, height = 3, units = \"in\")\n\nBonus\n\np &lt;- ggplot(mpg, aes(x = displ, y = hwy)) + geom_point() +\n  theme_grey(base_size = 18)\nggsave(\"act3b.png\", plot = p, width = 5, height = 3, units = \"in\")"
   },
   {
     "objectID": "Day2/day2B.html#readings",
