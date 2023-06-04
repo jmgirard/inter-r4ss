@@ -17,6 +17,30 @@ We finish up our final section on data wrangling by discussing the reshaping of 
 
 [Click here to view the slides in their own window.](./Slides/3A_Slides.html)
 
+## Data Files
+
+If you want to follow along with the part where we read in data from multiple files, run this code to generate some example files:
+
+```{r}
+#| eval: false
+
+library(tidyverse)
+
+# Create three tibbles with simulated daily diary data
+df1 <- tibble(day = 1:30, mood = round(rnorm(30, 5, 1)))
+df2 <- tibble(day = 1:30, mood = round(rnorm(30, 4, 1)))
+df3 <- tibble(day = 1:30, mood = round(rnorm(30, 4, 2)))
+
+# Create a subfolder in your project folder called data
+dir.create("data")
+
+# Write each tibble to a CSV file in the data folder
+write_csv(df1, file = "data/pid_001.csv")
+write_csv(df2, file = "data/pid_002.csv")
+write_csv(df3, file = "data/pid_003.csv")
+```
+
+
 ## Practice 1
 
 Examine the `table5` tibble (included in \{tidyverse\}) and tidy it up using `separate()` and `unite()`. End with variables for country, four-digit year (YYYY), number of tuberculosis cases, and population.
