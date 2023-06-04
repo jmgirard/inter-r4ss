@@ -28,3 +28,173 @@ format:
 
 ![](../../img/proud2_2780E3.svg){.absolute bottom=0 right=0 width=400}
 :::
+
+
+# Refresher
+
+## LM Formulas
+
+## Model Parameters
+
+## Model Performance
+
+## Plotting Predictions
+
+## Model Diagnostics
+
+
+# GLM
+
+## Conceptual Overview
+
+$$
+\begin{align}
+y_i &\sim \color{blue}{\text{family}}(\mu_i, \ldots) \\
+\color{blue}{\text{link}}(\mu_i) &= b_0 + b_1 x_{1i} + \cdots + b_p x_{pi} 
+\end{align}
+$$
+
+$$
+\begin{align}
+y_i &\sim \text{Gaussian}(\mu_i, \sigma) \\
+\text{identity}(\mu_i) &= b_0 + b_1 x_i
+\end{align}
+$$
+
+
+## GLM Families
+
+
+
+## Binary Regression
+
+## Binary Regression Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+## Load packages (after installing, if needed)
+library(tidyverse)
+library(easystats)
+
+## Read in some example binary data and mutate the outcome to be 0 vs. 1
+titanic <- 
+  read_csv("titanic.csv") |> 
+  mutate(survived = if_else(survived == "yes", true = 1, false = 0)) |> 
+  print()
+
+## Visualize the relationship between fare and survival
+ggplot(titanic, aes(x = fare, y = survived)) +
+  geom_point() +
+  geom_smooth()
+
+## Fit a basic regression using LM
+fit <- lm(
+  formula = survived ~ fare, 
+  data = titanic
+)
+model_parameters(fit)
+model_performance(fit)
+plot(estimate_expectation(fit))
+check_model(fit)
+
+## Fit a logistic regression using GLM
+fit2 <- glm(
+  formula = survived ~ fare, 
+  family = binomial(link = "logit"), 
+  data = titanic
+)
+model_parameters(fit2)
+model_parameters(fit2, exponentiate = TRUE)
+model_performance(fit2)
+plot(estimate_link(fit2))
+plot(estimate_expectation(fit2))
+check_model(fit2)
+
+## Estimate the model's expectation for specific values of the predictor(s)
+estimate_expectation(fit2, tibble(fare = c(10, 50, 100)))
+
+## Note: To fit a probit binary regression, just use binomial(link = "probit")
+```
+
+
+## Count Regression
+
+## Count Regression Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# Read in some example count data
+disc <- read_csv("discoveries.csv")
+disc
+
+# Visualize the relationship between year and discovery count
+ggplot(disc, aes(x = year, y = count)) + 
+  geom_point() +
+  geom_smooth()
+
+# Fit a linear regression using LM
+fit <- lm(
+  formula = count ~ poly(year, degree = 2), 
+  data = disc
+)
+model_parameters(fit)
+model_performance(fit)
+plot(estimate_relation(fit))
+check_model(fit)
+
+# Fit a poisson regression using GLM
+fit2 <- glm(
+  formula = count ~ poly(year, degree = 2),
+  family = poisson(link = "log"), 
+  data = disc
+)
+model_parameters(fit2)
+model_parameters(fit2, exponentiate = TRUE)
+model_performance(fit2)
+plot(estimate_relation(fit2))
+check_overdispersion(fit2)
+
+# Due to over-dispersion, fit quasi-poisson using GLM
+fit3 <- glm(
+  count ~ poly(year, degree = 2), 
+  family = quasipoisson(link = "log"), 
+  data = disc
+)
+model_parameters(fit3)
+model_parameters(fit3, exponentiate = TRUE)
+plot(estimate_relation(fit3))
+
+# Compare parameters between poisson and quasi-poisson
+compare_parameters(fit2, fit3, select = "ci_p2")
+```
+
+# MLM
+
+## Conceptual Overview
+
+## Cluster-Robust Standard Errors
+
+## Random Intercepts
+
+## Fixed Predictors
+
+## Random Effects
+
+## Cross-level Interactions
+
+## Comparing Models
+
+## Repeated/Longitudinal Data
+
+## Centering and Disaggregating
+
+## Effect Sizes
+
