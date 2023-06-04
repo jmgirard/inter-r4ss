@@ -8,7 +8,7 @@ format:
 
 ![](../img/processing_2780E3.svg){.hero}
 
-We begin with a discussion of how to summarize data in tibbles (which is like folding down all rows into a single row) and by group in tibbles (which is like folding down to one row per group). We will also learn about combining grouping with the mutate function, how to quickly and conveniently select columns in a tibble, and how to do basic iteration within a tibble (e.g., repeating the same operation across columns and rows).
+We begin with a discussion of how to summarize data in tibbles (which is like folding down all rows into a single row) and by group in tibbles (which is like folding down to one row per group). We will also learn about combining grouping with the mutate function, how to use conditional logic (or control flow) while wrangling, how to quickly and conveniently select columns in a tibble, and how to do basic iteration within a tibble (e.g., repeating the same operation across columns).
 
 ## Slides
 
@@ -132,6 +132,55 @@ txhousing |>
 
 ## Practice 4
 
+a) Use `if_else()` to add a new variable to `mpg` called `size` that equals “LARGE” if class is “suv”, “minivan”, or “pickup” and equals “SMALL” otherwise. Then select the `model`, `class`, and `size` variables.
+
+b) For practice, repeat the first part of this question but this time use `case_when()`. Is the Subaru Forester AWD model LARGE or SMALL?
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Part (a)**
+
+```{r}
+#| message: false
+#| collapse: true
+
+mpg |> 
+  mutate(
+    size = if_else(
+      condition = class %in% c("suv", "minivan", "pickup"),
+      true = "LARGE",
+      false = "SMALL"
+    )
+  ) |> 
+  select(model, class, size)
+```
+
+**Part (b)**
+```{r}
+#| collapse: true
+
+mpg |> 
+  mutate(
+    size = case_when(
+      class == "suv" ~ "LARGE",
+      class == "minivan" ~ "LARGE",
+      class == "pickup" ~ "LARGE",
+      .default = "SMALL"
+    )
+  ) |> 
+  select(model, class, size) |> 
+  filter(model == "forester awd")
+```
+
+The Subaru Forester AWD is LARGE.
+
+</blockquote></details></p>
+
+
+## Practice 5
+
 a.    Use tidy selection to extract all variables that have names ending with "_color" from the `starwars` tibble.
 
 b.    Use tidy selection to extract the `name` variable and all variables from the `species` variable to the last variable in the `starwars` tibble.
@@ -162,7 +211,7 @@ starwars |>
 
 </blockquote></details></p>
 
-## Practice 5
+## Practice 6
 
 a.    Use `across()` to apply the `str_to_upper()` function to the `manufacturer` and `model` variables of the `mpg` tibble.
 
@@ -204,50 +253,6 @@ diamonds |>
 
 </blockquote></details></p>
 
-## Practice 6
-
-a.    Add a new column to the `diamonds` tibble called `volume` that contains the rectangular volume of each diamond (i.e., the product or multiplication of the `x`, `y`, and `z` variables)
-
-b.    Add a new column to the `diamonds` tibble called `mdim` that contains the average dimension size of each diamond (i.e., the mean of the `x`, `y`, and `z` variables)
-
-<p><details>
-<summary>Click here for the answer key</summary>
-<blockquote>
-
-**Answer (a)**
-
-```{r}
-#| collapse: true
-
-diamonds |> 
-  mutate(volume = x * y * z)
-```
-
-**Answer (b)**
-
-```{r}
-#| collapse: true
-
-diamonds |> 
-  mutate(mdim = rowMeans(pick(x, y, z)))
-```
-
-**Alternate Answer (b)**
-
-```{r}
-#| collapse: true
-
-diamonds |> 
-  # Create row identifier
-  mutate(row_id = row_number()) |> 
-  # Mutate while grouping by it
-  mutate(
-    mdim = mean(c(x, y, z)),
-    .by = row_id
-  )
-```
-
-</blockquote></details></p>
 
 ## Challenge 1
 
@@ -317,6 +322,14 @@ diamonds |>
 - [Selection language](https://tidyselect.r-lib.org/reference/language.html) from *tidyselect* package website
 - [Column-wise operation](https://dplyr.tidyverse.org/articles/colwise.html) from *dplyr* package website
 - [Row-wise operation](https://dplyr.tidyverse.org/articles/rowwise.html) from *dplyr* package website
+
+## Fun Stuff
+
+### Awesome Origami
+
+These are only slightly more impressive than our `penguins` summary tibbles...
+
+{{< video https://youtu.be/wjou0v1gy94 >}}
 
 
 ::: {.text-center}

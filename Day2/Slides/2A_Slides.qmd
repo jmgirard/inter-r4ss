@@ -399,6 +399,144 @@ dat2 |>
   )
 ```
 
+# Tidy Control Flow
+
+## Tidy Control Flow {.smaller}
+
+::: {.columns .pv4}
+
+::: {.column width="60%"}
+- Part of what makes computers so useful is their ability to [change their behavior conditionally]{.b .green}
+    - **If** [condition] is true... **then** do [behavior]
+    
+::: {.fragment .mt1}
+- Programming this is called [control flow]{.b .blue}
+    - Basic control flow is built into R (no packages)
+    - [Tidy]{.b .green} control flow is easier **while wrangling**
+:::
+
+::: {.fragment .mt1}
+- There are two main tidy control flow functions
+    - For two outcomes: `if_else()`
+    - For many outcomes: `case_when()`
+:::
+
+:::
+
+::: {.column .tc .pv4 width="40%"}
+{{< li usjxhgom trigger=loop delay=3000 colors=secondary:#2a76dd class=rc >}}
+:::
+
+:::
+
+## Tidy Control Flow Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+library(tidyverse)
+
+# if_else to assign to one of two values conditionally
+
+## simple example
+x <- 6
+if_else(
+  condition = x > 10,
+  true = "large",
+  false = "small"
+)
+
+## Compressed
+if_else(x > 10, "large", "small")
+
+## Vectorized
+x <- c(6, 16, 3)
+if_else(x > 10, "large", "small")
+
+## Nested
+if_else(
+  condition = x > 10,
+  true = "large",
+  false = if_else(x > 5, "medium", "small")
+)
+
+# case_when to assign to one of 3+ values conditionally
+
+## simple example
+x <- c(6, 16, 3)
+case_when(
+  x > 10 ~ "large",
+  x > 5 ~ "medium",
+  x <= 5 ~ "small"
+)
+
+## We can also use `.default =` for when no conditions are met
+case_when(
+  x > 10 ~ "large",
+  x > 5 ~ "medium",
+  .default = "small"
+)
+
+## Pitfall: ordering the conditions poorly
+case_when(
+  x > 5 ~ "medium", 
+  x > 10 ~ "large",
+  .default = "small"
+)
+
+# Working within mutate: simple examples 
+
+## Example data
+sitetemps <- 
+  tibble(
+    site = c(2, 1, 2, 3, 3, 3, 1, 1, 2),
+    temp = c(-2.1, 38.6, 4.6, -0.2, 4.5, 0.6, 37.6, 36.7, 102.3)
+  ) |> 
+  print()
+
+## if_else within mutate
+sitetemps |> 
+  mutate(
+    metric = if_else(
+      condition = site == 1,
+      true = "F",
+      false = "C"
+    )
+  )
+
+## case_when within mutate
+sitetemps |> 
+  mutate(
+    nation = case_when(
+      site == 1 ~ "US",
+      site == 2 ~ "DE",
+      site == 3 ~ "FR",
+      .default = NA
+    )
+  )
+
+# Working within mutate: complex examples
+
+## Conditionally transforming values
+sitetemps |> 
+  mutate(
+    metric = if_else(site == 1, "F", "C"),
+    tempC = if_else(
+      condition = metric == "F",
+      true = (temp - 30) * (5 / 9), 
+      false = temp
+    ),
+    state = case_when(
+      tempC < 0 ~ "solid",
+      tempC < 100 ~ "liquid",
+      tempC > 100 ~ "gas"
+    )
+  )
+```
+
 # Tidy Selection
 
 ## Tidy Selection {.smaller}
@@ -509,9 +647,9 @@ penguins |>
   select(ends_with("_mm") & !contains("_depth_"))
 ```
 
-# Across
+# Iterating Across
 
-## Across {.smaller}
+## Iterating Across {.smaller}
 
 ::: {.columns .pv4}
 
@@ -624,116 +762,4 @@ starwars |>
       .fns = \(x) mean(x, na.rm = TRUE)
     )
   )
-```
-
-# Scale Scores
-
-## Scale Scores {.smaller}
-
-::: {.columns .pv4}
-
-::: {.column width="60%"}
--   In social science, we often use [scale scores]{.b .blue}
-    -   Multiple similar items are combined
-    -   Sums and means are both common
-
-::: {.fragment .mt1}
--   Calculating scale scores from items is tricky
-    -   When each item is a column...
-    -   ...we calculate scale scores **per row**
-:::
-
-::: {.fragment .mt1}
--   We can either group per row (using `.by`)
-    -   Or use special row-based functions
-:::
-:::
-
-::: {.column .tc .pv4 width="40%"}
-{{< li bdfzpkxv trigger=loop delay=3000 colors=secondary:#2a76dd class=rc >}}
-:::
-
-:::
-
-## Scale Scores Live Coding
-
-```{r}
-#| echo: true
-#| eval: false
-#| error: true
-#| code-line-numbers: false
-
-# Simulate a longitudinal dataset with a five-item scale
-df <- 
-  tibble(
-    subject = rep(101:103, each = 3),
-    visit = rep(1:3, times = 3),
-    q1 = sample(x = 0:4, size = 9, replace = TRUE),
-    q2 = sample(x = 0:4, size = 9, replace = TRUE),
-    q3 = sample(x = 0:4, size = 9, replace = TRUE),
-    q4 = sample(x = 0:4, size = 9, replace = TRUE),
-    q5 = sample(x = 0:4, size = 9, replace = TRUE),
-  ) |> 
-  print()
-
-# USECASE: Calculate subjects' scores per visit
-
-# Solution 1 (calculate sums and means "by-hand")
-df |> 
-  mutate(
-    total_q = q1 + q2 + q3 + q4 + q5,
-    mean_q = (q1 + q2 + q3 + q4 + q5) / 5
-  )
-
-# PITFALL: Attempt to use functions for convenience
-df |> 
-  mutate(
-    total_q = sum(c(q1, q2, q3, q4, q5)),
-    mean_q = mean(c(q1, q2, q3, q4, q5))
-  )
-# But the answers aren't what we wanted! These are ungrouped mutates!
-
-# Solution 2 (turn them into grouped mutates)
-df |> 
-  mutate(
-    total_q = sum(c(q1, q2, q3, q4, q5)),
-    mean_q = mean(c(q1, q2, q3, q4, q5)),
-    .by = c(subject, visit)
-  )
-# These are the answers we wanted
-
-# USECASE: Can we use tidy selection here?
-
-# The : operator does work if they are in order!
-df |> 
-  mutate(
-    total_q = sum(q1:q5),
-    mean_q = mean(q1:q5),
-    .by = c(subject, visit)
-  )
-
-# But starts_with() doesn't...
-df |> 
-  mutate(
-    total_q = sum(starts_with("q")),
-    mean_q = mean(starts_with("q")),
-    .by = c(subject, visit)
-  )
-# Error...
-
-# Solution 3 (use row functions and pick, no .by necessary)
-df |> 
-  mutate(
-    total_q = rowSums(pick(starts_with("q"))),
-    mean_q = rowMeans(pick(starts_with("q")))
-  )
-
-# PITFALL (don't include your sum in your mean)
-df |> 
-  mutate(
-    q_total = rowSums(pick(starts_with("q"))),
-    q_mean = rowMeans(pick(starts_with("q")))
-  )
-# Note that the means are now much higher because they include q_total
-# This is because q_total also starts with q and comes first in mutate()
 ```

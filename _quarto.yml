@@ -35,7 +35,7 @@ website:
         menu:
           - text: "Day 3A Materials"
             href: ./Day3/day3A.qmd
-          - text: "Day 2B Materials"
+          - text: "Day 3B Materials"
             href: ./Day3/day3B.qmd
   page-footer: "Copyright 2023 &copy; Jeffrey Girard"
 
