@@ -231,13 +231,13 @@ us_rent_income |>
 
 ### Pivot!
 
-If only Chandler had studied data reshaping...
+If only Chandler had studied data reshaping, he would know what pivot means...
 
 {{< video https://youtu.be/8w3wmQAMoxQ >}}
 
 ### Merge!
 
-At least he wasn't asking for an "inner join" sign... 🤣 
+At least he wasn't asking to hang an "inner join" sign... 🤣 
 
 {{< video https://youtu.be/lP2pz7E7hm4 >}}
 
