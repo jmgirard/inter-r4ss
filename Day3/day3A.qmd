@@ -8,7 +8,7 @@ format:
 
 ![](../img/memory_2780E3.svg){.hero}
 
-We begin with...
+We finish up our final section on data wrangling by discussing the reshaping of columns and entire tibbles with the separate, unite, and pivot functions. We then discuss how to combine data from multiple tibbles or data files with the same/similar formats (e.g., separate files per participant) and how to join related/linked data that is spread across multiple tibbles or data files (e.g., separate files for different variables of the same participants).
 
 ## Slides
 
@@ -19,22 +19,203 @@ We begin with...
 
 ## Practice 1
 
+Examine the `table5` tibble (included in \{tidyverse\}) and tidy it up using `separate()` and `unite()`. End with variables for country, four-digit year (YYYY), number of tuberculosis cases, and population.
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| message: false
+#| collapse: true
+
+library(tidyverse)
+table5 |> 
+  unite(
+    col = "year",
+    century, 
+    year, 
+    sep = ""
+  ) |> 
+  separate_wider_delim(
+    col = rate, 
+    delim = "/",
+    names = c("cases", "population")
+  )
+```
+
+</blockquote></details></p>
 
 ## Practice 2
 
+Reshape the `billboard` tibble (included in \{tidyverse\}) to a long format such that each row represents a single track’s ranking for a single week (variables: `artist`, `track`, `date.entered`, `week`, `rank`). For a challenge, remove the prefix from your final week variable and convert it into a numeric variable.
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| collapse: true
+
+billboard |> 
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    values_to = "rank",
+    names_prefix = "wk", # Challenge
+    names_transform = parse_number # Challenge
+  )
+```
+
+</blockquote></details></p>
 
 ## Practice 3
 
+Reshape the `table2` tibble (included in \{tidyverse\}) so that each row represents a single country in a single year (Hint: variables should be `country`, `year`, `cases`, and `population`).
 
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| collapse: true
+
+table2 |> 
+  pivot_wider(names_from = type, values_from = count)
+```
+
+</blockquote></details></p>
 
 ## Practice 4
 
+Install and load the \{Lahman\} package, which contains data about baseball teams and players.
+
+a. Explore how the `People`, `Batting`, and `Salaries` tables are connected.
+
+b. How would you join this data to compare the salaries of right-handed and left-handed batters? Do so using a \{tidyverse\} function and select only the relevant variables.
+
+*Note: These tables are data frames not tibbles (so they will print a **lot** of rows). To fix this, you can use `x <- as_tibble(x)` to convert them to tibbles.*
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Answer (a)**
+
+All three tables are connected via the `playerID` variable.
+
+**Answer (b)**
+
+```{r}
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(Lahman) # must be installed first
+
+joined_data <- 
+  inner_join(People, Salaries, by = "playerID") |>  
+  select(playerID, nameFirst, nameLast, bats, yearID, teamID, salary) |>
+  as_tibble() |> 
+  print()
+```
+
+
+</blockquote></details></p>
+
+## Practice 5
+
+a. Join the `band_members` and `band_instruments` tibbles (included in \{tidyverse\}) using all four basic types of joins. Compare the results.
+
+b. Now join the `band_members` and `band_instruments2` tibbles in a way that adds the instrument played by each name in `band_members.`
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Answer (a)**
+```{r}
+left_join(band_members, band_instruments, by = "name")
+right_join(band_members, band_instruments, by = "name")
+inner_join(band_members, band_instruments, by = "name")
+full_join(band_members, band_instruments, by = "name")
+```
+
+**Answer (b)**
+```{r}
+left_join(band_members, band_instruments2, by = c("name" = "artist"))
+```
+
+</blockquote></details></p>
+
+## Practice 6
+
+Explore what happens when you join two tables with duplicated/repeated keys.
+
+```{r}
+x <- tibble(
+  key = c(1, 2, 2, 3),
+  val_x = c("x1", "x2", "x3", "x4")
+)
+y <- tibble(
+  key = c(1, 2, 2, 3),
+  val_y = c("y1", "y2", "y3", "y4")
+)
+```
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+left_join(x, y, by = "key")
+```
+
+The key gets duplicated for each pairwise combination.
+
+</blockquote></details></p>
+
+## Challenge 1
+
+Reshape the `us_rent_income` tibble (included in \{tidyverse\}) so that each row represents a single US state (Hint: Variables should be something like: `GEOID`, `NAME`, `estimate_income`, `estimate_rent`, `moe_income`, and `moe_rent`)
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+```{r}
+#| collapse: true
+
+us_rent_income |> 
+  pivot_wider(
+    names_from = variable, 
+    values_from = c(estimate, moe)
+  )
+```
+
+</blockquote></details></p>
 
 ## Readings
 
+- [Pivoting](https://tidyr.tidyverse.org/articles/pivot.html) from *tidy* package website
+- [Two-table verbs](https://dplyr.tidyverse.org/articles/two-table.html) from *dplyr* package website
+- [Chapter 6: Data tidying](https://r4ds.hadley.nz/data-tidy.html) from *R4DS* (2E)
+- [Section 8.4: Reading data from multiple files](https://r4ds.hadley.nz/data-import.html#sec-readr-directory) from *R4DS* (2E)
+- [Chapter 20: Joins](https://r4ds.hadley.nz/joins.html) from *R4DS* (2E)
 
 ## Fun Stuff
 
+### Pivot!
+
+If only Chandler had studied data reshaping...
+
+{{< video https://youtu.be/8w3wmQAMoxQ >}}
+
+### Merge!
+
+At least he wasn't asking for an "inner join" sign... 🤣 
+
+{{< video https://youtu.be/lP2pz7E7hm4 >}}
 
 ::: {.text-center}
 <a href="day3B.html" class="btn btn-primary mt-5" role="button" >Continue to Day 3B Materials&nbsp;&nbsp;&raquo;</a>

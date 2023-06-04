@@ -23,8 +23,8 @@ Part A runs from 10:30am&#8722;12:30pm and Part B runs from 1:30am&#8722;3:30pm 
   - Overview
   - Brief Refresher
   - Quarto and Markdown
-  - dplyr Column Verbs
-  - dplyr Row Verbs
+  - Wrangling Columns
+  - Wrangling Rows
   - Pipes and Pipelines
 
   
@@ -49,9 +49,9 @@ Part A runs from 10:30am&#8722;12:30pm and Part B runs from 1:30am&#8722;3:30pm 
   - Summarize
   - Grouped Summarize
   - Grouped Mutate
+  - Tidy Control Flow
   - Tidy Selection
-  - Across
-  - Rowwise
+  - Iterating Across
 
 ### Part 2B: Data Visualization
 
@@ -70,12 +70,12 @@ Part A runs from 10:30am&#8722;12:30pm and Part B runs from 1:30am&#8722;3:30pm 
 
 ### Part 3A: Data Wrangling
 
-  - Separate
-  - Unite
-  - Pivot
+  - Separate and Unite
+  - Pivot Longer
+  - Pivot Wider
+  - Combining Tibbles
   - Relational Data
   - Basic Joins
-  - dplyr Joins
 
 ### Part 3B: Statistics
 

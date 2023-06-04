@@ -9,7 +9,7 @@ format:
 ![](../img/design_2780E3.svg){.hero}
 
 
-We continue after lunch by revisiting data visualization. We learn about customizing and enhancing our graphics for communication through the use of scales, labels, and themes. We also learn about advanced plot layouts using faceting and the patchwork package. Finally, we discuss exporting graphics from R to image files and other formats.
+We continue after lunch by revisiting data visualization. We learn about customizing and enhancing our graphics for communication through the use of scales, labels, and themes. We also learn about advanced plot layouts using faceting and the patchwork package. Finally, we discuss exporting graphics from R to image files.
 
 ## Slides
 
