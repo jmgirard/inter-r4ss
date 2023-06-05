@@ -392,43 +392,50 @@
     "text": "Coming Soon!"
   },
   {
-    "objectID": "Day3/day3B.html#slides",
-    "href": "Day3/day3B.html#slides",
+    "objectID": "Day3/day3B_real.html",
+    "href": "Day3/day3B_real.html",
+    "title": "Day 3B",
+    "section": "",
+    "text": "We conclude the workshop with a discussion of intermediate statistical modeling techniques in R. We will be able to use the same R formulas and {easystats} functions taught in the introductory workshop to extend the linear model to the generalized linear model (allowing us to model non-normal outcome variables) and linear mixed-effects/multilevel models (allowing us to model data with a clustered or hierarchical structure). We will also touch briefly upon the combination of both techniques (i.e., generalized linear mixed-effects/multilevel models)."
+  },
+  {
+    "objectID": "Day3/day3B_real.html#slides",
+    "href": "Day3/day3B_real.html#slides",
     "title": "Day 3B",
     "section": "Slides",
     "text": "Slides\n\n\nClick here to view the slides in their own window."
   },
   {
-    "objectID": "Day3/day3B.html#practice-1",
-    "href": "Day3/day3B.html#practice-1",
+    "objectID": "Day3/day3B_real.html#practice-1",
+    "href": "Day3/day3B_real.html#practice-1",
     "title": "Day 3B",
     "section": "Practice 1",
     "text": "Practice 1"
   },
   {
-    "objectID": "Day3/day3B.html#practice-2",
-    "href": "Day3/day3B.html#practice-2",
+    "objectID": "Day3/day3B_real.html#practice-2",
+    "href": "Day3/day3B_real.html#practice-2",
     "title": "Day 3B",
     "section": "Practice 2",
     "text": "Practice 2"
   },
   {
-    "objectID": "Day3/day3B.html#practice-3",
-    "href": "Day3/day3B.html#practice-3",
+    "objectID": "Day3/day3B_real.html#practice-3",
+    "href": "Day3/day3B_real.html#practice-3",
     "title": "Day 3B",
     "section": "Practice 3",
     "text": "Practice 3"
   },
   {
-    "objectID": "Day3/day3B.html#readings",
-    "href": "Day3/day3B.html#readings",
+    "objectID": "Day3/day3B_real.html#readings",
+    "href": "Day3/day3B_real.html#readings",
     "title": "Day 3B",
     "section": "Readings",
     "text": "Readings\n\nChapter 8: Generalized Linear Models in DAR\nChapter 9: Random Effects in DAR\nChapters 4–12 in IMM"
   },
   {
-    "objectID": "Day3/day3B.html#fun-stuff",
-    "href": "Day3/day3B.html#fun-stuff",
+    "objectID": "Day3/day3B_real.html#fun-stuff",
+    "href": "Day3/day3B_real.html#fun-stuff",
     "title": "Day 3B",
     "section": "Fun Stuff",
     "text": "Fun Stuff"
@@ -480,7 +487,7 @@
     "href": "Details/recordings.html#day-1-recordings",
     "title": "Recordings",
     "section": "Day 1 Recordings",
-    "text": "Day 1 Recordings\n\n1A: TBA\n1B: TBA"
+    "text": "Day 1 Recordings\n\n1A: https://youtu.be/UD5VLl4EKWc\n1B: https://youtu.be/wRjESjLq_pI"
   },
   {
     "objectID": "Details/recordings.html#day-2-recordings",

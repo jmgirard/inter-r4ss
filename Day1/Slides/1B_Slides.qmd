@@ -81,6 +81,7 @@ Some simple graphics are [easy to describe]{.b .green} and may even have [ready 
 #| fig-height: 8
 #| echo: false
 #| message: false
+#| warning: false
 
 library(tidyverse)
 
@@ -196,6 +197,7 @@ Graphics require [scales]{.b .blue}, which connect specific [data *values*]{.b .
 #| fig-height: 8
 #| echo: false
 #| message: false
+#| warning: false
 
 ggplot(mpg2, aes(x = displ, y = hwy)) + 
   geom_point(size = 4) + 
