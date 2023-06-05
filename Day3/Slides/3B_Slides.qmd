@@ -29,44 +29,170 @@ format:
 ![](../../img/proud2_2780E3.svg){.absolute bottom=0 right=0 width=400}
 :::
 
-
-# Refresher
-
-## LM Formulas
-
-## Model Parameters
-
-## Model Performance
-
-## Plotting Predictions
-
-## Model Diagnostics
-
-
 # GLM
 
-## Conceptual Overview
+## The Linear Model (LM)
 
 $$
 \begin{align}
-y_i &\sim \color{blue}{\text{family}}(\mu_i, \ldots) \\
-\color{blue}{\text{link}}(\mu_i) &= b_0 + b_1 x_{1i} + \cdots + b_p x_{pi} 
+\mu &= b_0 + b_1 x_{1} + \cdots + b_m x_{m}\\
+y &\sim \text{Gaussian}(\mu, \sigma)
 \end{align}
 $$
 
+::: {.fragment .f80}
+
+- The first (structural) term is [linear]{.b .blue} (i.e., the sum of products)
+    -   It assumes that $\mu_i$ can vary indefinitely, i.e., $y \in (\infty,\infty)$
+    
+:::
+
+::: {.fragment .f80}
+- The second (random) term describes the [shape of the residuals]{.b .blue}
+    -   It assumes they are [normally (Gaussian) distributed]{.b .green} around $\mu_i$
+    -   It assumes they have [constant variance]{.b .green} (i.e., there is only one $\sigma$)
+    
+:::
+
+## The Generalized LM (GLM)
+
+::: {.f80}
+- What happens when these assumptions are violated?
+    -   Our parameters and inferences will be biased
+    -   Our model may make impossible predictions
+
+:::
+
+::: {.fragment}
+
+::: {.f80}
+- GLM addresses this issue by making two changes
+    -   Adds a [family]{.b .blue}, i.e., specifies a different shape of the residuals
+    -   Adds a [link function]{.b .green}, i.e., transforms $y$ to vary indefinitely
+
+:::
+
 $$
 \begin{align}
-y_i &\sim \text{Gaussian}(\mu_i, \sigma) \\
-\text{identity}(\mu_i) &= b_0 + b_1 x_i
+\color{ForestGreen}{\text{link}}(\mu) &= b_0 + b_1 x_{1} + \cdots + b_m x_{m} \\
+y &\sim \color{blue}{\text{family}}(\mu, \ldots)
 \end{align}
 $$
+:::
 
 
 ## GLM Families
 
+- [Normal:]{.b .green} $y \in \mathbb{R}$, use `gaussian()` with identity link
+- [Binary:]{.b .blue} $y \in \{0,1\}$, use `binomial()` with logit/probit link
+- [Counts:]{.b .blue} $y \in \{0, 1, 2, ...\}$, use `poisson()` with log link
+    - (See also Quasipoisson, Binomial, and Negative Binomial)
+
+::: {.fragment .f60 .mt1}
+
+### Advanced GLM Families (note: these may require special packages)
+
+::: {.columns}
+
+::: {.column}
+- **Proportions:** Beta, Dirichlet
+- **Nominal:** Categorical, Multinomial
+- **Ordinal:** Cumulative, Adjacent Category
+:::
+
+::: {.column}
+- **Near Normal:** Student's $t$, Skew-normal
+- **Survival:** Weibull, Cox
+- **Reaction Times:** Exgaussian, Shifted Lognormal
+:::
+
+:::
+:::
+
+## Binary Regression
+
+-   Binary regression is used when $y$ is binary, i.e., $0$ or $1$
+    -   *e.g., healthy or sick, pass or fail, present or absent*
+
+::: {.fragment}
+-   We can use the [Binomial]{.b .blue} family if we set $n=1$
+
+$$
+k \sim \text{Binomial}(n,p)
+$$
+
+$n\in\{0,1,2,...\}$ --- the number of trials
+
+$p\in[0,1]$ --- the probability of success in each trial
+
+$k\in\{0,1,...,n\}$ --- the number of successes
+:::
+
+
+## The Binomial Family
+
+$$
+\begin{align}
+\color{red}{\text{link}}(p) &= b_0 + b_1 x_1 + \cdots + b_m x_m \\
+y &\sim \text{Binomial}(1, p)
+\end{align}
+$$
+
+- Our structural model predicts $p$ (the probability that $y=1$)
+    -   $p$ is continuous but bounded, $p\in[0,1]$
+    -   But we need it to be unbounded, $(-\infty,\infty)$
+    -   We need a link function to do this transformation...
+
+::: {.fragment}
+$$\text{logit}(p)=\log(\text{Odds}(p))=\log\left(\frac{p}{1-p}\right)$$
+:::
+
+## The Logit Link
+
+```{r}
+#| echo: false
+#| message: false
+
+library(tidyverse)
+tibble(
+  p = seq(0.001, 0.999, by = 0.001),
+  `logit(p)` = log(p / (1 - p))
+) |> 
+  ggplot(aes(y = p, x = `logit(p)`)) +
+  geom_vline(
+    color = "white", 
+    linewidth = 4, 
+    xintercept = 0
+  ) +
+  geom_line(color = "royalblue", linewidth = 2) +
+  scale_x_continuous(breaks = seq(-6, 6, 2)) +
+  theme_gray(base_size = 24) +
+  theme(panel.grid.minor = element_blank())
+
+```
 
 
 ## Binary Regression
+
+$$
+\begin{align}
+\text{logit}(p) &= b_0 + b_1 x_1 + \cdots + b_m x_m \\
+y &\sim \text{Binomial}(1, p)
+\end{align}
+$$
+
+::: {.fragment}
+- Our slopes ($b_m$) will be in [logit (log-odd) units]{.b .green}
+    -   $b_m>0$ indicates increased prob., $b_m<0$ decreased
+
+:::
+
+::: {.fragment}
+- We can exponentiate them to convert to [Odds Ratios]{.b .blue}
+    -   If $b_1=0.3$, then $OR=e^{0.3}=1.35$ times the odds of success (or a 35% increase) when increasing $x_1$ by 1
+    -   If $b_1=-0.3$, then $OR=e^{-0.3}=0.74$ times the odds of success (or a 26% decrease) when increasing $x_1$ by 1
+
+:::
 
 ## Binary Regression Live Coding
 
@@ -122,6 +248,48 @@ estimate_expectation(fit2, tibble(fare = c(10, 50, 100)))
 
 
 ## Count Regression
+
+- Count regression is used when $y$ is a [whole number]{.b .green}
+    - e.g., $\{0,1,2,3,...\}$ (not negative, fractional, etc.)
+
+::: {.fragment}
+- Counts can be [bounded]{.b .green} (i.e., have a maximum number)
+    - *e.g., how many answers on the test were correct?*
+    - For these, we can re-use the **Binomial** family $(n>0)$
+
+:::
+
+::: {.fragment}
+- Counts can also be [unbounded]{.b .blue} (i.e., no maximum)
+    - *e.g., how many hospitalizations in the last 10 years?*
+    - *e.g., how many social interactions since yesterday?*
+    - For these, we can use **Poisson** or **Negative Binomial**
+    
+:::
+
+
+## Poisson Regression
+
+$$
+\begin{align}
+\log(\mu) &= b_0 + b_1 x_1 + \cdots + b_m x_m \\
+y &\sim \text{Poisson}(\mu)
+\end{align}
+$$
+
+::: {.fragment}
+- Our slopes ($b_m$) will be in [log units]{.b .green}
+    -   $b_m>0$ indicates increased rate, $b_m<0$  decreased
+
+:::
+
+::: {.fragment}
+- We can exponentiate to convert to [Incidence Rate Ratios]{.b .blue}
+    -   If $b_1=0.3$, then $IRR=e^{0.3}=1.35$ times the incidence rate (a 35% increase) when increasing $x_1$ by 1
+    -   If $b_1=-0.3$, then $IRR=e^{-0.3}=0.74$ times the incidence rate (a 26% decrease) when increasing $x_1$ by 1
+
+:::
+
 
 ## Count Regression Live Coding
 

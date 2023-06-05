@@ -402,49 +402,163 @@
 
 <section>
 <section class="title-slide slide level1 center">
-<h1>Refresher</h1>
-
-</section>
-<section class="slide level2">
-<h2>LM Formulas</h2>
-</section>
-<section class="slide level2">
-<h2>Model Parameters</h2>
-</section>
-<section class="slide level2">
-<h2>Model Performance</h2>
-</section>
-<section class="slide level2">
-<h2>Plotting Predictions</h2>
-</section>
-<section class="slide level2">
-<h2>Model Diagnostics</h2>
-</section></section>
-<section>
-<section class="title-slide slide level1 center">
 <h1>GLM</h1>
 
 </section>
 <section class="slide level2">
-<h2>Conceptual Overview</h2>
+<h2>The Linear Model (LM)</h2>
 <p><span class="math display">\[
 \begin{align}
-y_i &amp;\sim \color{blue}{\text{family}}(\mu_i, \ldots) \\
-\color{blue}{\text{link}}(\mu_i) &amp;= b_0 + b_1 x_{1i} + \cdots + b_p x_{pi}
+\mu &amp;= b_0 + b_1 x_{1} + \cdots + b_m x_{m}\\
+y &amp;\sim \text{Gaussian}(\mu, \sigma)
 \end{align}
 \]</span></p>
+<div class="fragment f80">
+<ul>
+<li>The first (structural) term is <span class="b blue">linear</span> (i.e., the sum of products)
+<ul>
+<li>It assumes that <span class="math inline">\(\mu_i\)</span> can vary indefinitely, i.e., <span class="math inline">\(y \in (\infty,\infty)\)</span></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment f80">
+<ul>
+<li>The second (random) term describes the <span class="b blue">shape of the residuals</span>
+<ul>
+<li>It assumes they are <span class="b green">normally (Gaussian) distributed</span> around <span class="math inline">\(\mu_i\)</span></li>
+<li>It assumes they have <span class="b green">constant variance</span> (i.e., there is only one <span class="math inline">\(\sigma\)</span>)</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+<h2>The Generalized LM (GLM)</h2>
+<div class="f80">
+<ul>
+<li>What happens when these assumptions are violated?
+<ul>
+<li>Our parameters and inferences will be biased</li>
+<li>Our model may make impossible predictions</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="f80">
+<ul>
+<li>GLM addresses this issue by making two changes
+<ul>
+<li>Adds a <span class="b blue">family</span>, i.e., specifies a different shape of the residuals</li>
+<li>Adds a <span class="b green">link function</span>, i.e., transforms <span class="math inline">\(y\)</span> to vary indefinitely</li>
+</ul></li>
+</ul>
+</div>
 <p><span class="math display">\[
 \begin{align}
-y_i &amp;\sim \text{Gaussian}(\mu_i, \sigma) \\
-\text{identity}(\mu_i) &amp;= b_0 + b_1 x_i
+\color{ForestGreen}{\text{link}}(\mu) &amp;= b_0 + b_1 x_{1} + \cdots + b_m x_{m} \\
+y &amp;\sim \color{blue}{\text{family}}(\mu, \ldots)
 \end{align}
 \]</span></p>
+</div>
 </section>
 <section class="slide level2">
 <h2>GLM Families</h2>
+<ul>
+<li><span class="b green">Normal:</span> <span class="math inline">\(y \in \mathbb{R}\)</span>, use <code>gaussian()</code> with identity link</li>
+<li><span class="b blue">Binary:</span> <span class="math inline">\(y \in \{0,1\}\)</span>, use <code>binomial()</code> with logit/probit link</li>
+<li><span class="b blue">Counts:</span> <span class="math inline">\(y \in \{0, 1, 2, ...\}\)</span>, use <code>poisson()</code> with log link
+<ul>
+<li>(See also Quasipoisson, Binomial, and Negative Binomial)</li>
+</ul></li>
+</ul>
+<div class="fragment f60 mt1">
+<!-- -->
+<h3>Advanced GLM Families (note: these may require special packages)</h3>
+<div class="columns">
+<div class="column">
+<ul>
+<li><strong>Proportions:</strong> Beta, Dirichlet</li>
+<li><strong>Nominal:</strong> Categorical, Multinomial</li>
+<li><strong>Ordinal:</strong> Cumulative, Adjacent Category</li>
+</ul>
+</div><div class="column">
+<ul>
+<li><strong>Near Normal:</strong> Student’s <span class="math inline">\(t\)</span>, Skew-normal</li>
+<li><strong>Survival:</strong> Weibull, Cox</li>
+<li><strong>Reaction Times:</strong> Exgaussian, Shifted Lognormal</li>
+</ul>
+</div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>Binary Regression</h2>
+<ul>
+<li>Binary regression is used when <span class="math inline">\(y\)</span> is binary, i.e., <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>
+<ul>
+<li><em>e.g., healthy or sick, pass or fail, present or absent</em></li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>We can use the <span class="b blue">Binomial</span> family if we set <span class="math inline">\(n=1\)</span></li>
+</ul>
+<p><span class="math display">\[
+k \sim \text{Binomial}(n,p)
+\]</span></p>
+<p><span class="math inline">\(n\in\{0,1,2,...\}\)</span> — the number of trials</p>
+<p><span class="math inline">\(p\in[0,1]\)</span> — the probability of success in each trial</p>
+<p><span class="math inline">\(k\in\{0,1,...,n\}\)</span> — the number of successes</p>
+</div>
+</section>
+<section class="slide level2">
+<h2>The Binomial Family</h2>
+<p><span class="math display">\[
+\begin{align}
+\color{red}{\text{link}}(p) &amp;= b_0 + b_1 x_1 + \cdots + b_m x_m \\
+y &amp;\sim \text{Binomial}(1, p)
+\end{align}
+\]</span></p>
+<ul>
+<li>Our structural model predicts <span class="math inline">\(p\)</span> (the probability that <span class="math inline">\(y=1\)</span>)
+<ul>
+<li><span class="math inline">\(p\)</span> is continuous but bounded, <span class="math inline">\(p\in[0,1]\)</span></li>
+<li>But we need it to be unbounded, <span class="math inline">\((-\infty,\infty)\)</span></li>
+<li>We need a link function to do this transformation…</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<p><span class="math display">\[\text{logit}(p)=\log(\text{Odds}(p))=\log\left(\frac{p}{1-p}\right)\]</span></p>
+</div>
+</section>
+<section class="slide level2">
+<h2>The Logit Link</h2>
+
+<img data-src="3B_Slides_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
+<h2>Binary Regression</h2>
+<p><span class="math display">\[
+\begin{align}
+\text{logit}(p) &amp;= b_0 + b_1 x_1 + \cdots + b_m x_m \\
+y &amp;\sim \text{Binomial}(1, p)
+\end{align}
+\]</span></p>
+<div class="fragment">
+<ul>
+<li>Our slopes (<span class="math inline">\(b_m\)</span>) will be in <span class="b green">logit (log-odd) units</span>
+<ul>
+<li><span class="math inline">\(b_m&gt;0\)</span> indicates increased prob., <span class="math inline">\(b_m&lt;0\)</span> decreased</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>We can exponentiate them to convert to <span class="b blue">Odds Ratios</span>
+<ul>
+<li>If <span class="math inline">\(b_1=0.3\)</span>, then <span class="math inline">\(OR=e^{0.3}=1.35\)</span> times the odds of success (or a 35% increase) when increasing <span class="math inline">\(x_1\)</span> by 1</li>
+<li>If <span class="math inline">\(b_1=-0.3\)</span>, then <span class="math inline">\(OR=e^{-0.3}=0.74\)</span> times the odds of success (or a 26% decrease) when increasing <span class="math inline">\(x_1\)</span> by 1</li>
+</ul></li>
+</ul>
+</div>
 </section>
 <section class="slide level2">
 <h2>Binary Regression Live Coding</h2>
@@ -495,6 +609,57 @@ y_i &amp;\sim \text{Gaussian}(\mu_i, \sigma) \\
 </section>
 <section class="slide level2">
 <h2>Count Regression</h2>
+<ul>
+<li>Count regression is used when <span class="math inline">\(y\)</span> is a <span class="b green">whole number</span>
+<ul>
+<li>e.g., <span class="math inline">\(\{0,1,2,3,...\}\)</span> (not negative, fractional, etc.)</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Counts can be <span class="b green">bounded</span> (i.e., have a maximum number)
+<ul>
+<li><em>e.g., how many answers on the test were correct?</em></li>
+<li>For these, we can re-use the <strong>Binomial</strong> family <span class="math inline">\((n&gt;0)\)</span></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Counts can also be <span class="b blue">unbounded</span> (i.e., no maximum)
+<ul>
+<li><em>e.g., how many hospitalizations in the last 10 years?</em></li>
+<li><em>e.g., how many social interactions since yesterday?</em></li>
+<li>For these, we can use <strong>Poisson</strong> or <strong>Negative Binomial</strong></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+<h2>Poisson Regression</h2>
+<p><span class="math display">\[
+\begin{align}
+\log(\mu) &amp;= b_0 + b_1 x_1 + \cdots + b_m x_m \\
+y &amp;\sim \text{Poisson}(\mu)
+\end{align}
+\]</span></p>
+<div class="fragment">
+<ul>
+<li>Our slopes (<span class="math inline">\(b_m\)</span>) will be in <span class="b green">log units</span>
+<ul>
+<li><span class="math inline">\(b_m&gt;0\)</span> indicates increased rate, <span class="math inline">\(b_m&lt;0\)</span> decreased</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>We can exponentiate to convert to <span class="b blue">Incidence Rate Ratios</span>
+<ul>
+<li>If <span class="math inline">\(b_1=0.3\)</span>, then <span class="math inline">\(IRR=e^{0.3}=1.35\)</span> times the incidence rate (a 35% increase) when increasing <span class="math inline">\(x_1\)</span> by 1</li>
+<li>If <span class="math inline">\(b_1=-0.3\)</span>, then <span class="math inline">\(IRR=e^{-0.3}=0.74\)</span> times the incidence rate (a 26% decrease) when increasing <span class="math inline">\(x_1\)</span> by 1</li>
+</ul></li>
+</ul>
+</div>
 </section>
 <section class="slide level2">
 <h2>Count Regression Live Coding</h2>
