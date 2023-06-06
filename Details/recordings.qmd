@@ -9,7 +9,7 @@ format:
 ![](../img/videos_2780E3.svg){width="40%"}
 :::
 
-Workshop recordings are private YouTube videos. You will be able to access these videos using any platform that can play YouTube videos (e.g., computer, mobile, or even smart TV). However, your YouTube account will need to be granted permission to access them. So please be sure to complete the [pre-workshop survey](https://forms.gle/D2kRaoUiFXvSs9Gb6) that collects your YouTube account information.
+Workshop recordings are private YouTube videos. You will be able to access these videos using any platform that can play YouTube videos (e.g., computer, mobile, or even smart TV). However, your YouTube account will need to be granted permission to access them. So please be sure to complete the [pre-workshop survey](https://forms.gle/D2kRaoUiFXvSs9Gb6) that collects your YouTube account information, and be sure to log into YouTube with that same account!
 
 Note that it takes some time to upload and process the videos on YouTube. A low-quality version will be available relatively soon after upload and a high-quality version will follow soon after (usually within a few hours).
 
