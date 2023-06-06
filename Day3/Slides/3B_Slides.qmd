@@ -29,21 +29,21 @@ format:
 ![](../../img/proud2_2780E3.svg){.absolute bottom=0 right=0 width=400}
 :::
 
-# GLM
+# Generalized <br />Linear Modeling
 
 ## The Linear Model (LM)
 
 $$
 \begin{align}
-\mu &= b_0 + b_1 x_{1} + \cdots + b_m x_{m}\\
-y &\sim \text{Gaussian}(\mu, \sigma)
+\mu_i &= b_0 + b_1 x_{1i} + \cdots + b_m x_{mi}\\
+y_i &\sim \text{Gaussian}(\mu_i, \sigma)
 \end{align}
 $$
 
 ::: {.fragment .f80}
 
 - The first (structural) term is [linear]{.b .blue} (i.e., the sum of products)
-    -   It assumes that $\mu_i$ can vary indefinitely, i.e., $y \in (\infty,\infty)$
+    -   It assumes that $\mu_i$ can vary indefinitely, i.e., $y \in (-\infty,\infty)$
     
 :::
 
@@ -74,78 +74,61 @@ $$
 
 $$
 \begin{align}
-\color{ForestGreen}{\text{link}}(\mu) &= b_0 + b_1 x_{1} + \cdots + b_m x_{m} \\
-y &\sim \color{blue}{\text{family}}(\mu, \ldots)
+\color{ForestGreen}{\text{link}}(\mu_i) &= b_0 + b_1 x_{1i} + \cdots + b_m x_{mi} \\
+y_i &\sim \color{blue}{\text{family}}(\mu_i, \ldots)
 \end{align}
 $$
 :::
 
 
-## GLM Families
+## Basic GLM Families
 
 - [Normal:]{.b .green} $y \in \mathbb{R}$, use `gaussian()` with identity link
+- [Nonnegative:]{.b .green} $y \in \mathbb{R}^+$, use `Gamma()` with inverse link
 - [Binary:]{.b .blue} $y \in \{0,1\}$, use `binomial()` with logit/probit link
 - [Counts:]{.b .blue} $y \in \{0, 1, 2, ...\}$, use `poisson()` with log link
-    - (See also Quasipoisson, Binomial, and Negative Binomial)
 
-::: {.fragment .f60 .mt1}
-
-### Advanced GLM Families (note: these may require special packages)
-
-::: {.columns}
-
-::: {.column}
-- **Proportions:** Beta, Dirichlet
-- **Nominal:** Categorical, Multinomial
-- **Ordinal:** Cumulative, Adjacent Category
-:::
-
-::: {.column}
-- **Near Normal:** Student's $t$, Skew-normal
-- **Survival:** Weibull, Cox
-- **Reaction Times:** Exgaussian, Shifted Lognormal
-:::
-
-:::
+::: {.fragment .mt1}
+-   Many advanced/specialized GLM families are also available!
 :::
 
 ## Binary Regression
 
 -   Binary regression is used when $y$ is binary, i.e., $0$ or $1$
-    -   *e.g., healthy or sick, pass or fail, present or absent*
+    -   *e.g., Is the patient healthy (0) or sick (1)?*
+    -   *e.g., Did the student fail (0) or pass (1)?*
+    -   *e.g., Is the attribute absent (0) or present (1)?*
+    -   *e.g., Was the coin flip heads (0) or tails (1)?*
 
-::: {.fragment}
--   We can use the [Binomial]{.b .blue} family if we set $n=1$
+## The Binomial Family
 
 $$
 k \sim \text{Binomial}(n,p)
 $$
 
-$n\in\{0,1,2,...\}$ --- the number of trials
+- $n\in\{0,1,2,...\}$ --- the number of trials
+- $p\in[0,1]$ --- the probability of success in each trial
+- $k\in\{0,1,...,n\}$ --- the number of successes
 
-$p\in[0,1]$ --- the probability of success in each trial
-
-$k\in\{0,1,...,n\}$ --- the number of successes
+::: {.fragment}
+-   This family applies to [binary]{.b .blue} cases when $n=1$
+    -   *e.g., If I flip one coin, how many landed heads?*
+    
 :::
 
-
-## The Binomial Family
+## Logistic Regression
 
 $$
 \begin{align}
-\color{red}{\text{link}}(p) &= b_0 + b_1 x_1 + \cdots + b_m x_m \\
-y &\sim \text{Binomial}(1, p)
+\text{logit}(p_i) &= b_0 + b_1 x_{1i} + \cdots + b_m x_{mi} \\
+y_i &\sim \text{Binomial}(1, p_i)
 \end{align}
 $$
 
-- Our structural model predicts $p$ (the probability that $y=1$)
-    -   $p$ is continuous but bounded, $p\in[0,1]$
-    -   But we need it to be unbounded, $(-\infty,\infty)$
-    -   We need a link function to do this transformation...
+-   We can't predict $p$ directly because it is bounded, $p\in[0,1]$
+-   The [logit link]{.b .blue} makes $p$ unbounded, $\text{logit}(p)\in(-\infty,\infty)$
 
-::: {.fragment}
 $$\text{logit}(p)=\log(\text{Odds}(p))=\log\left(\frac{p}{1-p}\right)$$
-:::
 
 ## The Logit Link
 
@@ -172,20 +155,10 @@ tibble(
 ```
 
 
-## Binary Regression
+## Interpretation
 
-$$
-\begin{align}
-\text{logit}(p) &= b_0 + b_1 x_1 + \cdots + b_m x_m \\
-y &\sim \text{Binomial}(1, p)
-\end{align}
-$$
-
-::: {.fragment}
 - Our slopes ($b_m$) will be in [logit (log-odd) units]{.b .green}
     -   $b_m>0$ indicates increased prob., $b_m<0$ decreased
-
-:::
 
 ::: {.fragment}
 - We can exponentiate them to convert to [Odds Ratios]{.b .blue}
@@ -250,7 +223,6 @@ estimate_expectation(fit2, tibble(fare = c(10, 50, 100)))
 ## Count Regression
 
 - Count regression is used when $y$ is a [whole number]{.b .green}
-    - e.g., $\{0,1,2,3,...\}$ (not negative, fractional, etc.)
 
 ::: {.fragment}
 - Counts can be [bounded]{.b .green} (i.e., have a maximum number)
@@ -262,26 +234,51 @@ estimate_expectation(fit2, tibble(fare = c(10, 50, 100)))
 ::: {.fragment}
 - Counts can also be [unbounded]{.b .blue} (i.e., no maximum)
     - *e.g., how many hospitalizations in the last 10 years?*
-    - *e.g., how many social interactions since yesterday?*
     - For these, we can use **Poisson** or **Negative Binomial**
     
 :::
 
 
-## Poisson Regression
+## The Poisson Family
 
 $$
+k \sim \text{Poisson}(\lambda)
+$$
+
+- $\lambda\in(0,\infty)$ --- occurrence rate
+- $k\in\mathbb{N}_0$ --- number of occurrences
+
+```{r, fig.width=10, fig.height=3}
+#| echo: false
+
+tibble(`λ` = c(1, 2, 4, 8)) |>
+  mutate(k = map(`λ`, \(x) rpois(1000, x))) |> 
+  unnest(k) |> 
+  ggplot(aes(x = k)) + 
+  geom_bar() +
+  facet_wrap(~`λ`, labeller = label_both, scales = "free", nrow = 1) +
+  # scale_x_continuous(breaks = seq(0, 20, 4)) +
+  theme_grey(base_size = 22) +
+  theme(panel.grid.minor = element_blank())
+
+```
+
+
+## Poisson Regression
+$$
 \begin{align}
-\log(\mu) &= b_0 + b_1 x_1 + \cdots + b_m x_m \\
-y &\sim \text{Poisson}(\mu)
+\log(\lambda_i) &= b_0 + b_1 x_{1i} + \cdots + b_m x_{mi} \\
+y_i &\sim \text{Poisson}(\lambda_i)
 \end{align}
 $$
 
-::: {.fragment}
+-   We can't predict $\lambda$ directly; it is bounded $\lambda\in(0,\infty)$
+-   The [log link]{.b .blue} makes $\lambda$ unbounded, $\log(\lambda)\in(-\infty,\infty)$
+
+## Interpretation
+
 - Our slopes ($b_m$) will be in [log units]{.b .green}
     -   $b_m>0$ indicates increased rate, $b_m<0$  decreased
-
-:::
 
 ::: {.fragment}
 - We can exponentiate to convert to [Incidence Rate Ratios]{.b .blue}
@@ -289,7 +286,6 @@ $$
     -   If $b_1=-0.3$, then $IRR=e^{-0.3}=0.74$ times the incidence rate (a 26% decrease) when increasing $x_1$ by 1
 
 :::
-
 
 ## Count Regression Live Coding
 
@@ -328,9 +324,9 @@ model_parameters(fit2)
 model_parameters(fit2, exponentiate = TRUE)
 model_performance(fit2)
 plot(estimate_relation(fit2))
-check_overdispersion(fit2)
 
-# Due to over-dispersion, fit quasi-poisson using GLM
+# Advanced: Overdispersion and quasi-poisson
+check_overdispersion(fit2)
 fit3 <- glm(
   count ~ poly(year, degree = 2), 
   family = quasipoisson(link = "log"), 
@@ -344,25 +340,174 @@ plot(estimate_relation(fit3))
 compare_parameters(fit2, fit3, select = "ci_p2")
 ```
 
-# MLM
+# Multilevel (Mixed Effects) Modeling
 
-## Conceptual Overview
+## Conceptual Overview {.smaller}
+
+- LM and GLM both assume [independent residuals]{.b .blue}
+    - This is violated by clustered and longitudinal data
+    - The estimated SEs will be **biased** (usually too small)
+
+::: {.fragment}
+- [Clustered data]{.b .green} has a higher level of organization
+    - *e.g., students from same classroom are more similar*
+    - *e.g., participants from same country are more similar*
+    
+:::
+
+::: {.fragment}
+- [Longitudinal data]{.b .green} is repeated sampled from same source
+    - *e.g., each participant responds to multiple trials*
+    - *e.g., the global temperature is measured every week*
+
+:::
+
+## Simpson's Paradox {.smaller}
+
+Reaching the right conclusion may require knowing the clusters...
+
+```{r}
+#| echo: false
+
+set.seed(2021)
+d1 <- 
+  tibble(
+    hospital = rep(1:3, each = 40),
+    symptoms = c(rnorm(40, 3, 0.75), rnorm(40, 5, 0.75), rnorm(40, 7, 0.75)),
+    prognosis = 3 + 1.5*hospital - 0.5*symptoms + rnorm(120, 0, 0.25)
+  ) |> 
+  mutate(
+    hospital = factor(hospital, labels = c("Children's", "Mercy", "University"))
+  )
+
+ggplot(d1, aes(x = symptoms, y = prognosis)) + 
+  geom_point(size = 3) +
+  scale_y_continuous(limits = c(1.5, 5.5)) +
+  theme_grey(base_size = 24)
+```
+
+## Simpson's Paradox {.smaller}
+
+Here it looks like having **worse** symptoms predicts a ***better*** prognosis...
+
+```{r}
+#| echo: false
+
+ggplot(d1, aes(x = symptoms, y = prognosis)) + 
+  geom_point(size = 3) + 
+  geom_smooth(formula = y~x, method = "lm", linewidth = 1) + 
+  scale_y_continuous(limits = c(1.5, 5.5)) +
+  theme_grey(base_size = 24)
+```
+
+## Simpson's Paradox {.smaller}
+
+But this data actually comes from three different hospitals!
+
+```{r, echo=FALSE}
+ggplot(
+  d1, 
+  aes(x = symptoms, y = prognosis, color = hospital, shape = hospital)
+) +
+  geom_point(size = 3) + 
+  scale_y_continuous(limits = c(1.5, 5.5)) +
+  theme_grey(base_size = 24)
+```
+
+## Simpson's Paradox {.smaller}
+
+Within each hospital, the relationship is the opposite!
+
+```{r, echo=FALSE}
+ggplot(
+  d1, 
+  aes(x = symptoms, y = prognosis, color = hospital, shape = hospital)
+) + 
+  geom_point(size = 3) + 
+  geom_smooth(formula = y~x, method = "lm", linewidth = 1) + 
+  scale_y_continuous(limits = c(1.5, 5.5)) +
+  theme_grey(base_size = 24)
+```
+
+## Levels of Clustering {.smaller}
+
+- We can think and talk about clustered data as having [multiple levels]{.b .blue} (hence MLM)
+
+::: {.fragment}
+- We number levels from $1$ to $M$ where lower numbers represent more specific levels
+    - *e.g., Data is collected from students (L1) nested within classrooms (L2)*
+    - *e.g., Data is collected from students (L1) in classrooms (L2) in schools (L3)*
+    - *e.g., Data is collected from timepoints (L1) nested within participants (L2)*
+    - *e.g., Data is collected from timepoints (L1) in participants (L2) in countries (L3)*
+
+:::
+
+::: {.fragment}
+- What is and isn't considered a level?
+    - At each level, we are sampling from a broader population
+    - Thus, levels need to be *random* variables (and are usually discrete)
+    - *If we repeated the study, would the variable's values be the same?*
+    
+:::
+
+## Variables at Different Levels
+
+- We can have variables that vary at (or describe) each level
+    - L1: each **student**'s `age`, `sex`, and `test_score`
+    - L2: each **classroom**'s `subject` and `n_students`
+    - L3: each **school**'s `budget` and `charter_status`
+
+::: {.fragment}
+- In standard MLM, the outcome/DV has to be on L1
+    - But we can still use higher level predictors
+    - We can even have cross-level interactions
+
+:::
 
 ## Cluster-Robust Standard Errors
 
-## Random Intercepts
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
 
-## Fixed Predictors
+library(tidyverse)
+library(easystats)
+library(sandwich)
+mlmath <- read_csv("mlmath.csv")
+mlmath
 
-## Random Effects
+mlmath |> count(school)
+mlmath |> count(public)
 
-## Cross-level Interactions
+# Fit LM ignoring clustering within schools
 
-## Comparing Models
+fit <- lm(
+  formula = math ~ 1 + homework,
+  data = mlmath
+)
+model_parameters(fit)
+model_performance(fit)
+estimate_relation(fit) |> plot()
 
-## Repeated/Longitudinal Data
+# Estimate cluster-robust standard errors
 
-## Centering and Disaggregating
+model_parameters(
+  fit, 
+  vcov = "vcovCL", 
+  vcov_args = list(type = "HC1", cluster = mlmath$school)
+)
+estimate_relation(
+  fit,
+  vcov = "vcovCL", 
+  vcov_args = list(type = "HC1", cluster = mlmath$school)
+) |> 
+  plot()
+```
 
-## Effect Sizes
+## Building a Multilevel Model
+
+## Longitudinal Considerations
+
 

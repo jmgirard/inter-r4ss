@@ -402,22 +402,22 @@
 
 <section>
 <section class="title-slide slide level1 center">
-<h1>GLM</h1>
+<h1>Generalized <br>Linear Modeling</h1>
 
 </section>
 <section class="slide level2">
 <h2>The Linear Model (LM)</h2>
 <p><span class="math display">\[
 \begin{align}
-\mu &amp;= b_0 + b_1 x_{1} + \cdots + b_m x_{m}\\
-y &amp;\sim \text{Gaussian}(\mu, \sigma)
+\mu_i &amp;= b_0 + b_1 x_{1i} + \cdots + b_m x_{mi}\\
+y_i &amp;\sim \text{Gaussian}(\mu_i, \sigma)
 \end{align}
 \]</span></p>
 <div class="fragment f80">
 <ul>
 <li>The first (structural) term is <span class="b blue">linear</span> (i.e., the sum of products)
 <ul>
-<li>It assumes that <span class="math inline">\(\mu_i\)</span> can vary indefinitely, i.e., <span class="math inline">\(y \in (\infty,\infty)\)</span></li>
+<li>It assumes that <span class="math inline">\(\mu_i\)</span> can vary indefinitely, i.e., <span class="math inline">\(y \in (-\infty,\infty)\)</span></li>
 </ul></li>
 </ul>
 </div>
@@ -454,40 +454,24 @@ y &amp;\sim \text{Gaussian}(\mu, \sigma)
 </div>
 <p><span class="math display">\[
 \begin{align}
-\color{ForestGreen}{\text{link}}(\mu) &amp;= b_0 + b_1 x_{1} + \cdots + b_m x_{m} \\
-y &amp;\sim \color{blue}{\text{family}}(\mu, \ldots)
+\color{ForestGreen}{\text{link}}(\mu_i) &amp;= b_0 + b_1 x_{1i} + \cdots + b_m x_{mi} \\
+y_i &amp;\sim \color{blue}{\text{family}}(\mu_i, \ldots)
 \end{align}
 \]</span></p>
 </div>
 </section>
 <section class="slide level2">
-<h2>GLM Families</h2>
+<h2>Basic GLM Families</h2>
 <ul>
 <li><span class="b green">Normal:</span> <span class="math inline">\(y \in \mathbb{R}\)</span>, use <code>gaussian()</code> with identity link</li>
+<li><span class="b green">Nonnegative:</span> <span class="math inline">\(y \in \mathbb{R}^+\)</span>, use <code>Gamma()</code> with inverse link</li>
 <li><span class="b blue">Binary:</span> <span class="math inline">\(y \in \{0,1\}\)</span>, use <code>binomial()</code> with logit/probit link</li>
-<li><span class="b blue">Counts:</span> <span class="math inline">\(y \in \{0, 1, 2, ...\}\)</span>, use <code>poisson()</code> with log link
-<ul>
-<li>(See also Quasipoisson, Binomial, and Negative Binomial)</li>
-</ul></li>
+<li><span class="b blue">Counts:</span> <span class="math inline">\(y \in \{0, 1, 2, ...\}\)</span>, use <code>poisson()</code> with log link</li>
 </ul>
-<div class="fragment f60 mt1">
-<!-- -->
-<h3>Advanced GLM Families (note: these may require special packages)</h3>
-<div class="columns">
-<div class="column">
+<div class="fragment mt1">
 <ul>
-<li><strong>Proportions:</strong> Beta, Dirichlet</li>
-<li><strong>Nominal:</strong> Categorical, Multinomial</li>
-<li><strong>Ordinal:</strong> Cumulative, Adjacent Category</li>
+<li>Many advanced/specialized GLM families are also available!</li>
 </ul>
-</div><div class="column">
-<ul>
-<li><strong>Near Normal:</strong> Student’s <span class="math inline">\(t\)</span>, Skew-normal</li>
-<li><strong>Survival:</strong> Weibull, Cox</li>
-<li><strong>Reaction Times:</strong> Exgaussian, Shifted Lognormal</li>
-</ul>
-</div>
-</div>
 </div>
 </section>
 <section class="slide level2">
@@ -495,61 +479,58 @@ y &amp;\sim \color{blue}{\text{family}}(\mu, \ldots)
 <ul>
 <li>Binary regression is used when <span class="math inline">\(y\)</span> is binary, i.e., <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>
 <ul>
-<li><em>e.g., healthy or sick, pass or fail, present or absent</em></li>
+<li><em>e.g., Is the patient healthy (0) or sick (1)?</em></li>
+<li><em>e.g., Did the student fail (0) or pass (1)?</em></li>
+<li><em>e.g., Is the attribute absent (0) or present (1)?</em></li>
+<li><em>e.g., Was the coin flip heads (0) or tails (1)?</em></li>
 </ul></li>
 </ul>
-<div class="fragment">
-<ul>
-<li>We can use the <span class="b blue">Binomial</span> family if we set <span class="math inline">\(n=1\)</span></li>
-</ul>
-<p><span class="math display">\[
-k \sim \text{Binomial}(n,p)
-\]</span></p>
-<p><span class="math inline">\(n\in\{0,1,2,...\}\)</span> — the number of trials</p>
-<p><span class="math inline">\(p\in[0,1]\)</span> — the probability of success in each trial</p>
-<p><span class="math inline">\(k\in\{0,1,...,n\}\)</span> — the number of successes</p>
-</div>
 </section>
 <section class="slide level2">
 <h2>The Binomial Family</h2>
 <p><span class="math display">\[
+k \sim \text{Binomial}(n,p)
+\]</span></p>
+<ul>
+<li><span class="math inline">\(n\in\{0,1,2,...\}\)</span> — the number of trials</li>
+<li><span class="math inline">\(p\in[0,1]\)</span> — the probability of success in each trial</li>
+<li><span class="math inline">\(k\in\{0,1,...,n\}\)</span> — the number of successes</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>This family applies to <span class="b blue">binary</span> cases when <span class="math inline">\(n=1\)</span>
+<ul>
+<li><em>e.g., If I flip one coin, how many landed heads?</em></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+<h2>Logistic Regression</h2>
+<p><span class="math display">\[
 \begin{align}
-\color{red}{\text{link}}(p) &amp;= b_0 + b_1 x_1 + \cdots + b_m x_m \\
-y &amp;\sim \text{Binomial}(1, p)
+\text{logit}(p_i) &amp;= b_0 + b_1 x_{1i} + \cdots + b_m x_{mi} \\
+y_i &amp;\sim \text{Binomial}(1, p_i)
 \end{align}
 \]</span></p>
 <ul>
-<li>Our structural model predicts <span class="math inline">\(p\)</span> (the probability that <span class="math inline">\(y=1\)</span>)
-<ul>
-<li><span class="math inline">\(p\)</span> is continuous but bounded, <span class="math inline">\(p\in[0,1]\)</span></li>
-<li>But we need it to be unbounded, <span class="math inline">\((-\infty,\infty)\)</span></li>
-<li>We need a link function to do this transformation…</li>
-</ul></li>
+<li>We can’t predict <span class="math inline">\(p\)</span> directly because it is bounded, <span class="math inline">\(p\in[0,1]\)</span></li>
+<li>The <span class="b blue">logit link</span> makes <span class="math inline">\(p\)</span> unbounded, <span class="math inline">\(\text{logit}(p)\in(-\infty,\infty)\)</span></li>
 </ul>
-<div class="fragment">
 <p><span class="math display">\[\text{logit}(p)=\log(\text{Odds}(p))=\log\left(\frac{p}{1-p}\right)\]</span></p>
-</div>
 </section>
 <section class="slide level2">
 <h2>The Logit Link</h2>
 
 <img data-src="3B_Slides_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
 <section class="slide level2">
-<h2>Binary Regression</h2>
-<p><span class="math display">\[
-\begin{align}
-\text{logit}(p) &amp;= b_0 + b_1 x_1 + \cdots + b_m x_m \\
-y &amp;\sim \text{Binomial}(1, p)
-\end{align}
-\]</span></p>
-<div class="fragment">
+<h2>Interpretation</h2>
 <ul>
 <li>Our slopes (<span class="math inline">\(b_m\)</span>) will be in <span class="b green">logit (log-odd) units</span>
 <ul>
 <li><span class="math inline">\(b_m&gt;0\)</span> indicates increased prob., <span class="math inline">\(b_m&lt;0\)</span> decreased</li>
 </ul></li>
 </ul>
-</div>
 <div class="fragment">
 <ul>
 <li>We can exponentiate them to convert to <span class="b blue">Odds Ratios</span>
@@ -610,10 +591,7 @@ y &amp;\sim \text{Binomial}(1, p)
 <section class="slide level2">
 <h2>Count Regression</h2>
 <ul>
-<li>Count regression is used when <span class="math inline">\(y\)</span> is a <span class="b green">whole number</span>
-<ul>
-<li>e.g., <span class="math inline">\(\{0,1,2,3,...\}\)</span> (not negative, fractional, etc.)</li>
-</ul></li>
+<li>Count regression is used when <span class="math inline">\(y\)</span> is a <span class="b green">whole number</span></li>
 </ul>
 <div class="fragment">
 <ul>
@@ -629,28 +607,43 @@ y &amp;\sim \text{Binomial}(1, p)
 <li>Counts can also be <span class="b blue">unbounded</span> (i.e., no maximum)
 <ul>
 <li><em>e.g., how many hospitalizations in the last 10 years?</em></li>
-<li><em>e.g., how many social interactions since yesterday?</em></li>
 <li>For these, we can use <strong>Poisson</strong> or <strong>Negative Binomial</strong></li>
 </ul></li>
 </ul>
 </div>
 </section>
 <section class="slide level2">
+<h2>The Poisson Family</h2>
+<p><span class="math display">\[
+k \sim \text{Poisson}(\lambda)
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\lambda\in(0,\infty)\)</span> — occurrence rate</li>
+<li><span class="math inline">\(k\in\mathbb{N}_0\)</span> — number of occurrences</li>
+</ul>
+
+<img data-src="3B_Slides_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
 <h2>Poisson Regression</h2>
 <p><span class="math display">\[
 \begin{align}
-\log(\mu) &amp;= b_0 + b_1 x_1 + \cdots + b_m x_m \\
-y &amp;\sim \text{Poisson}(\mu)
+\log(\lambda_i) &amp;= b_0 + b_1 x_{1i} + \cdots + b_m x_{mi} \\
+y_i &amp;\sim \text{Poisson}(\lambda_i)
 \end{align}
 \]</span></p>
-<div class="fragment">
+<ul>
+<li>We can’t predict <span class="math inline">\(\lambda\)</span> directly; it is bounded <span class="math inline">\(\lambda\in(0,\infty)\)</span></li>
+<li>The <span class="b blue">log link</span> makes <span class="math inline">\(\lambda\)</span> unbounded, <span class="math inline">\(\log(\lambda)\in(-\infty,\infty)\)</span></li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Interpretation</h2>
 <ul>
 <li>Our slopes (<span class="math inline">\(b_m\)</span>) will be in <span class="b green">log units</span>
 <ul>
 <li><span class="math inline">\(b_m&gt;0\)</span> indicates increased rate, <span class="math inline">\(b_m&lt;0\)</span> decreased</li>
 </ul></li>
 </ul>
-</div>
 <div class="fragment">
 <ul>
 <li>We can exponentiate to convert to <span class="b blue">Incidence Rate Ratios</span>
@@ -693,9 +686,9 @@ y &amp;\sim \text{Poisson}(\mu)
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(fit2, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">model_performance</span>(fit2)</span>
 <span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">estimate_relation</span>(fit2))</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="fu">check_overdispersion</span>(fit2)</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Due to over-dispersion, fit quasi-poisson using GLM</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Advanced: Overdispersion and quasi-poisson</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="fu">check_overdispersion</span>(fit2)</span>
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  count <span class="sc">~</span> <span class="fu">poly</span>(year, <span class="at">degree =</span> <span class="dv">2</span>), </span>
 <span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">quasipoisson</span>(<span class="at">link =</span> <span class="st">"log"</span>), </span>
@@ -711,38 +704,146 @@ y &amp;\sim \text{Poisson}(\mu)
 </section></section>
 <section>
 <section class="title-slide slide level1 center">
-<h1>MLM</h1>
+<h1>Multilevel (Mixed Effects) Modeling</h1>
 
 </section>
-<section class="slide level2">
+<section class="slide level2 smaller">
 <h2>Conceptual Overview</h2>
+<ul>
+<li>LM and GLM both assume <span class="b blue">independent residuals</span>
+<ul>
+<li>This is violated by clustered and longitudinal data</li>
+<li>The estimated SEs will be <strong>biased</strong> (usually too small)</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li><span class="b green">Clustered data</span> has a higher level of organization
+<ul>
+<li><em>e.g., students from same classroom are more similar</em></li>
+<li><em>e.g., participants from same country are more similar</em></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><span class="b green">Longitudinal data</span> is repeated sampled from same source
+<ul>
+<li><em>e.g., each participant responds to multiple trials</em></li>
+<li><em>e.g., the global temperature is measured every week</em></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section class="slide level2 smaller">
+<h2>Simpson’s Paradox</h2>
+<p>Reaching the right conclusion may require knowing the clusters…</p>
+
+<img data-src="3B_Slides_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2 smaller">
+<h2>Simpson’s Paradox</h2>
+<p>Here it looks like having <strong>worse</strong> symptoms predicts a <strong><em>better</em></strong> prognosis…</p>
+
+<img data-src="3B_Slides_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2 smaller">
+<h2>Simpson’s Paradox</h2>
+<p>But this data actually comes from three different hospitals!</p>
+
+<img data-src="3B_Slides_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2 smaller">
+<h2>Simpson’s Paradox</h2>
+<p>Within each hospital, the relationship is the opposite!</p>
+
+<img data-src="3B_Slides_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2 smaller">
+<h2>Levels of Clustering</h2>
+<ul>
+<li>We can think and talk about clustered data as having <span class="b blue">multiple levels</span> (hence MLM)</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>We number levels from <span class="math inline">\(1\)</span> to <span class="math inline">\(M\)</span> where lower numbers represent more specific levels
+<ul>
+<li><em>e.g., Data is collected from students (L1) nested within classrooms (L2)</em></li>
+<li><em>e.g., Data is collected from students (L1) in classrooms (L2) in schools (L3)</em></li>
+<li><em>e.g., Data is collected from timepoints (L1) nested within participants (L2)</em></li>
+<li><em>e.g., Data is collected from timepoints (L1) in participants (L2) in countries (L3)</em></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>What is and isn’t considered a level?
+<ul>
+<li>At each level, we are sampling from a broader population</li>
+<li>Thus, levels need to be <em>random</em> variables (and are usually discrete)</li>
+<li><em>If we repeated the study, would the variable’s values be the same?</em></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+<h2>Variables at Different Levels</h2>
+<ul>
+<li>We can have variables that vary at (or describe) each level
+<ul>
+<li>L1: each <strong>student</strong>’s <code>age</code>, <code>sex</code>, and <code>test_score</code></li>
+<li>L2: each <strong>classroom</strong>’s <code>subject</code> and <code>n_students</code></li>
+<li>L3: each <strong>school</strong>’s <code>budget</code> and <code>charter_status</code></li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>In standard MLM, the outcome/DV has to be on L1
+<ul>
+<li>But we can still use higher level predictors</li>
+<li>We can even have cross-level interactions</li>
+</ul></li>
+</ul>
+</div>
 </section>
 <section class="slide level2">
 <h2>Cluster-Robust Standard Errors</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandwich)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>mlmath <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"mlmath.csv"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>mlmath</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>mlmath <span class="sc">|&gt;</span> <span class="fu">count</span>(school)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>mlmath <span class="sc">|&gt;</span> <span class="fu">count</span>(public)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit LM ignoring clustering within schools</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> math <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> homework,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> mlmath</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(fit)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">model_performance</span>(fit)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_relation</span>(fit) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate cluster-robust standard errors</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  fit, </span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">vcov =</span> <span class="st">"vcovCL"</span>, </span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">vcov_args =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"HC1"</span>, <span class="at">cluster =</span> mlmath<span class="sc">$</span>school)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_relation</span>(</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  fit,</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">vcov =</span> <span class="st">"vcovCL"</span>, </span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">vcov_args =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"HC1"</span>, <span class="at">cluster =</span> mlmath<span class="sc">$</span>school)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section class="slide level2">
-<h2>Random Intercepts</h2>
+<h2>Building a Multilevel Model</h2>
 </section>
 <section class="slide level2">
-<h2>Fixed Predictors</h2>
-</section>
-<section class="slide level2">
-<h2>Random Effects</h2>
-</section>
-<section class="slide level2">
-<h2>Cross-level Interactions</h2>
-</section>
-<section class="slide level2">
-<h2>Comparing Models</h2>
-</section>
-<section class="slide level2">
-<h2>Repeated/Longitudinal Data</h2>
-</section>
-<section class="slide level2">
-<h2>Centering and Disaggregating</h2>
-</section>
-<section class="slide level2">
-<h2>Effect Sizes</h2>
+<h2>Longitudinal Considerations</h2>
 
 <div class="footer footer-default">
 

@@ -678,6 +678,7 @@ ggplot(economics, aes(x = date, y = unemploy)) +
   geom_line(color = "blue", linewidth = 1) +
   geom_point()
 
+### NOTE: Replace this example with one that doesn't use a date variable...
 ggplot(economics, aes(x = date, y = unemploy)) + 
   geom_vline(xintercept = 7.5, color = "orange", linewidth = 1) +
   geom_line(color = "blue", linewidth = 1) +
