@@ -235,7 +235,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) + geom_point()
 #| eval: false
 
 p <- ggplot(mpg, aes(x = displ, y = hwy)) + geom_point()
-ggsave("act3a.png", plot = p, width = 5, height = 3, units = "in")
+ggsave("myplot.png", plot = p, width = 5, height = 3, units = "in")
 ```
 
 **Bonus**
@@ -245,7 +245,7 @@ ggsave("act3a.png", plot = p, width = 5, height = 3, units = "in")
 
 p <- ggplot(mpg, aes(x = displ, y = hwy)) + geom_point() +
   theme_grey(base_size = 18)
-ggsave("act3b.png", plot = p, width = 5, height = 3, units = "in")
+ggsave("myplot2.png", plot = p, width = 5, height = 3, units = "in")
 ```
 
 </blockquote></details></p>
