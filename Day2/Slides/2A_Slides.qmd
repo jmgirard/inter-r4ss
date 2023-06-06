@@ -144,7 +144,7 @@ my_counts <-
     -   Specifically, we fold down to [one row per group]{.b .green}
 
 ::: {.fragment .mt1}
--   We just add the `.by` argument to `summarize()`
+-   We just add `.by` to `summarize()`
     -   We can group by one or many variables
     -   With many, we group by their combinations
 :::
