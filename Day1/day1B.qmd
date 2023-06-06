@@ -44,7 +44,7 @@ b) "Not-so-smooth Smoothing"
 #| error: true
 
 ggplot(mpg, aes(x = displ, y = hwy)) + 
-  geom_point()
+  geom_point() +
   geom_smooth(shape = "triangle")
 ```
 
