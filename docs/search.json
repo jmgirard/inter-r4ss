@@ -441,6 +441,13 @@
     "text": "Readings\n\nChapter 8: Generalized Linear Models in DAR\nChapter 9: Random Effects in DAR\nChapters 4–12 in IMM"
   },
   {
+    "objectID": "Day3/day3B.html#fun-stuff",
+    "href": "Day3/day3B.html#fun-stuff",
+    "title": "Day 3B",
+    "section": "Fun Stuff",
+    "text": "Fun Stuff\n\nPyramidal Modeling\nI need to make a call…"
+  },
+  {
     "objectID": "Details/assistant.html",
     "href": "Details/assistant.html",
     "title": "Daiil Jun",
@@ -501,7 +508,7 @@
     "href": "Details/recordings.html#day-3-recordings",
     "title": "Recordings",
     "section": "Day 3 Recordings",
-    "text": "Day 3 Recordings\n\n3A: TBA\n3B: TBA"
+    "text": "Day 3 Recordings\n\n3A: https://youtu.be/dLBTYMW7VAI\n3B: https://youtu.be/MlzVWeErxVY"
   },
   {
     "objectID": "Details/schedule.html",
@@ -544,12 +551,5 @@
     "title": "Intermediate R for Social Scientists",
     "section": "Frequently Asked Questions",
     "text": "Frequently Asked Questions\n\nWhy enroll in this workshop?\nWhile there are many great educational resources for learning R, including some free video courses and textbooks, this workshop will provide a structured, guided, and communal environment that is tailor-built for researchers in the social, behavioral, and medical sciences. Thus, it emphasizes the concepts and skills most needed by such researchers. In particular, it teaches modern data science techniques using tools from the tidyverse ecosystem (e.g., the dplyr, tidyr, and ggplot2 packages) and statistical techniques using tools from the easystats ecosystem (e.g., the parameters, performance, modelbased, and see packages). The beauty of these tools is that they are both beginner-friendly and scalable to solve more complex problems and interface with more advanced techniques.\n\n\nWill this workshop cover SEM or longitudinal MLM?\nThis workshop will cover how to implement GLM and MLM in R (including simple longitudinal models). However, it will not cover the theory underlying either technique and will not cover structural equation modeling (SEM) at all. For those interested in learning more about the theory of MLM, more advanced longitudinal models, and SEM, please see the Courses page for more workshop options!\n\n\nWhat aspects of Quarto will this workshop cover?\nQuarto is a scientific and technical authoring system that integrates with R and RStudio. It can be used to create reports, blogs, websites, articles, books, slideshows, and posters that seamlessly integrate R code and output with formatted text. This workshop will cover the basics of using Quarto to create scientific reports. More advanced uses of Quarto will be mentioned but not taught."
-  },
-  {
-    "objectID": "Day3/day3B.html#fun-stuff",
-    "href": "Day3/day3B.html#fun-stuff",
-    "title": "Day 3B",
-    "section": "Fun Stuff",
-    "text": "Fun Stuff\n\nPyramidal Modeling\nI need to make a call…"
   }
 ]
