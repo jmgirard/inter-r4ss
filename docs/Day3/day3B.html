@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -60,6 +94,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -165,7 +201,19 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#slides" id="toc-slides" class="nav-link active" data-scroll-target="#slides">Slides</a></li>
+  <li><a href="#data-files" id="toc-data-files" class="nav-link" data-scroll-target="#data-files">Data Files</a></li>
+  <li><a href="#practice-1" id="toc-practice-1" class="nav-link" data-scroll-target="#practice-1">Practice 1</a></li>
+  <li><a href="#practice-2" id="toc-practice-2" class="nav-link" data-scroll-target="#practice-2">Practice 2</a></li>
+  <li><a href="#challenge-1" id="toc-challenge-1" class="nav-link" data-scroll-target="#challenge-1">Challenge 1</a></li>
+  <li><a href="#challenge-2" id="toc-challenge-2" class="nav-link" data-scroll-target="#challenge-2">Challenge 2</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -187,12 +235,520 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p><img src="../img/construction_2780E3.svg" class="hero img-fluid"></p>
-<div class="text-center">
-<p>Coming Soon!</p>
+<p><img src="../img/analytics_2780E3.svg" class="hero img-fluid"></p>
+<p>We conclude the workshop with a discussion of intermediate statistical modeling techniques in R. We will be able to use the same R formulas and {easystats} functions taught in the introductory workshop to extend the linear model to the generalized linear model (allowing us to model non-normal outcome variables) and linear mixed-effects/multilevel models (allowing us to model data with a clustered or hierarchical structure).</p>
+<section id="slides" class="level2">
+<h2 class="anchored" data-anchor-id="slides">Slides</h2>
+<iframe class="slide-deck" src="./Slides/3B_Slides.html" title="Day 3B Slideshow">
+</iframe>
+<p><a href="./Slides/3B_Slides.html">Click here to view the slides in their own window.</a></p>
+</section>
+<section id="data-files" class="level2">
+<h2 class="anchored" data-anchor-id="data-files">Data Files</h2>
+<ul>
+<li><a href="titanic.csv" download="titanic.csv">titanic</a> (data about passengers on the Titanic including survival)</li>
+<li><a href="discoveries.csv" download="discoveries.csv">discoveries</a> (number of scientific discoveries per year)</li>
+<li><a href="mlmath.csv" download="mlmath.csv">mlmath</a> (academic data from students clustered within schools)</li>
+<li><a href="soccer.csv" download="soccer.csv">soccer</a> (hormone data measured longitudinally from soccer players)</li>
+</ul>
+</section>
+<section id="practice-1" class="level2">
+<h2 class="anchored" data-anchor-id="practice-1">Practice 1</h2>
+<ol type="a">
+<li>Download the <em>titanic</em> dataset linked above and read it into R. Tidy it if needed to prepare to run a logistic regression predicting the <code>survived</code> variable (<em>hint:</em> tidying is needed).</li>
+<li>Fit a logistic regression (using <code>glm()</code>) to predict the <code>survived</code> variable from the <code>age</code>, <code>sex</code>, and <code>class</code> variables.</li>
+<li>Look at the model parameters estimates. Was being in 2nd class associated with a higher or lower probability of survival than being in 1st class? Was this difference significant?</li>
+<li>What was the Odds Ratio for the effect from part (c)?</li>
+<li>Plot the model expectations. Based on this plot, who was more likely to survive: men from 1st class or women from 3rd class?</li>
+</ol>
+<p>
+</p><details>
+<summary>
+Click here for the answer key
+</summary>
+<blockquote class="blockquote">
+<p><strong>Answer (a)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>titanic <span class="ot">&lt;-</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">"titanic.csv"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">survived =</span> <span class="fu">if_else</span>(survived <span class="sc">==</span> <span class="st">"yes"</span>, <span class="at">true =</span> <span class="dv">1</span>, <span class="at">false =</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Answer (b)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> survived <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> class, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> titanic</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Answer (c)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(fit1) <span class="sc">|&gt;</span> <span class="fu">print_md</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Log-Odds</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">z</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">3.63</td>
+<td style="text-align: center;">0.37</td>
+<td style="text-align: center;">(2.93, 4.38)</td>
+<td style="text-align: center;">9.81</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: center;">-0.03</td>
+<td style="text-align: center;">7.16e-03</td>
+<td style="text-align: center;">(-0.05, -0.02)</td>
+<td style="text-align: center;">-4.79</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sex (male)</td>
+<td style="text-align: center;">-2.59</td>
+<td style="text-align: center;">0.19</td>
+<td style="text-align: center;">(-2.96, -2.23)</td>
+<td style="text-align: center;">-13.84</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">class (2nd)</td>
+<td style="text-align: center;">-1.20</td>
+<td style="text-align: center;">0.26</td>
+<td style="text-align: center;">(-1.72, -0.69)</td>
+<td style="text-align: center;">-4.58</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">class (3rd)</td>
+<td style="text-align: center;">-2.46</td>
+<td style="text-align: center;">0.25</td>
+<td style="text-align: center;">(-2.96, -1.97)</td>
+<td style="text-align: center;">-9.70</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Because the slope of “class (2nd)” is negative—in logit units—this means that being in 2nd class is associated with a lower probability of surviving than the reference group of “class (1st).” Because <span class="math inline">\(p&lt;.001\)</span>, this effect is significant.</p>
+<p><strong>Answer (d)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(fit1, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print_md</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 15%">
+<col style="width: 24%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Odds Ratio</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">z</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">37.90</td>
+<td style="text-align: center;">14.04</td>
+<td style="text-align: center;">(18.69, 79.95)</td>
+<td style="text-align: center;">9.81</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: center;">0.97</td>
+<td style="text-align: center;">6.92e-03</td>
+<td style="text-align: center;">(0.95, 0.98)</td>
+<td style="text-align: center;">-4.79</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sex (male)</td>
+<td style="text-align: center;">0.08</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">(0.05, 0.11)</td>
+<td style="text-align: center;">-13.84</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">class (2nd)</td>
+<td style="text-align: center;">0.30</td>
+<td style="text-align: center;">0.08</td>
+<td style="text-align: center;">(0.18, 0.50)</td>
+<td style="text-align: center;">-4.58</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">class (3rd)</td>
+<td style="text-align: center;">0.09</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">(0.05, 0.14)</td>
+<td style="text-align: center;">-9.70</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The odds ratio is this effect is 0.30.</p>
+<p><strong>Answer (e)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">estimate_expectation</span>(fit1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="day3B_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Because the (dashed red) line for women in 3rd class is higher than the (blue solid) line for men in 1st class, the former were more likely to survive.</p>
+</blockquote>
+</details>
+<p></p>
+</section>
+<section id="practice-2" class="level2">
+<h2 class="anchored" data-anchor-id="practice-2">Practice 2</h2>
+<ol type="a">
+<li>Download the <em>mlmath</em> dataset linked above and read it into R. Tidy it if needed to prepare to run a multilevel regression predicting the <code>math</code> variable.</li>
+<li>Fit a null model that accounts for the clustering of students within schools. What was the multilevel ICC for <code>math</code>?</li>
+<li>Fit a random intercept and slope model that predicts <code>math</code> from each student’s <code>homework</code> while controlling for that student’s <code>sex</code> and whether their school is <code>public</code> or not. Is the fixed effect of <code>homework</code> significant?</li>
+<li>Estimate the group-level effects from this model and plot them. How many schools have a positive slope?</li>
+</ol>
+<p>
+</p><details>
+<summary>
+Click here for the answer key
+</summary>
+<blockquote class="blockquote">
+<p><strong>Answer (a)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>mlmath <span class="ot">&lt;-</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">"mlmath.csv"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(student, sex, public), factor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>No tidying is strictly necessary here, but setting up factors is good practice.</p>
+<p><strong>Answer (b)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit2b <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  math <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> school),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> mlmath</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">model_performance</span>(fit2b) <span class="sc">|&gt;</span> <span class="fu">print_md</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Indices of model performance</caption>
+<colgroup>
+<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">AIC</th>
+<th style="text-align: center;">AICc</th>
+<th style="text-align: center;">BIC</th>
+<th style="text-align: center;">R2 (cond.)</th>
+<th style="text-align: center;">R2 (marg.)</th>
+<th style="text-align: center;">ICC</th>
+<th style="text-align: center;">RMSE</th>
+<th style="text-align: center;">Sigma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1877.68</td>
+<td style="text-align: center;">1877.77</td>
+<td style="text-align: center;">1888.36</td>
+<td style="text-align: center;">0.32</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">0.32</td>
+<td style="text-align: center;">8.35</td>
+<td style="text-align: center;">8.50</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The multilevel ICC for <code>math</code> is 0.32, i.e., 32% of the variance is explained by differences between schools.</p>
+<p><strong>Answer (c)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit2c <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  math <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> homework <span class="sc">+</span> sex <span class="sc">+</span> public <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> homework <span class="sc">|</span> school),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> mlmath</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(fit2c) <span class="sc">|&gt;</span> <span class="fu">print_md</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption># Fixed Effects</caption>
+<colgroup>
+<col style="width: 23%">
+<col style="width: 18%">
+<col style="width: 8%">
+<col style="width: 26%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Coefficient</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">t(252)</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">57.70</td>
+<td style="text-align: center;">3.00</td>
+<td style="text-align: center;">(51.80, 63.61)</td>
+<td style="text-align: center;">19.24</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">homework</td>
+<td style="text-align: center;">1.98</td>
+<td style="text-align: center;">1.60</td>
+<td style="text-align: center;">(-1.17, 5.13)</td>
+<td style="text-align: center;">1.24</td>
+<td style="text-align: center;">0.216</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sex [male]</td>
+<td style="text-align: center;">0.56</td>
+<td style="text-align: center;">0.84</td>
+<td style="text-align: center;">(-1.08, 2.21)</td>
+<td style="text-align: center;">0.67</td>
+<td style="text-align: center;">0.501</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">public [public]</td>
+<td style="text-align: center;">-14.66</td>
+<td style="text-align: center;">2.12</td>
+<td style="text-align: center;">(-18.84, -10.47)</td>
+<td style="text-align: center;">-6.90</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+<table class="table table-sm table-striped small">
+<caption># Random Effects</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Coefficient</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SD (Intercept: school)</td>
+<td style="text-align: center;">6.79</td>
+<td style="text-align: center;">1.82</td>
+<td style="text-align: center;">(4.01, 11.48)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SD (homework: school)</td>
+<td style="text-align: center;">4.90</td>
+<td style="text-align: center;">1.23</td>
+<td style="text-align: center;">(2.99, 8.02)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cor (Intercept~homework: school)</td>
+<td style="text-align: center;">-0.97</td>
+<td style="text-align: center;">0.51</td>
+<td style="text-align: center;">(-1.00, 1.00)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SD (Residual)</td>
+<td style="text-align: center;">6.56</td>
+<td style="text-align: center;">0.30</td>
+<td style="text-align: center;">(6.00, 7.18)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The fixed effect of <code>homework</code> was 1.98 but was not significant, <span class="math inline">\(p=.216\)</span>.</p>
+<p><strong>Answer (d)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_grouplevel</span>(fit2c) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="day3B_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>It looks like five of the ten schools (i.e., half) had positive homework slopes.</p>
+</blockquote>
+</details>
+<p></p>
+</section>
+<section id="challenge-1" class="level2">
+<h2 class="anchored" data-anchor-id="challenge-1">Challenge 1</h2>
+<ol type="a">
+<li><p>Add a new (binary) variable to the <em>mlmath</em> dataset that is <span class="math inline">\(1\)</span> if <code>math</code> &gt; 50 and is <span class="math inline">\(0\)</span> otherwise.</p></li>
+<li><p>Combine what you learned from the GLM and MLM lectures to create a generalized linear mixed model (GLMM) that predicts this new binary variable from the <code>homework</code> and <code>public</code> variables while estimating random effects clustered by <code>school</code>. You will need to use the <code>glmer()</code> function from {lme4} and provide it a family and link function. You can use the same family and link function we used before for standard logistic regression!</p></li>
+<li><p>Estimate this model’s parameters. Which fixed effects are significant, if any?</p></li>
+<li><p>Plot this model’s predictions. What did you learn from this plot?</p></li>
+</ol>
+<p>
+</p><details>
+<summary>
+Click here for the answer key
+</summary>
+<blockquote class="blockquote">
+<p><strong>Answer (a)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>math_challenge <span class="ot">&lt;-</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  mlmath <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">math_pass =</span> <span class="fu">if_else</span>(math <span class="sc">&gt;</span> <span class="dv">50</span>, <span class="at">true =</span> <span class="dv">1</span>, <span class="at">false =</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Answer (b)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmer</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  math_pass <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> homework <span class="sc">+</span> public <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> homework <span class="sc">|</span> school),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> math_challenge,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Answer (c)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(fit) <span class="sc">|&gt;</span> <span class="fu">print_md</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption># Fixed Effects</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Log-Odds</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">z</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">3.10</td>
+<td style="text-align: center;">1.40</td>
+<td style="text-align: center;">(0.35, 5.85)</td>
+<td style="text-align: center;">2.21</td>
+<td style="text-align: center;">0.027</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">homework</td>
+<td style="text-align: center;">0.61</td>
+<td style="text-align: center;">0.52</td>
+<td style="text-align: center;">(-0.40, 1.62)</td>
+<td style="text-align: center;">1.18</td>
+<td style="text-align: center;">0.238</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">public [public]</td>
+<td style="text-align: center;">-5.29</td>
+<td style="text-align: center;">1.30</td>
+<td style="text-align: center;">(-7.83, -2.75)</td>
+<td style="text-align: center;">-4.08</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+<table class="table table-sm table-striped small">
+<caption># Random Effects</caption>
+<colgroup>
+<col style="width: 48%">
+<col style="width: 19%">
+<col style="width: 8%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Coefficient</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SD (Intercept: school)</td>
+<td style="text-align: center;">1.95</td>
+<td style="text-align: center;">0.62</td>
+<td style="text-align: center;">(1.04, 3.62)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SD (homework: school)</td>
+<td style="text-align: center;">1.46</td>
+<td style="text-align: center;">0.45</td>
+<td style="text-align: center;">(0.80, 2.69)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cor (Intercept~homework: school)</td>
+<td style="text-align: center;">-0.97</td>
+<td style="text-align: center;">0.04</td>
+<td style="text-align: center;">(-1.00, -0.59)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The fixed effect of <code>public</code> is significantly negative and thus students from public schools were less likely to score higher than 50 on <code>math</code> than students from non-public schools. The fixed intercept was also significant, but that is less interesting.</p>
+<p><strong>Answer (d)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">estimate_relation</span>(fit) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="day3B_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This is a cool plot. It looks like students at non-public schools were very likely to score higher than 50 on <code>math</code> regardless of the amount of homework they did, whereas students at public schools became more likely to do so when they did more homework. We do need to be careful about this conclusion however, because this model did not explicitly test the homework-by-public interaction. So we would need to follow up on this hypothesis with more testing.</p>
+</blockquote>
+</details>
+<p></p>
+</section>
+<section id="challenge-2" class="level2">
+<h2 class="anchored" data-anchor-id="challenge-2">Challenge 2</h2>
+<p>Download the <em>soccer</em> dataset linked above and read it into R. Tidy it if needed. Examine the variables and come up with a few research questions to explore using multilevel modeling. Perhaps see if being on birth control (<code>HormonCont</code>) was associated with <code>Testosterone</code> or <code>Cortisol</code>, etc. Be sure to control for time (<code>time0</code>) in your models.</p>
+</section>
+<section id="readings" class="level2">
+<h2 class="anchored" data-anchor-id="readings">Readings</h2>
+<ul>
+<li><a href="https://bookdown.org/steve_midway/DAR/glms-generalized-linear-models.html">Chapter 8: Generalized Linear Models</a> in <em>DAR</em></li>
+<li><a href="https://bookdown.org/steve_midway/DAR/random-effects.html">Chapter 9: Random Effects</a> in <em>DAR</em></li>
+<li><a href="https://www.learn-mlms.com/">Chapters 4–12</a> in <em>IMM</em></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

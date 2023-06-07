@@ -196,6 +196,7 @@ fit <- lm(
   data = titanic
 )
 model_parameters(fit)
+model_parameters(fit) |> print_md() #looks better in quarto
 model_performance(fit)
 plot(estimate_expectation(fit))
 check_model(fit)
@@ -362,9 +363,75 @@ compare_parameters(fit2, fit3, select = "ci_p2")
 
 :::
 
+## Cluster-Robust Standard Errors {.smaller}
+
+- The basic OLS standard errors will be biased with clustered data
+- CR-SEs use a statistical procedure to try to correct this bias
+    -   This is convenient when clustering is just a "nuisance"
+
+::: {.fragment}
+1. Estimate the regression coefficients using OLS (these are unchanged)
+1. Estimate the CR-SEs using a more complex formula, e.g., based on clusters $J$
+1. Interpret the coefficients and CR-SEs as you would in a basic LM or GLM
+
+:::
+
+::: {.fragment .tc}
+$$
+\begin{align}
+Var^{OLS}(\hat{b})&=\sigma^2(\mathbf{X}^\intercal\mathbf{X})^{-1} \\
+Var^{CR}(\hat{b})&=(\mathbf{X}^\intercal\mathbf{X})^{-1}\sum_{j=1}^J(\mathbf{X}_j^\intercal e_je_j^\intercal \mathbf{X}_j)(\mathbf{X}^\intercal \mathbf{X})^{-1}
+\end{align}
+$$
+
+*In the latter, we sum residuals by cluster instead of observation*
+:::
+
+## Cluster-Robust Standard Errors
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+library(tidyverse)
+library(easystats)
+library(sandwich)
+mlmath <- read_csv("mlmath.csv")
+mlmath
+
+mlmath |> count(school)
+mlmath |> count(public)
+
+# Fit LM ignoring clustering within schools
+
+fit <- lm(
+  formula = math ~ 1 + homework,
+  data = mlmath
+)
+model_parameters(fit)
+model_performance(fit)
+estimate_relation(fit) |> plot()
+
+# Estimate cluster-robust standard errors
+
+model_parameters(
+  fit, 
+  vcov = "vcovCL", 
+  vcov_args = list(type = "HC1", cluster = mlmath$school)
+)
+estimate_relation(
+  fit,
+  vcov = "vcovCL", 
+  vcov_args = list(type = "HC1", cluster = mlmath$school)
+) |> 
+  plot()
+```
+
 ## Simpson's Paradox {.smaller}
 
-Reaching the right conclusion may require knowing the clusters...
+However, reaching the right conclusions may require knowing the clusters...
 
 ```{r}
 #| echo: false
@@ -464,7 +531,52 @@ ggplot(
 
 :::
 
-## Cluster-Robust Standard Errors
+## Mixed Effects (Multilevel) Modeling {.smaller}
+
+When we have multiple clusters of data, we have several options for fitting linear models
+
+1. **Complete Pooling:** Fit a single line to all the data, ignoring clustering
+
+1. **No Pooling:** Fit a separate line for each cluster, ignoring any similarity
+
+1. **Partial Pooling:** Fit a *distribution* of similar lines to the data, one for each cluster
+
+::: {.fragment .mt2}
+Multilevel modeling uses the partial pooling approach, which yields two types of effects
+
+- [Fixed Effects]{.b .green} either describe an effect assumed to be the same for all clusters, <br />or describe the center of an effect's distribution across clusters
+
+- [Random Effects]{.b .blue} describe how each cluster deviates from the fixed effect and therefore create the distribution across clusters (can be estimated or not)
+
+:::
+
+## Example Models {.smaller}
+
+0. **Null Model**
+    - Each cluster (school) has its own intercept (average math score)
+    - There are no predictors/slopes added (fixed or random)
+
+::: {.fragment}
+1. **Random Intercepts (RI) Model**
+    - Each cluster (school) has its own intercept (average math score)
+    - The slope (homework effect) is fixed and applies to all clusters (schools)
+    
+:::
+
+## Example Models {.smaller}
+
+2. **Random Intercepts and Slopes (RIS) Model**
+    - Each cluster (school) has its own intercept (average math score)
+    - Each cluster (school) has its own slope (homework effect)
+
+::: {.fragment}
+3. **Cross-Level Interaction Model**
+    - An L1 (student) outcome will be regressed on an L2 (school) predictor
+    - An L1 (student) predictor will interact with an L2 (school) predictor
+    
+:::
+
+## Null and RI Models Live Coding
 
 ```{r}
 #| echo: true
@@ -472,42 +584,206 @@ ggplot(
 #| error: true
 #| code-line-numbers: false
 
-library(tidyverse)
-library(easystats)
-library(sandwich)
-mlmath <- read_csv("mlmath.csv")
-mlmath
+library(lme4)
+library(merDeriv)
+library(ggeffects)
 
-mlmath |> count(school)
-mlmath |> count(public)
+# ==============================================================================
+# Fit and examine null model
 
-# Fit LM ignoring clustering within schools
-
-fit <- lm(
-  formula = math ~ 1 + homework,
+fit_null <- lmer(
+  formula = math ~ 1 + (1 | school),
   data = mlmath
 )
-model_parameters(fit)
-model_performance(fit)
-estimate_relation(fit) |> plot()
+model_parameters(fit_null) |> print_md()
+model_performance(fit_null) |> print_md()
 
-# Estimate cluster-robust standard errors
+# ==============================================================================
+# Fit and examine random intercepts model
 
-model_parameters(
-  fit, 
-  vcov = "vcovCL", 
-  vcov_args = list(type = "HC1", cluster = mlmath$school)
+fit_ri <- lmer(
+  formula = math ~ 1 + homework + (1 | school), 
+  data = mlmath
 )
-estimate_relation(
-  fit,
-  vcov = "vcovCL", 
-  vcov_args = list(type = "HC1", cluster = mlmath$school)
-) |> 
-  plot()
+model_parameters(fit_ri) |> print_md()
+model_performance(fit_ri) |> print_md()
+
+plot(estimate_relation(fit_ri))
+
+## random effects (deviations from the fixed effect)
+estimate_grouplevel(fit_ri) |> print_md() 
+estimate_grouplevel(fit_ri) |> plot()
+
+## fixed effects + random effects (deviation)
+estimate_grouplevel(fit_ri, type = "total") |> print_md() 
+
+## plot the line for each cluster (school)
+ggpredict(fit_ri, c("homework", "school"), type = "random") |> 
+  plot(colors = 1:10, ci = FALSE)
 ```
 
-## Building a Multilevel Model
+## RIS and CLI Models Live Coding
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# ==============================================================================
+# Fit and examine random intercepts and slopes model
+
+fit_ris <- lmer(
+  formula = math ~ 1 + homework + (1 + homework | school),
+  data = mlmath
+)
+model_parameters(fit_ris) |> print_md()
+model_performance(fit_ris) |> print_md()
+
+plot(estimate_relation(fit_ris))
+
+## random effects (deviations from the fixed effect)
+estimate_grouplevel(fit_ris) |> print_md() 
+estimate_grouplevel(fit_ris) |> plot()
+
+## fixed effects + random effects (deviation)
+estimate_grouplevel(fit_ris, type = "total") |> print_md() 
+
+## plot the line for each cluster (school)
+ggpredict(fit_ris, c("homework", "school"), type = "random") |> 
+  plot(colors = 1:10, ci = FALSE)
+
+## turn refit off (use REML) to compare models with the same fixed effects
+anova(fit_ri, fit_ris, refit = FALSE)
+
+# ==============================================================================
+# Fit and examine the cross-level interaction model
+
+fit_cli <- lmer(
+  formula = math ~ 1 + homework * public + (1 + homework | school),
+  data = mlmath
+)
+model_parameters(fit_cli) |> print_md()
+model_performance(fit_cli) |> print_md()
+
+plot(estimate_relation(fit_cli))
+
+## estimate simple slopes
+estimate_slopes(fit_cli, trend = "homework", at = "public") |> print_md()
+
+## Turn refit on (use ML) to compare models with different fixed effects
+anova(fit_ris, fit_cli, refit = TRUE)
+```
+
+## Centering
+
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# Grand mean centering (good for level-2 variables)
+
+mlmath2 <- 
+  mlmath |> 
+  mutate(ratio_c = center(ratio)) |> 
+  print()
+
+# Centering within clusters (good for level-1 variables)
+
+mlmath3 <- 
+  mlmath2 |> 
+  mutate(
+    homework_m = mean(homework), # cluster mean (between)
+    homework_d = homework - homework_m, # deviation from cluster mean (within)
+    .by = school
+  ) |> 
+  print()
+
+## Incorporating these variables into the model
+
+fit <- lmer(
+  math ~ 1 + homework_m + homework_d + ratio_c + (1 + homework_d | school),
+  data = mlmath3
+)
+model_parameters(fit) |> print_md()
+model_performance(fit) |> print_md()
+```
+
 
 ## Longitudinal Considerations
 
+```{r}
+#| echo: true
+#| eval: false
+#| error: true
+#| code-line-numbers: false
+
+# ==============================================================================
+# Load example data
+
+soccer <- 
+  read_csv("soccer.csv") |> 
+  mutate(across(c(Code, Played), factor)) |> 
+  print()
+
+# ==============================================================================
+# Fit null model and examine ICC
+
+fit0 <- lmer(
+  Testosterone ~ 1 + (1 | Code),
+  data = soccer
+)
+model_performance(fit0) |> print_md()
+
+# ==============================================================================
+# Fit random intercepts longitudinal model
+
+fit1 <- lmer(
+  Testosterone ~ 1 + time0 + (1 | Code),
+  data = soccer
+)
+model_parameters(fit1) |> print_md()
+model_performance(fit1) |> print_md()
+
+estimate_relation(fit1) |> plot()
+
+ggpredict(fit1, c("time0", "Code"), type = "random") |> 
+  plot(colors = 1:25, ci = FALSE)
+
+# ==============================================================================
+# Fit random intercepts and slopes model
+
+fit2 <- lmer(
+  Testosterone ~ 1 + time0 + (1 + time0 | Code),
+  data = soccer
+)
+model_parameters(fit2) |> print_md()
+model_performance(fit2) |> print_md()
+
+ggpredict(fit2, c("time0", "Code"), type = "random") |> 
+  plot(colors = 1:25, ci = FALSE)
+
+## Turn refit off (use REML) when comparing models with same fixed effects
+anova(fit1, fit2, refit = FALSE)
+
+# ==============================================================================
+# Fit cross-level interaction model
+
+fit3 <- lmer(
+  Testosterone ~ 1 + time0 * Played + (1 + time0 | Code),
+  data = soccer
+)
+model_parameters(fit3) |> print_md()
+model_performance(fit3) |> print_md()
+
+estimate_relation(fit3) |> plot()
+
+ggpredict(fit3, c("time0", "Code", "Played"), type = "random") |> 
+  plot(colors = 1:25, ci = FALSE)
+
+## Turn refit on (use ML) when comparing models with different fixed effects
+anova(fit2, fit3, refit = TRUE)
+```
 

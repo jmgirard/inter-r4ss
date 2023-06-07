@@ -6,8 +6,202 @@ format:
     highlight-style: github
 ---
 
-![](../img/construction_2780E3.svg){.hero}
+![](../img/analytics_2780E3.svg){.hero}
 
-::: {.text-center}
-Coming Soon!
-:::
+
+We conclude the workshop with a discussion of intermediate statistical modeling techniques in R. We will be able to use the same R formulas and \{easystats\} functions taught in the introductory workshop to extend the linear model to the generalized linear model (allowing us to model non-normal outcome variables) and linear mixed-effects/multilevel models (allowing us to model data with a clustered or hierarchical structure).
+
+## Slides
+
+<iframe class="slide-deck" src="./Slides/3B_Slides.html" title="Day 3B Slideshow">
+</iframe>
+
+[Click here to view the slides in their own window.](./Slides/3B_Slides.html)
+
+## Data Files
+
+- <a href="titanic.csv" download="titanic.csv">titanic</a> (data about passengers on the Titanic including survival)
+- <a href="discoveries.csv" download="discoveries.csv">discoveries</a> (number of scientific discoveries per year)
+- <a href="mlmath.csv" download="mlmath.csv">mlmath</a> (academic data from students clustered within schools)
+- <a href="soccer.csv" download="soccer.csv">soccer</a> (hormone data measured longitudinally from soccer players)
+
+## Practice 1
+
+a) Download the *titanic* dataset linked above and read it into R. Tidy it if needed to prepare to run a logistic regression predicting the `survived` variable (*hint:* tidying is needed). 
+b) Fit a logistic regression (using `glm()`) to predict the `survived` variable from the `age`, `sex`, and `class` variables.
+c) Look at the model parameters estimates. Was being in 2nd class associated with a higher or lower probability of survival than being in 1st class? Was this difference significant?
+d) What was the Odds Ratio for the effect from part (c)?
+e) Plot the model expectations. Based on this plot, who was more likely to survive: men from 1st class or women from 3rd class?
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Answer (a)**
+
+```{r}
+#| message: false
+
+library(tidyverse)
+library(easystats)
+
+titanic <- 
+  read_csv("titanic.csv") |> 
+  mutate(survived = if_else(survived == "yes", true = 1, false = 0))
+```
+
+**Answer (b)**
+
+```{r}
+fit1 <- glm(
+  formula = survived ~ age + sex + class, 
+  family = binomial(link = "logit"), 
+  data = titanic
+)
+```
+
+**Answer (c)**
+
+```{r}
+model_parameters(fit1) |> print_md()
+```
+
+Because the slope of "class (2nd)" is negative---in logit units---this means that being in 2nd class is associated with a lower probability of surviving than the reference group of "class (1st)." Because $p<.001$, this effect is significant. 
+
+**Answer (d)**
+
+```{r}
+model_parameters(fit1, exponentiate = TRUE) |> print_md()
+```
+
+The odds ratio is this effect is 0.30.
+
+**Answer (e)**
+
+```{r}
+plot(estimate_expectation(fit1))
+```
+
+Because the (dashed red) line for women in 3rd class is higher than the (blue solid) line for men in 1st class, the former were more likely to survive.
+
+</blockquote></details></p>
+
+## Practice 2
+
+a) Download the *mlmath* dataset linked above and read it into R. Tidy it if needed to prepare to run a multilevel regression predicting the `math` variable. 
+b) Fit a null model that accounts for the clustering of students within schools. What was the multilevel ICC for `math`?
+c) Fit a random intercept and slope model that predicts `math` from each student's `homework` while controlling for that student's `sex` and whether their school is `public` or not. Is the fixed effect of `homework` significant?
+d) Estimate the group-level effects from this model and plot them. How many schools have a positive slope?
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Answer (a)**
+
+```{r}
+#| message: false
+
+library(lme4)
+
+mlmath <- 
+  read_csv("mlmath.csv") |> 
+  mutate(across(c(student, sex, public), factor))
+```
+
+No tidying is strictly necessary here, but setting up factors is good practice.
+
+**Answer (b)**
+
+```{r}
+fit2b <- lmer(
+  math ~ 1 + (1 | school),
+  data = mlmath
+)
+model_performance(fit2b) |> print_md()
+```
+
+The multilevel ICC for `math` is 0.32, i.e., 32\% of the variance is explained by differences between schools.
+
+**Answer (c)**
+
+```{r}
+fit2c <- lmer(
+  math ~ 1 + homework + sex + public + (1 + homework | school),
+  data = mlmath
+)
+model_parameters(fit2c) |> print_md()
+```
+
+The fixed effect of `homework` was 1.98 but was not significant, $p=.216$.
+
+**Answer (d)**
+
+```{r}
+estimate_grouplevel(fit2c) |> plot()
+```
+
+It looks like five of the ten schools (i.e., half) had positive homework slopes.
+
+</blockquote></details></p>
+
+## Challenge 1
+
+a) Add a new (binary) variable to the *mlmath* dataset that is $1$ if `math` > 50 and is $0$ otherwise.
+
+b) Combine what you learned from the GLM and MLM lectures to create a generalized linear mixed model (GLMM) that predicts this new binary variable from the `homework` and `public` variables while estimating random effects clustered by `school`. You will need to use the `glmer()` function from \{lme4\} and provide it a family and link function. You can use the same family and link function we used before for standard logistic regression!
+
+c) Estimate this model's parameters. Which fixed effects are significant, if any?
+
+d) Plot this model's predictions. What did you learn from this plot?
+
+<p><details>
+<summary>Click here for the answer key</summary>
+<blockquote>
+
+**Answer (a)**
+
+```{r}
+math_challenge <-
+  mlmath |> 
+  mutate(math_pass = if_else(math > 50, true = 1, false = 0))
+```
+
+**Answer (b)**
+
+```{r}
+fit <- glmer(
+  math_pass ~ 1 + homework + public + (1 + homework | school),
+  data = math_challenge,
+  family = binomial(link = "logit")
+)
+```
+
+**Answer (c)**
+
+```{r}
+model_parameters(fit) |> print_md()
+```
+
+The fixed effect of `public` is significantly negative and thus students from public schools were less likely to score higher than 50 on `math` than students from non-public schools. The fixed intercept was also significant, but that is less interesting.
+
+**Answer (d)**
+
+```{r}
+estimate_relation(fit) |> plot()
+```
+
+This is a cool plot. It looks like students at non-public schools were very likely to score higher than 50 on `math` regardless of the amount of homework they did, whereas students at public schools became more likely to do so when they did more homework. We do need to be careful about this conclusion however, because this model did not explicitly test the homework-by-public interaction. So we would need to follow up on this hypothesis with more testing.
+
+</blockquote></details></p>
+
+## Challenge 2
+
+Download the *soccer* dataset linked above and read it into R. Tidy it if needed. Examine the variables and come up with a few research questions to explore using multilevel modeling. Perhaps see if being on birth control (`HormonCont`) was associated with `Testosterone` or `Cortisol`, etc. Be sure to control for time (`time0`) in your models.
+
+## Readings
+
+- [Chapter 8: Generalized Linear Models](https://bookdown.org/steve_midway/DAR/glms-generalized-linear-models.html) in *DAR*
+- [Chapter 9: Random Effects](https://bookdown.org/steve_midway/DAR/random-effects.html) in *DAR*
+- [Chapters 4--12](https://www.learn-mlms.com/) in *IMM*
+
