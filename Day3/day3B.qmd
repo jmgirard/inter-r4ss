@@ -205,3 +205,10 @@ Download the *soccer* dataset linked above and read it into R. Tidy it if needed
 - [Chapter 9: Random Effects](https://bookdown.org/steve_midway/DAR/random-effects.html) in *DAR*
 - [Chapters 4--12](https://www.learn-mlms.com/) in *IMM*
 
+## Fun Stuff
+
+### Pyramidal Modeling
+
+I need to make a call...
+
+{{< video https://youtu.be/lC5lsemxaJo >}}
